@@ -4,16 +4,19 @@
  */
 package com.sghpet.sgh.pet.view;
 
+import com.sghpet.sgh.pet.controller.AnimalController;
+import com.sghpet.sgh.pet.model.Customer;
+
 /**
  *
  * @author 14038910601
  */
 public class FrAnimalRegister extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrAnimalRegister
-     */
-    public FrAnimalRegister() {
+    private final AnimalController controller;
+
+    public FrAnimalRegister(AnimalController controller) {
+        this.controller = controller;
         initComponents();
     }
 
@@ -209,43 +212,14 @@ public class FrAnimalRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_edtOwnerActionPerformed
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        // TODO add your handling code here:
+        String name = edtName.getText();
+//        String owner = edtOwner.getText();
+        String type = bxType.getSelectedItem().toString();
+        String postage = bxPostage.getSelectedItem().toString();
+        String hasMedicalCondition = ckbxMedicalCondition.getActionCommand();
+        Customer owner = new Customer();
+        this.controller.createAnimal(name, owner, type, postage);
     }//GEN-LAST:event_btnSendActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrAnimalRegister.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrAnimalRegister.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrAnimalRegister.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrAnimalRegister.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrAnimalRegister().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTableAnimal;
