@@ -13,7 +13,7 @@ public class AnimalController {
         this.db = manager;
     }
 
-    public void createAnimal(String name, Customer owner, String type, String postage) {
+    public void createAnimal(String name, Customer owner, String type, String postage, String hasMedicalCondition) {
         try {
             Animal newAnimal = new Animal();
             newAnimal.fromFields(name, owner, type, postage);

@@ -11,6 +11,7 @@ public class SGHPet {
     public static void main(String[] args) {
         EntityManagerFactory fac = Persistence.createEntityManagerFactory("exemplo-jpa");
         EntityManager manager = fac.createEntityManager();
+
         // Animal register
         CustomerController animalController = new CustomerController(manager);
         FrCustomerRegister animalRegister = new FrCustomerRegister(animalController);

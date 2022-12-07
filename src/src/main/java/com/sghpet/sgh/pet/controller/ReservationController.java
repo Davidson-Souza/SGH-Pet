@@ -9,5 +9,8 @@ public class ReservationController {
 
     public void createReservation(int typeOfStay, String startDate, String endDate) {
         var reservation = new Reservation(startDate, endDate, typeOfStay, 0);
+        this.repository.getTransaction().begin();
+        this.repository.persist(reservation);
+        this.repository.getTransaction().commit();
     }
 }

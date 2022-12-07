@@ -24,12 +24,11 @@ public class CustomerController {
 
     public Customer findCustomerByCPF(String cpf) {
         customerStore.getTransaction().begin();
-//        var res = this.customerStore.createQuery(
-//                "SELECT id FROM customer WHERE cpf=:cpf")
-//                .setParameter("cpf", cpf)
-//                .setMaxResults(10)
-//                .getResultList();
-//        System.out.println(res);
-        return null;
+        var res = customerStore.createQuery("SELECT c FROM Customer c WHERE c.cpf LIKE :cpf", Customer.class)
+                .setParameter("cpf", "00000000000")
+                .getSingleResult();
+        customerStore.getTransaction().commit();
+
+        return res;
     }
 }
