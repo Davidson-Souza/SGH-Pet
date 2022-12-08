@@ -43,7 +43,7 @@ public class Animal implements Serializable {
     @NonNull
     private int lastBathTime;
 
-    public void fromFields(String name, Customer owner, String type, String postage, boolean hasMedicalCondition) {
+    public Animal(String name, Customer owner, String type, String postage, boolean hasMedicalCondition) {
         int animal_type = -1;
         int animal_postage = -1;
         switch (type) {

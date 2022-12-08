@@ -1,5 +1,6 @@
 package com.sghpet.sgh.pet.controller;
 
+import com.sghpet.sgh.pet.model.Animal;
 import com.sghpet.sgh.pet.model.Customer;
 import com.sghpet.sgh.pet.model.dao.AnimalDAO;
 
@@ -12,6 +13,8 @@ public class AnimalController {
     }
 
     public void createAnimal(String name, Customer owner, String type, String postage, boolean hasMedicalCondition) {
-        this.repository.createAnimal(name, owner, type, postage, hasMedicalCondition);
+        Animal newAnimal = new Animal(name, owner, type, postage, hasMedicalCondition);
+
+        this.repository.create(newAnimal);
     }
 }

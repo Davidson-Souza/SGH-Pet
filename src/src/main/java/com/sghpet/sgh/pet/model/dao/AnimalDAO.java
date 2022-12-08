@@ -1,7 +1,6 @@
 package com.sghpet.sgh.pet.model.dao;
 
 import com.sghpet.sgh.pet.model.Animal;
-import com.sghpet.sgh.pet.model.Customer;
 import javax.management.RuntimeErrorException;
 import javax.persistence.EntityManager;
 import lombok.AllArgsConstructor;
@@ -9,20 +8,47 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AnimalDAO {
+public class AnimalDAO implements Persistence {
 
-    private EntityManager customerStore;
+    private EntityManager animalStore;
 
-    public void createAnimal(String name, Customer owner, String type, String postage, boolean hasMedicalCondition) {
+    public void create() {
+
+    }
+
+    @Override
+    public void create(Object obj) {
         try {
-            Animal newAnimal = new Animal();
-            newAnimal.fromFields(name, owner, type, postage, hasMedicalCondition);
-
-            customerStore.getTransaction().begin();
-            customerStore.persist(newAnimal);
-            customerStore.getTransaction().commit();
+            animalStore.getTransaction().begin();
+            animalStore.persist((Animal) obj);
+            animalStore.getTransaction().commit();
         } catch (RuntimeErrorException e) {
             throw e;
         }
     }
+
+    @Override
+    public Object get(int id) {
+        return animalStore.find(Animal.class, id);
+    }
+
+    @Override
+    public Object find(Object uniqueKey) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void delete(Object obj) {
+        try {
+            this.animalStore.remove(obj);
+        } catch (RuntimeException e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public void update(Object newObject) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

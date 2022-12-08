@@ -33,9 +33,9 @@ public interface Persistence {
     /**
      * Return the object with a given id
      *
-     * @param id: The object id
+     * @param obj: The object
      */
-    public void delete(int id);
+    public void delete(Object obj);
 
     /**
      * Return the object with a given id

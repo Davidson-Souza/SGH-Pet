@@ -21,7 +21,12 @@ public class CustomerController {
      * @param phone: A contact phone
      */
     public void createUser(String name, String cpf, String address, String phone) throws RuntimeException {
-        this.repository.createUser(name, cpf, address, phone);
+        try {
+            var customer = new Customer(name, cpf, address, phone);
+            this.repository.create(customer);
+        } catch (RuntimeException e) {
+            throw e;
+        }
     }
 
     /**
@@ -33,7 +38,7 @@ public class CustomerController {
      * @return Customer
      */
     public Customer getCustumer(int id) throws RuntimeException {
-        return this.repository.getCustumer(id);
+        return this.repository.get(id);
     }
 
     /**
@@ -45,6 +50,6 @@ public class CustomerController {
      * @return Customer
      */
     public Customer findCustomerByCPF(String cpf) throws RuntimeException {
-        return this.repository.findCustomerByCPF(cpf);
+        return (Customer) this.repository.find(cpf);
     }
 }
