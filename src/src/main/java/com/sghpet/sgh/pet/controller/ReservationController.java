@@ -2,7 +2,11 @@ package com.sghpet.sgh.pet.controller;
 
 import com.sghpet.sgh.pet.model.Reservation;
 import javax.persistence.EntityManager;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@Data
+@AllArgsConstructor
 public class ReservationController {
 
     private EntityManager repository;

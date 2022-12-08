@@ -1,28 +1,17 @@
 package com.sghpet.sgh.pet.controller;
 
-import com.sghpet.sgh.pet.model.Animal;
 import com.sghpet.sgh.pet.model.Customer;
-import javax.management.RuntimeErrorException;
-import javax.persistence.EntityManager;
+import com.sghpet.sgh.pet.model.dao.AnimalDAO;
 
 public class AnimalController {
 
-    protected EntityManager db;
+    protected AnimalDAO repository;
 
-    public AnimalController(EntityManager manager) {
-        this.db = manager;
+    public AnimalController(AnimalDAO manager) {
+        this.repository = manager;
     }
 
     public void createAnimal(String name, Customer owner, String type, String postage, boolean hasMedicalCondition) {
-        try {
-            Animal newAnimal = new Animal();
-            newAnimal.fromFields(name, owner, type, postage, hasMedicalCondition);
-
-            db.getTransaction().begin();
-            db.persist(newAnimal);
-            db.getTransaction().commit();
-        } catch (RuntimeErrorException e) {
-            throw e;
-        }
+        this.repository.createAnimal(name, owner, type, postage, hasMedicalCondition);
     }
 }

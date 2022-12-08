@@ -61,10 +61,10 @@ public class Animal implements Serializable {
                 animal_postage = 0;
                 break;
             case "Medio":
-                animal_type = 1;
+                animal_postage = 1;
                 break;
-            case "Grange":
-                animal_type = 2;
+            case "Grande":
+                animal_postage = 2;
                 break;
             default:
                 throw new AssertionError();
