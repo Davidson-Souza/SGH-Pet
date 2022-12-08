@@ -2,7 +2,6 @@ package com.sghpet.sgh.pet.view;
 
 import com.sghpet.sgh.pet.controller.AnimalController;
 import com.sghpet.sgh.pet.controller.CustomerController;
-import com.sghpet.sgh.pet.model.Customer;
 
 public class FrAnimalRegister extends javax.swing.JFrame {
 
@@ -198,12 +197,13 @@ public class FrAnimalRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_edtOwnerActionPerformed
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        String name = edtName.getText();
-        String owner_cpf = edtOwner.getText();
-        String type = bxType.getSelectedItem().toString();
-        String postage = bxPostage.getSelectedItem().toString();
-        String hasMedicalCondition = ckbxMedicalCondition.getActionCommand();
-        Customer owner = this.customers.findCustomerByCPF(owner_cpf);
+        var name = edtName.getText();
+        var owner_cpf = edtOwner.getText();
+        var type = bxType.getSelectedItem().toString();
+        var postage = bxPostage.getSelectedItem().toString();
+        var hasMedicalCondition = ckbxMedicalCondition.isSelected();
+        var owner = this.customers.findCustomerByCPF(owner_cpf);
+
         this.controller.createAnimal(name, owner, type, postage, hasMedicalCondition);
     }//GEN-LAST:event_btnSendActionPerformed
 

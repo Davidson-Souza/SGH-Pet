@@ -13,10 +13,10 @@ public class AnimalController {
         this.db = manager;
     }
 
-    public void createAnimal(String name, Customer owner, String type, String postage, String hasMedicalCondition) {
+    public void createAnimal(String name, Customer owner, String type, String postage, boolean hasMedicalCondition) {
         try {
             Animal newAnimal = new Animal();
-            newAnimal.fromFields(name, owner, type, postage);
+            newAnimal.fromFields(name, owner, type, postage, hasMedicalCondition);
 
             db.getTransaction().begin();
             db.persist(newAnimal);
