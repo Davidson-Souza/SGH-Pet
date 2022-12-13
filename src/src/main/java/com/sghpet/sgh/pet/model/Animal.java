@@ -43,7 +43,7 @@ public class Animal implements Serializable {
     @NonNull
     private int lastBathTime;
 
-    public void fromFields(String name, Customer owner, String type, String postage) {
+    public Animal(String name, Customer owner, String type, String postage, boolean hasMedicalCondition) {
         int animal_type = -1;
         int animal_postage = -1;
         switch (type) {
@@ -61,10 +61,10 @@ public class Animal implements Serializable {
                 animal_postage = 0;
                 break;
             case "Medio":
-                animal_type = 1;
+                animal_postage = 1;
                 break;
-            case "Grange":
-                animal_type = 2;
+            case "Grande":
+                animal_postage = 2;
                 break;
             default:
                 throw new AssertionError();
@@ -73,7 +73,7 @@ public class Animal implements Serializable {
         this.owner = owner;
         this.type = animal_type;
         this.postage = animal_postage;
-        this.hasMedicalCondition = false;
+        this.hasMedicalCondition = hasMedicalCondition;
         this.placeOfStay = new Accomodation();
         this.lastBathTime = 0;
     }
