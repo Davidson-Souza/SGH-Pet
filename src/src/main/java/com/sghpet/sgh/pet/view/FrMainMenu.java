@@ -1,5 +1,6 @@
 package com.sghpet.sgh.pet.view;
 
+
 public class FrMainMenu extends javax.swing.JFrame {
 
     public FrMainMenu() {
@@ -23,7 +24,7 @@ public class FrMainMenu extends javax.swing.JFrame {
         lblMenu.setToolTipText("");
 
         btnClientRegister.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        btnClientRegister.setText("Cadastrar Cliente");
+        btnClientRegister.setText("Gerenciar Clientes");
         btnClientRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClientRegisterActionPerformed(evt);
@@ -31,7 +32,7 @@ public class FrMainMenu extends javax.swing.JFrame {
         });
 
         btnAnimalRegister.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        btnAnimalRegister.setText("Cadastrar Animal");
+        btnAnimalRegister.setText("Gerenciar Animais");
         btnAnimalRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAnimalRegisterActionPerformed(evt);
@@ -39,7 +40,7 @@ public class FrMainMenu extends javax.swing.JFrame {
         });
 
         btnReservationRegister.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        btnReservationRegister.setText("Criar Reserva");
+        btnReservationRegister.setText("Gerenciar Reservas");
         btnReservationRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReservationRegisterActionPerformed(evt);
@@ -77,7 +78,10 @@ public class FrMainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnClientRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientRegisterActionPerformed
-        // TODO add your handling code here:
+       //FrCustomerRegister customerRegister = new FrCustomerRegister(this);
+       FrCustomerRegister customerRegister = new FrCustomerRegister();
+       customerRegister.show();
+       //this.setEnabled(false);
     }//GEN-LAST:event_btnClientRegisterActionPerformed
 
     private void btnAnimalRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnimalRegisterActionPerformed
