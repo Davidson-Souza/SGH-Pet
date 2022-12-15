@@ -13,6 +13,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         this.customers = customers;
         initComponents();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -28,13 +29,10 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         edtOwner = new javax.swing.JTextField();
         lblMedicalCondition = new javax.swing.JLabel();
         ckbxMedicalCondition = new javax.swing.JCheckBox();
-        btnSave = new javax.swing.JButton();
+        btnSend = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         JTableAnimal = new javax.swing.JTable();
-        btnEdit = new javax.swing.JButton();
-        btnDelet = new javax.swing.JButton();
-        btnNew = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,6 +44,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         lblName.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblName.setText("Nome:");
 
+        edtName.setForeground(new java.awt.Color(207, 209, 208));
         edtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtNameActionPerformed(evt);
@@ -75,6 +74,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         lblOwner.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblOwner.setText("Dono:");
 
+        edtOwner.setForeground(new java.awt.Color(207, 209, 208));
         edtOwner.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtOwnerActionPerformed(evt);
@@ -84,11 +84,11 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         lblMedicalCondition.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblMedicalCondition.setText("Condição médica?");
 
-        btnSave.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        btnSave.setText("Salvar");
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
+        btnSend.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnSend.setText("Enviar");
+        btnSend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
+                btnSendActionPerformed(evt);
             }
         });
 
@@ -115,30 +115,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(JTableAnimal);
 
-        btnEdit.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        btnEdit.setText("Editar");
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
-            }
-        });
-
-        btnDelet.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        btnDelet.setText("Excluir");
-        btnDelet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeletActionPerformed(evt);
-            }
-        });
-
-        btnNew.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        btnNew.setText("Novo");
-        btnNew.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -152,38 +128,28 @@ public class FrAnimalRegister extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lblOwner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(edtOwner, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
+                            .addComponent(edtName))
+                        .addGap(45, 45, 45)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(lblOwner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE))
+                                .addComponent(lblType, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(edtOwner, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
-                                    .addComponent(edtName))
-                                .addGap(45, 45, 45)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblType, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(bxType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(bxPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(bxType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblMedicalCondition)
-                                .addGap(18, 18, 18)
-                                .addComponent(ckbxMedicalCondition))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(bxPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblMedicalCondition)
+                        .addGap(18, 18, 18)
+                        .addComponent(ckbxMedicalCondition))
+                    .addComponent(btnSend, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -208,13 +174,9 @@ public class FrAnimalRegister extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMedicalCondition)
                     .addComponent(ckbxMedicalCondition))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -234,7 +196,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
     private void edtOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtOwnerActionPerformed
     }//GEN-LAST:event_edtOwnerActionPerformed
 
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
         var name = edtName.getText();
         var owner_cpf = edtOwner.getText();
         var type = bxType.getSelectedItem().toString();
@@ -243,27 +205,12 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         var owner = this.customers.findCustomerByCPF(owner_cpf);
 
         this.controller.createAnimal(name, owner, type, postage, hasMedicalCondition);
-    }//GEN-LAST:event_btnSaveActionPerformed
-
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEditActionPerformed
-
-    private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeletActionPerformed
-
-    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNewActionPerformed
+    }//GEN-LAST:event_btnSendActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTableAnimal;
     private javax.swing.JButton btnBack;
-    private javax.swing.JButton btnDelet;
-    private javax.swing.JButton btnEdit;
-    private javax.swing.JButton btnNew;
-    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSend;
     private javax.swing.JComboBox<String> bxPostage;
     private javax.swing.JComboBox<String> bxType;
     private javax.swing.JCheckBox ckbxMedicalCondition;
