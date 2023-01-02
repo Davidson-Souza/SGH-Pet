@@ -203,8 +203,8 @@ public class FrClerkFunction extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnimalRegisterActionPerformed
 
     private void btnReservationRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservationRegisterActionPerformed
-//        FrReservationRegister reservationRegister = new FrReservationRegister(this);
-//        reservationRegister.show();
+        FrReservationRegister reservationRegister = new FrReservationRegister(this);
+        reservationRegister.show();
     }//GEN-LAST:event_btnReservationRegisterActionPerformed
 
     private void btnClientRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientRegisterActionPerformed

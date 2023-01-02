@@ -12,6 +12,7 @@ import javax.persistence.Persistence;
 public class SGHPet {
 
     public static void main(String[] args) {
+
         var fac = Persistence.createEntityManagerFactory("exemplo-jpa");
         var manager = fac.createEntityManager();
 

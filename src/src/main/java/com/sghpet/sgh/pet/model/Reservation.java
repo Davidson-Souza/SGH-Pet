@@ -27,4 +27,8 @@ public class Reservation implements Serializable {
     private int type;
     @NonNull
     private float price;
+    @NonNull
+    private Animal animal;
+    @NonNull
+    private Customer customer;
 }

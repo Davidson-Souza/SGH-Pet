@@ -3,6 +3,7 @@ package com.sghpet.sgh.pet.controller;
 import com.sghpet.sgh.pet.model.Animal;
 import com.sghpet.sgh.pet.model.Customer;
 import com.sghpet.sgh.pet.model.dao.AnimalDAO;
+import java.util.List;
 
 public class AnimalController {
 
@@ -22,6 +23,10 @@ public class AnimalController {
 
     public static AnimalController getAnimalController() {
         return AnimalController.contr;
+    }
+
+    public List<Animal> listAnimalByCustomer(int id) {
+        return repository.listAnimalsByUser(id);
     }
 
     public void createAnimal(String name, Customer owner, String type, String postage, boolean hasMedicalCondition) {

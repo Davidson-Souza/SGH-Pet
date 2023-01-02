@@ -1,17 +1,20 @@
 package com.sghpet.sgh.pet.view;
 
 import com.sghpet.sgh.pet.controller.CustomerController;
+import com.sghpet.sgh.pet.model.Customer;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class FrCustomerRegister extends javax.swing.JFrame {
 
-    //private final CustomerController controller;
+    private final CustomerController controller;
+    private Customer curentCustomer;
     JFrame telaAnterior;
 
     public FrCustomerRegister(JFrame menu) {
-        //this.controller = controller;
+        this.controller = CustomerController.getCustomerController();
         this.telaAnterior = menu;
-        
+        this.curentCustomer = null;
         initComponents();
     }
 
@@ -80,6 +83,11 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         lblPhone.setText("Celular:");
 
         btnBack.setText("Voltar");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         JTableCustomer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -139,34 +147,31 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(25, 25, 25)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(edtName)
-                                    .addComponent(edtCpf, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(edtPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnBack)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblAddres, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(edtAddres)
-                                .addGap(6, 6, 6))))
+                            .addComponent(lblCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(edtName)
+                            .addComponent(edtCpf, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(edtPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(btnBack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblAddres, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(edtAddres)
+                        .addGap(6, 6, 6))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -228,20 +233,73 @@ public class FrCustomerRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_edtPhoneActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        // TODO add your handling code here:
+        this.curentCustomer = null;
+        cleanFields();
+        enableFields(true);
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-    
+        cleanFields();
+        enableFields(false);
+
+        var name = edtName.getText();
+        var cpf = edtCpf.getText();
+        var phone = edtPhone.getText();
+        var address = edtAddres.getText();
+
+        if (this.curentCustomer != null) {
+            var newCustomer = new Customer(cpf, name, address, phone);
+            newCustomer.setId(curentCustomer.getId());
+            this.controller.updateCustomer(newCustomer);
+        }
+        this.controller.createUser(name, cpf, address, phone);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
+        var cpf = JOptionPane.showInputDialog("CPF do usuário");
+        try {
+            var user = this.controller.findCustomerByCPF(cpf);
+            this.showUser(user);
+            this.curentCustomer = user;
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(this, "Could not find user");
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
+    private void showUser(Customer user) {
+        edtAddres.setText(user.getAddress());
+        edtCpf.setText(user.getCpf());
+        edtName.setText(user.getName());
+        edtPhone.setText(user.getPhoneNumber());
+    }
+
+    private void enableFields(boolean enabled) {
+        edtAddres.setEnabled(enabled);
+        edtCpf.setEnabled(enabled);
+        edtName.setEnabled(enabled);
+        edtPhone.setEnabled(enabled);
+    }
+
+    private void cleanFields() {
+        edtAddres.setText("");
+        edtCpf.setText("");
+        edtName.setText("");
+        edtPhone.setText("");
+    }
     private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
-        // TODO add your handling code here:
+        try {
+            var cpf = JOptionPane.showInputDialog("CPF do usuário");
+            var user = this.controller.findCustomerByCPF(cpf);
+            this.controller.deleteUser(user.getId());
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(this, "Usuário não encontrado");
+        }
     }//GEN-LAST:event_btnDeletActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        this.setVisible(false);
+        this.telaAnterior.setVisible(true);
+    }//GEN-LAST:event_btnBackActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTableCustomer;

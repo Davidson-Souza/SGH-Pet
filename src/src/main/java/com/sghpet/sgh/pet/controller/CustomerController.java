@@ -23,6 +23,10 @@ public class CustomerController {
         return CustomerController.controller;
     }
 
+    public void deleteUser(int id) {
+        this.repository.delete(id);
+    }
+
     /**
      * Creates a new user given it's data.This function might throw some
      * exception if the information is invalid or the database isn't working.
@@ -39,6 +43,10 @@ public class CustomerController {
         } catch (RuntimeException e) {
             throw e;
         }
+    }
+
+    public void updateCustomer(Object newCustomer) {
+        this.repository.update(newCustomer);
     }
 
     /**

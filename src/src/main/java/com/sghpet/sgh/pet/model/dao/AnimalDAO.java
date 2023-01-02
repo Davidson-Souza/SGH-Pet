@@ -1,6 +1,7 @@
 package com.sghpet.sgh.pet.model.dao;
 
 import com.sghpet.sgh.pet.model.Animal;
+import java.util.List;
 import javax.management.RuntimeErrorException;
 import javax.persistence.EntityManager;
 import lombok.AllArgsConstructor;
@@ -51,4 +52,10 @@ public class AnimalDAO implements Persistence {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    public List<Animal> listAnimalsByUser(int id) {
+        var res = this.animalStore.createQuery("SELECT a FROM Animal a WHERE a.owner.Id LIKE :id", Animal.class)
+                .setParameter("cpf", id)
+                .getResultList();
+        return res;
+    }
 }
