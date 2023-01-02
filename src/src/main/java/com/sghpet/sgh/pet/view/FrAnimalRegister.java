@@ -8,11 +8,12 @@ public class FrAnimalRegister extends javax.swing.JFrame {
     private final AnimalController controller;
     private final CustomerController customers;
 
-    public FrAnimalRegister(AnimalController controller, CustomerController customers) {
-        this.controller = controller;
-        this.customers = customers;
+    public FrAnimalRegister() {
+        this.controller = AnimalController.getAnimalController();
+        this.customers = CustomerController.getCustomerController();
         initComponents();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

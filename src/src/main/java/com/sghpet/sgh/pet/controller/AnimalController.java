@@ -7,9 +7,21 @@ import com.sghpet.sgh.pet.model.dao.AnimalDAO;
 public class AnimalController {
 
     protected AnimalDAO repository;
+    private static AnimalController contr;
 
-    public AnimalController(AnimalDAO manager) {
+    private AnimalController(AnimalDAO manager) {
         this.repository = manager;
+    }
+
+    public static AnimalController getAnimalController(AnimalDAO manager) {
+        if (getAnimalController() == null) {
+            AnimalController.contr = new AnimalController(manager);
+        }
+        return getAnimalController();
+    }
+
+    public static AnimalController getAnimalController() {
+        return AnimalController.contr;
     }
 
     public void createAnimal(String name, Customer owner, String type, String postage, boolean hasMedicalCondition) {

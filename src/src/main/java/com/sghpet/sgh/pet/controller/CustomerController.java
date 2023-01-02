@@ -10,6 +10,18 @@ import lombok.Data;
 public class CustomerController {
 
     private CustomerDAO repository;
+    private static CustomerController controller;
+
+    public static CustomerController getCustomerController(CustomerDAO manager) {
+        if (getCustomerController() == null) {
+            CustomerController.controller = new CustomerController(manager);
+        }
+        return getCustomerController();
+    }
+
+    public static CustomerController getCustomerController() {
+        return CustomerController.controller;
+    }
 
     /**
      * Creates a new user given it's data.This function might throw some

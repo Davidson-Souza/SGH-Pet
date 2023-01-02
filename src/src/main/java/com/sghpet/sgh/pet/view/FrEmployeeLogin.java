@@ -8,8 +8,8 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
 
     protected EmployeeController contr;
 
-    public FrEmployeeLogin(EmployeeController contr) {
-        this.contr = contr;
+    public FrEmployeeLogin() {
+        this.contr = EmployeeController.getEmployeeController();
         this.initComponents();
     }
 
@@ -102,21 +102,25 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
                 case Clerk: {
                     var mainMenu = new FrClerkFunction();
                     mainMenu.show();
+                    break;
                 }
                 case Manager: {
                     var mainMenu = new FrManagerFunction();
                     mainMenu.show();
+                    break;
                 }
                 case Admin: {
-
+                    break;
                 }
                 case Groundkeeper: {
                     var mainMenu = new FrGroundskeeper();
                     mainMenu.show();
+                    break;
                 }
                 case Servicer: {
-                    var mainMenu = new FrGroundskeeper();
+                    var mainMenu = new FrServicerFunction();
                     mainMenu.show();
+                    break;
                 }
             }
         } catch (RuntimeException e) {
