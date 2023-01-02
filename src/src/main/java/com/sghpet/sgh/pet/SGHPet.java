@@ -1,15 +1,19 @@
 package com.sghpet.sgh.pet;
 
-import com.sghpet.sgh.pet.view.FrMainMenu;
-
+import com.sghpet.sgh.pet.controller.EmployeeController;
+import com.sghpet.sgh.pet.model.dao.EmployeeDAO;
+import com.sghpet.sgh.pet.view.FrEmployeeLogin;
+import javax.persistence.Persistence;
 
 public class SGHPet {
 
     public static void main(String[] args) {
-        EntityManagerFactory fac = Persistence.createEntityManagerFactory("exemplo-jpa");
-        EntityManager manager = fac.createEntityManager();
+        var fac = Persistence.createEntityManagerFactory("exemplo-jpa");
+        var manager = fac.createEntityManager();
+        var rep = new EmployeeDAO(manager);
+        var employeeController = new EmployeeController(rep);
 
-        FrMainMenu menu = new FrMainMenu();
-        menu.show();
+        var login = new FrEmployeeLogin(employeeController);
+        login.show();
     }
 }
