@@ -2,6 +2,8 @@ package com.sghpet.sgh.pet.view;
 
 import com.sghpet.sgh.pet.controller.AnimalController;
 import com.sghpet.sgh.pet.controller.CustomerController;
+import com.sghpet.sgh.pet.model.Customer;
+import javax.swing.JOptionPane;
 
 public class FrAnimalRegister extends javax.swing.JFrame {
 
@@ -241,7 +243,16 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         var type = bxType.getSelectedItem().toString();
         var postage = bxPostage.getSelectedItem().toString();
         var hasMedicalCondition = ckbxMedicalCondition.isSelected();
-        var owner = this.customers.findCustomerByCPF(owner_cpf);
+        Customer owner;
+        try {
+            owner = this.customers.findCustomerByCPF(owner_cpf);
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro.",
+                    "Não foi possível encontra o usuário",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         this.controller.createAnimal(name, owner, type, postage, hasMedicalCondition);
     }//GEN-LAST:event_btnSaveActionPerformed
