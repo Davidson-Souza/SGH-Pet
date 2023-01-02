@@ -214,13 +214,13 @@ public class FrClerkFunction extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnAnimalRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnimalRegisterActionPerformed
-        FrAnimalRegister animalRegister = new FrAnimalRegister(this);
-        animalRegister.show();
+//        FrAnimalRegister animalRegister = new FrAnimalRegister(this);
+//        animalRegister.show();
     }//GEN-LAST:event_btnAnimalRegisterActionPerformed
 
     private void btnReservationRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservationRegisterActionPerformed
-        FrReservationRegister reservationRegister = new FrReservationRegister(this);
-        reservationRegister.show();
+//        FrReservationRegister reservationRegister = new FrReservationRegister(this);
+//        reservationRegister.show();
     }//GEN-LAST:event_btnReservationRegisterActionPerformed
 
     private void btnClientRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientRegisterActionPerformed
@@ -239,7 +239,7 @@ public class FrClerkFunction extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
