@@ -1,6 +1,13 @@
 package com.sghpet.sgh.pet.model.dao;
 
+import com.sghpet.sgh.pet.model.Employee;
+import javax.persistence.EntityManager;
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class EmployeeDAO implements Persistence {
+
+    private EntityManager store;
 
     @Override
     public void create(Object obj) {
@@ -13,8 +20,21 @@ public class EmployeeDAO implements Persistence {
     }
 
     @Override
-    public Object find(Object uniqueKey) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Object find(Object pCpf) {
+        store.getTransaction().begin();
+
+        try {
+            String cpf = (String) pCpf;
+            var res = store.createQuery("SELECT e FROM Employee e WHERE e.cpf LIKE :cpf", Employee.class)
+                    .setParameter("cpf", cpf)
+                    .getSingleResult();
+            store.getTransaction().commit();
+            return res;
+        } catch (RuntimeException e) {
+            store.getTransaction().commit();
+
+            throw e;
+        }
     }
 
     @Override
