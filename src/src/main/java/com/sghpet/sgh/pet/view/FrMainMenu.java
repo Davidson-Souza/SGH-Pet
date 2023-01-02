@@ -77,10 +77,11 @@ public class FrMainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnClientRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientRegisterActionPerformed
+
         FrCustomerRegister customerRegister = new FrCustomerRegister(this);
-        //FrCustomerRegister customerRegister = new FrCustomerRegister();
         customerRegister.show();
-        //this.setEnabled(false);
+        this.setEnabled(false);
+
     }//GEN-LAST:event_btnClientRegisterActionPerformed
 
     private void btnAnimalRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnimalRegisterActionPerformed
