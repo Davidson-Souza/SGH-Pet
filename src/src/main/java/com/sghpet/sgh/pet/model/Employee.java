@@ -33,5 +33,5 @@ public class Employee implements Serializable {
     @NonNull
     protected String password;
     @NonNull
-    protected int job;
+    protected EmployeeType job;
 }

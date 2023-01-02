@@ -1,6 +1,7 @@
 package com.sghpet.sgh.pet.view;
 
 import com.sghpet.sgh.pet.controller.EmployeeController;
+import com.sghpet.sgh.pet.model.Employee;
 import javax.swing.JOptionPane;
 
 public class FrEmployeeLogin extends javax.swing.JFrame {
@@ -85,21 +86,44 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         var cpf = EdtCpf.getText();
         var password = EdtPassword.getText();
+        Employee user;
         try {
-            if (!this.contr.signIn(cpf, password)) {
+            user = this.contr.signIn(cpf, password);
+            if (!user.getPassword().equals(password)) {
                 JOptionPane.showMessageDialog(null,
                         "Erro.",
                         "Login ou senha incorretos",
                         JOptionPane.WARNING_MESSAGE);
-            } else {
-                FrMainMenu mainMenu = new FrMainMenu();
-                mainMenu.show();
+                return;
+            }
+            this.setVisible(false);
+            var job = user.getJob();
+            switch (job) {
+                case Clerk: {
+                    var mainMenu = new FrClerkFunction();
+                    mainMenu.show();
+                }
+                case Manager: {
+                    var mainMenu = new FrManagerFunction();
+                    mainMenu.show();
+                }
+                case Admin: {
+
+                }
+                case Groundkeeper: {
+                    var mainMenu = new FrGroundskeeper();
+                    mainMenu.show();
+                }
+                case Servicer: {
+                    var mainMenu = new FrGroundskeeper();
+                    mainMenu.show();
+                }
             }
         } catch (RuntimeException e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null,
+                    "Usuário não encontrado" + e.getMessage(),
                     "Erro..",
-                    "Usuário não encontrado",
                     JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed

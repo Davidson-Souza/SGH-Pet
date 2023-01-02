@@ -9,10 +9,8 @@ public class EmployeeController {
 
     private EmployeeDAO repository;
 
-    public boolean signIn(String cpf, String password) {
-
-        var employee = (Employee) this.repository.find(cpf);
-        return employee.getPassword().equals(password);
+    public Employee signIn(String cpf, String password) {
+        return (Employee) this.repository.find(cpf);
     }
 
 }
