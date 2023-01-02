@@ -11,7 +11,9 @@ public class EmployeeDAO implements Persistence {
 
     @Override
     public void create(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        store.getTransaction().begin();
+        store.persist(obj);
+        store.getTransaction().commit();
     }
 
     @Override
