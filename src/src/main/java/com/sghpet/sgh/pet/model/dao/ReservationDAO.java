@@ -3,7 +3,9 @@ package com.sghpet.sgh.pet.model.dao;
 import com.sghpet.sgh.pet.model.Reservation;
 import javax.management.RuntimeErrorException;
 import javax.persistence.EntityManager;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class ReservationDAO implements Persistence {
 
     private EntityManager database;

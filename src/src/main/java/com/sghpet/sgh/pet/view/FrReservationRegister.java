@@ -13,7 +13,7 @@ import org.jboss.logging.Logger;
 
 public class FrReservationRegister extends javax.swing.JFrame {
 
-    private ReservationController reservationController;
+    private final ReservationController reservationController;
     private final JFrame prevFrame;
     private Customer curentCustomer;
     private List<Animal> currentAnimal;
@@ -152,6 +152,8 @@ public class FrReservationRegister extends javax.swing.JFrame {
 
         bxAnimalType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cachorro", "Gato", "Peixe", "Pássaro" }));
         bxAnimalType.addActionListener(new java.awt.event.ActionListener() {
+
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bxAnimalTypeActionPerformed(evt);
             }
@@ -206,6 +208,8 @@ public class FrReservationRegister extends javax.swing.JFrame {
                                         .addComponent(lblReservationType, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(bxReservationType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+
+
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblType2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -273,11 +277,18 @@ public class FrReservationRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_chckService3ActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        var typeOfStay = bxReservationType.getSelectedIndex();
-        var startDate = fEdtStartDate.getText();
-        var endDate = fEdtOwnerCpf.getText();
-        var curentAnimalIndex = bxAnimalType.getSelectedIndex();
-        this.reservationController.createReservation(typeOfStay, startDate, endDate, 0, currentAnimal.get(curentAnimalIndex), curentCustomer);
+        if (this.curentAnimal == null) {
+            return;
+        }
+
+        var typeOfStay = bxType.getSelectedIndex();
+        var startDate = edtStartDate.getText();
+        var endDate = edtOwnerCpf.getText();
+        var curentAnimalIndex = bxName.getSelectedIndex();
+        this.reservationController.createReservation(typeOfStay, startDate, endDate, 0, curentAnimal.get(curentAnimalIndex), curentCustomer);
+
+        this.curentAnimal = null;
+        this.curentCustomer = null;
         cleanFields();
         enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -316,7 +327,27 @@ public class FrReservationRegister extends javax.swing.JFrame {
 
     private void bxAnimalTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bxAnimalTypeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_bxAnimalTypeActionPerformed
+
+    }//GEN-LAST:event_bxNameActionPerformed
+
+    private void edtEndDate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtEndDate1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edtEndDate1ActionPerformed
+
+    private void edtOwnerCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_edtOwnerCpfFocusLost
+        try {
+            var user = CustomerController.getCustomerController().findCustomerByCPF(edtOwnerCpf.getText());
+            this.curentCustomer = user;
+            var animals = AnimalController.getAnimalController().listAnimalByCustomer(user.getId());
+            this.curentAnimal = animals;
+            for (var animal : animals) {
+                bxName.addItem(animal.getName());
+            }
+        } catch (RuntimeException e) {
+            System.out.println(edtOwnerCpf.getText());
+        }
+
+    }//GEN-LAST:event_edtOwnerCpfFocusLost
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         this.setVisible(false);

@@ -243,9 +243,10 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         try {
             owner = this.customers.findCustomerByCPF(owner_cpf);
         } catch (RuntimeException e) {
+            System.out.println(e);
             JOptionPane.showMessageDialog(null,
-                    "Erro.",
                     "Não foi possível encontra o usuário",
+                    "Erro.",
                     JOptionPane.WARNING_MESSAGE);
             return;
         }

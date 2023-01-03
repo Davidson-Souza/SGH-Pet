@@ -26,10 +26,9 @@ public class ReservationController {
     }
 
     public static ReservationController getReservationController(ReservationDAO repository) {
-        if (ReservationController.controller != null) {
+        if (ReservationController.controller == null) {
             ReservationController.controller = new ReservationController(repository);
         }
         return ReservationController.controller;
-
     }
 }

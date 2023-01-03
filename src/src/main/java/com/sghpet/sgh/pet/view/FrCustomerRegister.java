@@ -15,12 +15,15 @@ public class FrCustomerRegister extends javax.swing.JFrame {
     JFrame telaAnterior;
 
     public FrCustomerRegister(JFrame menu) {
+        initComponents();
+
         this.controller = CustomerController.getCustomerController();
         this.telaAnterior = menu;
         this.curentCustomer = null;
+
         initComponents();
-        
         addMaskToFields();
+        this.enableFields(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -223,9 +226,6 @@ public class FrCustomerRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        cleanFields();
-        enableFields(false);
-
         var name = edtName.getText();
         var cpf = fEdtCpf.getText();
         var phone = fEdtPhone.getText();
@@ -237,6 +237,8 @@ public class FrCustomerRegister extends javax.swing.JFrame {
             this.controller.updateCustomer(newCustomer);
         }
         this.controller.createUser(name, cpf, address, phone);
+        cleanFields();
+        enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -245,6 +247,7 @@ public class FrCustomerRegister extends javax.swing.JFrame {
             var user = this.controller.findCustomerByCPF(cpf);
             this.showUser(user);
             this.curentCustomer = user;
+            enableFields(true);
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(this, "Could not find user");
         }

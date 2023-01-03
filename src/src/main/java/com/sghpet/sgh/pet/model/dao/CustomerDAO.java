@@ -52,6 +52,7 @@ public class CustomerDAO implements Persistence {
             return res;
 
         } catch (RuntimeException e) {
+            customerStore.getTransaction().commit();
             throw e;
         }
     }
