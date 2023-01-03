@@ -38,7 +38,7 @@ public class CustomerController {
      */
     public void createUser(String name, String cpf, String address, String phone) throws RuntimeException {
         try {
-            var customer = new Customer(name, cpf, address, phone);
+            var customer = new Customer(cpf, name, address, phone);
             this.repository.create(customer);
         } catch (RuntimeException e) {
             throw e;

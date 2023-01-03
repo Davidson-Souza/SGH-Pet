@@ -26,7 +26,7 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" pref="635" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="643" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btnBack" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -41,8 +41,8 @@
                               </Group>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="edtOwner" pref="324" max="32767" attributes="0"/>
-                                  <Component id="edtName" max="32767" attributes="0"/>
+                                  <Component id="edtName" pref="324" max="32767" attributes="0"/>
+                                  <Component id="fEdtOwner" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -97,9 +97,9 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblOwner" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="edtOwner" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblPostage" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bxPostage" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="fEdtOwner" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -113,9 +113,9 @@
                   <Component id="btnDelet" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
                   <Component id="btnNew" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="250" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="172" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -203,11 +203,6 @@
         <Property name="text" type="java.lang.String" value="Dono:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="edtOwner">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="edtOwnerActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="lblMedicalCondition">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -244,7 +239,7 @@
         <Component class="javax.swing.JTable" name="JTableAnimal">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="5" rowCount="4">
+              <Table columnCount="5" rowCount="2">
                 <Column editable="true" title="Nome" type="java.lang.String"/>
                 <Column editable="true" title="Dono" type="java.lang.String"/>
                 <Column editable="true" title="Tipo" type="java.lang.String"/>
@@ -320,6 +315,8 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNewActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="fEdtOwner">
     </Component>
   </SubComponents>
 </Form>

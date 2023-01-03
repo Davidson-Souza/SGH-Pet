@@ -53,8 +53,8 @@ public class AnimalDAO implements Persistence {
     }
 
     public List<Animal> listAnimalsByUser(int id) {
-        var res = this.animalStore.createQuery("SELECT a FROM Animal a WHERE a.owner.Id LIKE :id", Animal.class)
-                .setParameter("cpf", id)
+        var res = this.animalStore.createQuery("SELECT a FROM Animal a WHERE a.owner.Id = :id", Animal.class)
+                .setParameter("id", id)
                 .getResultList();
         return res;
     }

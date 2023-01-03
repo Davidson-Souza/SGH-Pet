@@ -2,8 +2,11 @@ package com.sghpet.sgh.pet.view;
 
 import com.sghpet.sgh.pet.controller.CustomerController;
 import com.sghpet.sgh.pet.model.Customer;
+import java.text.ParseException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
+import org.jboss.logging.Logger;
 
 public class FrCustomerRegister extends javax.swing.JFrame {
 
@@ -12,10 +15,15 @@ public class FrCustomerRegister extends javax.swing.JFrame {
     JFrame telaAnterior;
 
     public FrCustomerRegister(JFrame menu) {
+        initComponents();
+
         this.controller = CustomerController.getCustomerController();
         this.telaAnterior = menu;
         this.curentCustomer = null;
+
         initComponents();
+        addMaskToFields();
+        this.enableFields(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -26,10 +34,8 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         lblName = new javax.swing.JLabel();
         edtName = new javax.swing.JTextField();
         lblCPF = new javax.swing.JLabel();
-        edtCpf = new javax.swing.JTextField();
         lblAddres = new javax.swing.JLabel();
         edtAddres = new javax.swing.JTextField();
-        edtPhone = new javax.swing.JTextField();
         lblPhone = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -38,6 +44,8 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelet = new javax.swing.JButton();
+        fEdtCpf = new javax.swing.JFormattedTextField();
+        fEdtPhone = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,24 +66,12 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         lblCPF.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblCPF.setText("CPF:");
 
-        edtCpf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                edtCpfActionPerformed(evt);
-            }
-        });
-
         lblAddres.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblAddres.setText("Endereço:");
 
         edtAddres.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtAddresActionPerformed(evt);
-            }
-        });
-
-        edtPhone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                edtPhoneActionPerformed(evt);
             }
         });
 
@@ -150,27 +146,14 @@ public class FrCustomerRegister extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(edtName)
-                            .addComponent(edtCpf, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(edtPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblAddres, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(edtAddres)
-                        .addGap(6, 6, 6))
+                        .addComponent(edtAddres))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -179,7 +162,19 @@ public class FrCustomerRegister extends javax.swing.JFrame {
                         .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(edtName, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                            .addComponent(fEdtCpf))
+                        .addGap(18, 18, 18)
+                        .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fEdtPhone)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -193,11 +188,11 @@ public class FrCustomerRegister extends javax.swing.JFrame {
                     .addComponent(lblName)
                     .addComponent(edtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPhone)
-                    .addComponent(edtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fEdtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCPF)
-                    .addComponent(edtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fEdtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAddres)
@@ -209,8 +204,8 @@ public class FrCustomerRegister extends javax.swing.JFrame {
                     .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -220,17 +215,9 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_edtNameActionPerformed
 
-    private void edtCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtCpfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_edtCpfActionPerformed
-
     private void edtAddresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtAddresActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_edtAddresActionPerformed
-
-    private void edtPhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtPhoneActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_edtPhoneActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         this.curentCustomer = null;
@@ -239,12 +226,9 @@ public class FrCustomerRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        cleanFields();
-        enableFields(false);
-
         var name = edtName.getText();
-        var cpf = edtCpf.getText();
-        var phone = edtPhone.getText();
+        var cpf = fEdtCpf.getText();
+        var phone = fEdtPhone.getText();
         var address = edtAddres.getText();
 
         if (this.curentCustomer != null) {
@@ -253,6 +237,8 @@ public class FrCustomerRegister extends javax.swing.JFrame {
             this.controller.updateCustomer(newCustomer);
         }
         this.controller.createUser(name, cpf, address, phone);
+        cleanFields();
+        enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -261,6 +247,7 @@ public class FrCustomerRegister extends javax.swing.JFrame {
             var user = this.controller.findCustomerByCPF(cpf);
             this.showUser(user);
             this.curentCustomer = user;
+            enableFields(true);
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(this, "Could not find user");
         }
@@ -268,23 +255,23 @@ public class FrCustomerRegister extends javax.swing.JFrame {
 
     private void showUser(Customer user) {
         edtAddres.setText(user.getAddress());
-        edtCpf.setText(user.getCpf());
+        fEdtCpf.setText(user.getCpf());
         edtName.setText(user.getName());
-        edtPhone.setText(user.getPhoneNumber());
+        fEdtPhone.setText(user.getPhoneNumber());
     }
 
     private void enableFields(boolean enabled) {
         edtAddres.setEnabled(enabled);
-        edtCpf.setEnabled(enabled);
+        fEdtCpf.setEnabled(enabled);
         edtName.setEnabled(enabled);
-        edtPhone.setEnabled(enabled);
+        fEdtPhone.setEnabled(enabled);
     }
 
     private void cleanFields() {
         edtAddres.setText("");
-        edtCpf.setText("");
+        fEdtCpf.setText("");
         edtName.setText("");
-        edtPhone.setText("");
+        fEdtPhone.setText("");
     }
     private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
         try {
@@ -309,9 +296,9 @@ public class FrCustomerRegister extends javax.swing.JFrame {
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
     private javax.swing.JTextField edtAddres;
-    private javax.swing.JTextField edtCpf;
     private javax.swing.JTextField edtName;
-    private javax.swing.JTextField edtPhone;
+    private javax.swing.JFormattedTextField fEdtCpf;
+    private javax.swing.JFormattedTextField fEdtPhone;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAddres;
     private javax.swing.JLabel lblCPF;
@@ -319,4 +306,17 @@ public class FrCustomerRegister extends javax.swing.JFrame {
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblPhone;
     // End of variables declaration//GEN-END:variables
+
+    private void addMaskToFields() {
+        try {
+            MaskFormatter maskPhone = new MaskFormatter("(##)#####-####");
+            maskPhone.install(fEdtPhone);
+            
+            MaskFormatter maskCpf = new MaskFormatter("###.###.###-##");
+            maskCpf.install(fEdtCpf);
+            
+        } catch (ParseException e) {
+            Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
+        }
+    }
 }
