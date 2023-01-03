@@ -171,6 +171,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
 
         bxAnimalType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cachorro", "Gato", "Peixe", "Pássaro" }));
         bxAnimalType.addActionListener(new java.awt.event.ActionListener() {
+        bxName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bxAnimalTypeActionPerformed(evt);
             }
@@ -284,6 +285,14 @@ public class FrReservationRegister extends javax.swing.JFrame {
                                     .addComponent(bxAnimalType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(fEdtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 37, Short.MAX_VALUE)))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblType1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(bxName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblEndDate)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -380,6 +389,18 @@ public class FrReservationRegister extends javax.swing.JFrame {
         var endDate = fEdtOwnerCpf.getText();
         var curentAnimalIndex = bxAnimalType.getSelectedIndex();
         this.reservationController.createReservation(typeOfStay, startDate, endDate, 0, currentAnimal.get(curentAnimalIndex), curentCustomer);
+        if (this.curentAnimal == null) {
+            return;
+        }
+
+        var typeOfStay = bxType.getSelectedIndex();
+        var startDate = edtStartDate.getText();
+        var endDate = edtOwnerCpf.getText();
+        var curentAnimalIndex = bxName.getSelectedIndex();
+        this.reservationController.createReservation(typeOfStay, startDate, endDate, 0, curentAnimal.get(curentAnimalIndex), curentCustomer);
+
+        this.curentAnimal = null;
+        this.curentCustomer = null;
         cleanFields();
         enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -489,6 +510,15 @@ public class FrReservationRegister extends javax.swing.JFrame {
             }
         } catch (RuntimeException e) {
             System.out.println(fEdtOwnerCpf.getText());
+            var user = CustomerController.getCustomerController().findCustomerByCPF(edtOwnerCpf.getText());
+            this.curentCustomer = user;
+            var animals = AnimalController.getAnimalController().listAnimalByCustomer(user.getId());
+            this.curentAnimal = animals;
+            for (var animal : animals) {
+                bxName.addItem(animal.getName());
+            }
+        } catch (RuntimeException e) {
+            System.out.println(edtOwnerCpf.getText());
         }
 
     }//GEN-LAST:event_edtOwnerCpfFocusLost

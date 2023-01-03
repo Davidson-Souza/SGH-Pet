@@ -28,6 +28,7 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         initComponents();
         
         addMaskToFields();
+        this.enableFields(false);
     }
 
     @SuppressWarnings("unchecked")
