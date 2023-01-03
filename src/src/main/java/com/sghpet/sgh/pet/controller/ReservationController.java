@@ -26,9 +26,10 @@ public class ReservationController {
         this.repository.delete(id);
     }
 
-    public void createReservation(int typeOfStay, String startDate, String endDate, float price, Animal animal, Customer customer) {
+    public Reservation createReservation(int typeOfStay, String startDate, String endDate, float price, Animal animal, Customer customer) {
         var reservation = new Reservation(startDate, endDate, typeOfStay, price, animal, customer);
         repository.create(reservation);
+        return reservation;
     }
 
     public static ReservationController getReservationController() {

@@ -3,8 +3,12 @@ package com.sghpet.sgh.pet.view;
 import com.sghpet.sgh.pet.controller.AnimalController;
 import com.sghpet.sgh.pet.controller.CustomerController;
 import com.sghpet.sgh.pet.controller.ReservationController;
+import com.sghpet.sgh.pet.controller.ServicesController;
 import com.sghpet.sgh.pet.model.Animal;
 import com.sghpet.sgh.pet.model.Customer;
+import com.sghpet.sgh.pet.model.Reservation;
+import com.sghpet.sgh.pet.model.Services;
+import com.sghpet.sgh.pet.model.ServicesList;
 import java.text.ParseException;
 import java.util.List;
 import javax.swing.JFrame;
@@ -274,8 +278,20 @@ public class FrReservationRegister extends javax.swing.JFrame {
         var startDate = fEdtStartDate.getText();
         var endDate = fEdtOwnerCpf.getText();
         var curentAnimalIndex = bxAnimalName.getSelectedIndex();
-        this.reservationController.createReservation(typeOfStay, startDate, endDate, 0, currentAnimal.get(curentAnimalIndex), curentCustomer);
-
+        var reservation = this.reservationController.createReservation(typeOfStay, startDate, endDate, 0, currentAnimal.get(curentAnimalIndex), curentCustomer);
+        if (chckService1.isSelected()) {
+            var service = new Services(ServicesList.Shave, 10, reservation, "");
+            ServicesController.getServicesController().create(service);
+        }
+        if (chckService2.isSelected()) {
+            var service = new Services(ServicesList.Bath, 10, reservation, "");
+            ServicesController.getServicesController().create(service);
+        }
+        if (chckService3.isSelected()) {
+            var service = new Services(ServicesList.Spa, 10, reservation, "");
+            ServicesController.getServicesController().create(service);
+        }
+        JOptionPane.showMessageDialog(this, "Número da reserva: " + reservation.getId());
         this.currentAnimal = null;
         this.curentCustomer = null;
         cleanFields();
@@ -313,7 +329,6 @@ public class FrReservationRegister extends javax.swing.JFrame {
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(this, "Id inválido");
         }
-
     }//GEN-LAST:event_btnDeletActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -337,8 +352,9 @@ public class FrReservationRegister extends javax.swing.JFrame {
                 bxAnimalName.addItem(animal.getName());
                 i++;
             }
+            getServices(reservation);
             bxAnimalName.setSelectedIndex(index);
-            bxReservationType.setSelectedIndex(0);
+            //bxReservationType.setSelectedIndex(0);
         } catch (RuntimeException e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao processar a solicitação");
@@ -347,6 +363,23 @@ public class FrReservationRegister extends javax.swing.JFrame {
         enableFields(true);
 
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void getServices(Reservation res) {
+        var services = ServicesController.getServicesController().list(res.getId());
+        for (var service : services) {
+            switch (service.getServiceType()) {
+                case Bath: {
+                    chckService2.setEnabled(true);
+                }
+                case Shave: {
+                    chckService1.setEnabled(true);
+                }
+                case Spa: {
+                    chckService3.setEnabled(true);
+                }
+            }
+        }
+    }
 
     private void bxAnimalTypeActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
