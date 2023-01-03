@@ -8,6 +8,7 @@ import com.sghpet.sgh.pet.model.Customer;
 import java.text.ParseException;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 import org.jboss.logging.Logger;
 
@@ -58,11 +59,9 @@ public class FrReservationRegister extends javax.swing.JFrame {
         lblMenu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMenu.setText("Criar Reserva");
         lblMenu.setToolTipText("");
-        getContentPane().add(lblMenu);
 
         lblReservationType.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblReservationType.setText("Tipo da reserva:");
-        getContentPane().add(lblReservationType);
 
         bxReservationType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Padrão", "Econômico", "Luxo", "Super luxo" }));
         bxReservationType.addActionListener(new java.awt.event.ActionListener() {
@@ -70,25 +69,19 @@ public class FrReservationRegister extends javax.swing.JFrame {
                 bxReservationTypeActionPerformed(evt);
             }
         });
-        getContentPane().add(bxReservationType);
 
         lblStartDate.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblStartDate.setText("Data inicial:");
-        getContentPane().add(lblStartDate);
 
         lblEndDate.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblEndDate.setText("Data Final:");
-        getContentPane().add(lblEndDate);
 
         lblServices.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblServices.setText("Serviços:");
-        getContentPane().add(lblServices);
 
         chckService1.setText("Tosa");
-        getContentPane().add(chckService1);
 
         chckService2.setText("Banho");
-        getContentPane().add(chckService2);
 
         chckService3.setText("Spa");
         chckService3.addActionListener(new java.awt.event.ActionListener() {
@@ -96,7 +89,6 @@ public class FrReservationRegister extends javax.swing.JFrame {
                 chckService3ActionPerformed(evt);
             }
         });
-        getContentPane().add(chckService3);
 
         btnBack.setText("Voltar");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -104,7 +96,6 @@ public class FrReservationRegister extends javax.swing.JFrame {
                 btnBackActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBack);
 
         btnSave.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         btnSave.setText("Salvar");
@@ -113,7 +104,6 @@ public class FrReservationRegister extends javax.swing.JFrame {
                 btnSaveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSave);
 
         JTableRegister.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -136,8 +126,6 @@ public class FrReservationRegister extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(JTableRegister);
 
-        getContentPane().add(jScrollPane1);
-
         btnNew.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         btnNew.setText("Novo");
         btnNew.addActionListener(new java.awt.event.ActionListener() {
@@ -145,7 +133,6 @@ public class FrReservationRegister extends javax.swing.JFrame {
                 btnNewActionPerformed(evt);
             }
         });
-        getContentPane().add(btnNew);
 
         btnDelet.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         btnDelet.setText("Excluir");
@@ -154,7 +141,6 @@ public class FrReservationRegister extends javax.swing.JFrame {
                 btnDeletActionPerformed(evt);
             }
         });
-        getContentPane().add(btnDelet);
 
         btnEdit.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         btnEdit.setText("Editar");
@@ -163,20 +149,112 @@ public class FrReservationRegister extends javax.swing.JFrame {
                 btnEditActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEdit);
-
-        getContentPane().add(bxAnimalName);
 
         lblAnimalType.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblAnimalType.setText("Animal:");
-        getContentPane().add(lblAnimalType);
 
         lblType2.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblType2.setText("CPF do dono:");
-        getContentPane().add(lblType2);
-        getContentPane().add(fEdtOwnerCpf);
-        getContentPane().add(fEdtStartDate);
-        getContentPane().add(fEdtEndDate);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblServices, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(chckService1)
+                                        .addGap(40, 40, 40)
+                                        .addComponent(chckService2)
+                                        .addGap(40, 40, 40)
+                                        .addComponent(chckService3))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(fEdtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblReservationType, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(bxReservationType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblType2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(fEdtOwnerCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblAnimalType, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(bxAnimalName, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fEdtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 37, Short.MAX_VALUE)))))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBack)
+                    .addComponent(lblMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblAnimalType)
+                        .addComponent(bxAnimalName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblType2)
+                        .addComponent(fEdtOwnerCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblReservationType)
+                    .addComponent(bxReservationType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblStartDate)
+                    .addComponent(lblEndDate)
+                    .addComponent(fEdtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fEdtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblServices)
+                    .addComponent(chckService1)
+                    .addComponent(chckService2)
+                    .addComponent(chckService3))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -229,11 +307,45 @@ public class FrReservationRegister extends javax.swing.JFrame {
 
     }
     private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
-        // TODO add your handling code here:
+        var reservationId = JOptionPane.showInputDialog("Número da reserva");
+        try {
+            reservationController.deleteReservation(Integer.parseInt(reservationId));
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(this, "Id inválido");
+        }
+
     }//GEN-LAST:event_btnDeletActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
+        cleanFields();
+        try {
+            var reservationId = JOptionPane.showInputDialog("Número da reserva");
+            var reservation = this.reservationController.getReservation(Integer.parseInt(reservationId));
+            fEdtEndDate.setText(reservation.getEndDate());
+            fEdtStartDate.setText(reservation.getStartDate());
+            fEdtOwnerCpf.setText(reservation.getCustomer().getCpf());
+
+            var animals = AnimalController.getAnimalController().listAnimalByCustomer(reservation.getCustomer().getId());
+            this.currentAnimal = animals;
+            this.curentCustomer = reservation.getCustomer();
+
+            int index = -1, i = 0;
+            for (var animal : animals) {
+                if (animal.getId() == reservation.getAnimal().getId()) {
+                    index = i;
+                }
+                bxAnimalName.addItem(animal.getName());
+                i++;
+            }
+            bxAnimalName.setSelectedIndex(index);
+            bxReservationType.setSelectedIndex(0);
+        } catch (RuntimeException e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao processar a solicitação");
+            return;
+        }
+        enableFields(true);
+
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void bxAnimalTypeActionPerformed(java.awt.event.ActionEvent evt) {
