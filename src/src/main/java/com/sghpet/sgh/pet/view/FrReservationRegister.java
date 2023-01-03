@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 
 public class FrReservationRegister extends javax.swing.JFrame {
 
-    private ReservationController reservationController;
+    private final ReservationController reservationController;
     private final JFrame prevFrame;
     private Customer curentCustomer;
     private List<Animal> curentAnimal;
@@ -162,7 +162,6 @@ public class FrReservationRegister extends javax.swing.JFrame {
             }
         });
 
-        bxName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Padrão", "Econômico", "Luxo", "Super luxo" }));
         bxName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bxNameActionPerformed(evt);
@@ -236,7 +235,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblType1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(bxName, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(bxName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblEndDate)
@@ -314,11 +313,18 @@ public class FrReservationRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_chckService3ActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        if (this.curentAnimal == null) {
+            return;
+        }
+
         var typeOfStay = bxType.getSelectedIndex();
         var startDate = edtStartDate.getText();
         var endDate = edtOwnerCpf.getText();
         var curentAnimalIndex = bxName.getSelectedIndex();
         this.reservationController.createReservation(typeOfStay, startDate, endDate, 0, curentAnimal.get(curentAnimalIndex), curentCustomer);
+
+        this.curentAnimal = null;
+        this.curentCustomer = null;
         cleanFields();
         enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -363,11 +369,18 @@ public class FrReservationRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_edtEndDate1ActionPerformed
 
     private void edtOwnerCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_edtOwnerCpfFocusLost
-        var user = CustomerController.getCustomerController().findCustomerByCPF(edtOwnerCpf.getText());
-        var animals = AnimalController.getAnimalController().listAnimalByCustomer(user.getId());
-        for (var animal : animals) {
-            bxName.addItem(animal.getName());
+        try {
+            var user = CustomerController.getCustomerController().findCustomerByCPF(edtOwnerCpf.getText());
+            this.curentCustomer = user;
+            var animals = AnimalController.getAnimalController().listAnimalByCustomer(user.getId());
+            this.curentAnimal = animals;
+            for (var animal : animals) {
+                bxName.addItem(animal.getName());
+            }
+        } catch (RuntimeException e) {
+            System.out.println(edtOwnerCpf.getText());
         }
+
     }//GEN-LAST:event_edtOwnerCpfFocusLost
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed

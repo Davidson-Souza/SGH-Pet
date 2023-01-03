@@ -85,7 +85,7 @@
                                   <Group type="102" attributes="0">
                                       <Component id="lblType1" min="-2" pref="108" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="bxName" min="-2" pref="140" max="-2" attributes="0"/>
+                                      <Component id="bxName" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace pref="25" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
@@ -378,12 +378,7 @@
     <Component class="javax.swing.JComboBox" name="bxName">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Padr&#xe3;o"/>
-            <StringItem index="1" value="Econ&#xf4;mico"/>
-            <StringItem index="2" value="Luxo"/>
-            <StringItem index="3" value="Super luxo"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <Events>
