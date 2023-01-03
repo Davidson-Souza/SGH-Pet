@@ -28,6 +28,8 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         JTableAnimal.setModel(tmCustomer);
     }
 
+    
+    private
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -305,7 +307,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         try {
             MaskFormatter maskOwner = new MaskFormatter("###.###.###-##");
             maskOwner.install(fEdtOwner);
-
         } catch (ParseException e) {
             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
         }

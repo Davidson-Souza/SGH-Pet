@@ -9,7 +9,6 @@ public class FrManagerFunction extends javax.swing.JFrame {
 
     public FrManagerFunction() {
         initComponents();
-
         addMaskToFields();
     }
 
