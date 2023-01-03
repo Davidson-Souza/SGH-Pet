@@ -25,6 +25,9 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         updateTable();
         addMaskToFields();
         this.enableFields(false);
+        initComponents();
+        
+        addMaskToFields();
     }
 
     @SuppressWarnings("unchecked")
@@ -312,6 +315,10 @@ public class FrCustomerRegister extends javax.swing.JFrame {
             MaskFormatter maskCpf = new MaskFormatter("###.###.###-##");
             maskCpf.install(fEdtCpf);
 
+            
+            MaskFormatter maskCpf = new MaskFormatter("###.###.###-##");
+            maskCpf.install(fEdtCpf);
+            
         } catch (ParseException e) {
             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
         }

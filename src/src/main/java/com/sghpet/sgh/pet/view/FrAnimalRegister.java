@@ -28,6 +28,10 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         JTableAnimal.setModel(tmCustomer);
     }
 
+        
+        addMaskToFields();
+    }
+
     
     private
     @SuppressWarnings("unchecked")
@@ -307,6 +311,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         try {
             MaskFormatter maskOwner = new MaskFormatter("###.###.###-##");
             maskOwner.install(fEdtOwner);
+            
         } catch (ParseException e) {
             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
         }

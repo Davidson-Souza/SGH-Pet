@@ -14,6 +14,9 @@ import java.text.ParseException;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import java.text.ParseException;
+import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.text.MaskFormatter;
 import org.jboss.logging.Logger;
 
@@ -37,6 +40,9 @@ public class FrReservationRegister extends javax.swing.JFrame {
         var reservations = this.reservationController.listReservations();
         var model = new TmReservation(reservations);
         JTableRegister.setModel(model);
+        initComponents();
+        
+        addMaskToFields();
     }
 
     @SuppressWarnings("unchecked")
@@ -60,6 +66,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
         btnDelet = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         bxAnimalName = new javax.swing.JComboBox<>();
+        bxAnimalType = new javax.swing.JComboBox<>();
         lblAnimalType = new javax.swing.JLabel();
         lblType2 = new javax.swing.JLabel();
         fEdtOwnerCpf = new javax.swing.JFormattedTextField();
@@ -162,6 +169,13 @@ public class FrReservationRegister extends javax.swing.JFrame {
             }
         });
 
+        bxAnimalType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cachorro", "Gato", "Peixe", "Pássaro" }));
+        bxAnimalType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bxAnimalTypeActionPerformed(evt);
+            }
+        });
+
         lblAnimalType.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblAnimalType.setText("Animal:");
 
@@ -214,6 +228,24 @@ public class FrReservationRegister extends javax.swing.JFrame {
                                 .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblServices, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(chckService1)
+                                        .addGap(40, 40, 40)
+                                        .addComponent(chckService2)
+                                        .addGap(40, 40, 40)
+                                        .addComponent(chckService3))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -243,6 +275,16 @@ public class FrReservationRegister extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblAnimalType, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(bxAnimalType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fEdtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 37, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,6 +299,11 @@ public class FrReservationRegister extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblAnimalType)
                         .addComponent(bxAnimalName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblAnimalType)
+                        .addComponent(bxAnimalType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblType2)
                         .addComponent(fEdtOwnerCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -289,6 +336,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
                     .addComponent(btnCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -327,6 +375,11 @@ public class FrReservationRegister extends javax.swing.JFrame {
         this.currentAnimal = null;
         this.curentCustomer = null;
         updateTable();
+        var typeOfStay = bxReservationType.getSelectedIndex();
+        var startDate = fEdtStartDate.getText();
+        var endDate = fEdtOwnerCpf.getText();
+        var curentAnimalIndex = bxAnimalType.getSelectedIndex();
+        this.reservationController.createReservation(typeOfStay, startDate, endDate, 0, currentAnimal.get(curentAnimalIndex), curentCustomer);
         cleanFields();
         enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -339,6 +392,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
     private void enableFields(boolean enabled) {
         fEdtOwnerCpf.setEditable(enabled);
         bxAnimalName.setEditable(enabled);
+        bxAnimalType.setEditable(enabled);
         bxReservationType.setEditable(enabled);
         fEdtStartDate.setEditable(enabled);
         fEdtEndDate.setEditable(enabled);
@@ -349,6 +403,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
         fEdtOwnerCpf.setText("");
         fEdtStartDate.setText("");
         bxAnimalName.removeAllItems();
+        bxAnimalType.removeAllItems();
         bxReservationType.removeAllItems();
         chckService1.setSelected(false);
         chckService2.setSelected(false);
@@ -437,6 +492,9 @@ public class FrReservationRegister extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_edtOwnerCpfFocusLost
+    private void bxAnimalTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bxAnimalTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bxAnimalTypeActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         this.setVisible(false);
@@ -461,6 +519,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> bxAnimalName;
+    private javax.swing.JComboBox<String> bxAnimalType;
     private javax.swing.JComboBox<String> bxReservationType;
     private javax.swing.JCheckBox chckService1;
     private javax.swing.JCheckBox chckService2;
@@ -489,6 +548,13 @@ public class FrReservationRegister extends javax.swing.JFrame {
             MaskFormatter maskEndDate = new MaskFormatter("##/##/####");
             maskEndDate.install(fEdtEndDate);
 
+            
+            MaskFormatter maskStartDate = new MaskFormatter("##/##/####");
+            maskStartDate.install(fEdtStartDate);
+            
+            MaskFormatter maskEndDate = new MaskFormatter("##/##/####");
+            maskEndDate.install(fEdtEndDate);
+            
         } catch (ParseException e) {
             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
         }
