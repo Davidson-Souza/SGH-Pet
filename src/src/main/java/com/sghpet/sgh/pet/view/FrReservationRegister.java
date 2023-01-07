@@ -9,6 +9,7 @@ import com.sghpet.sgh.pet.model.Customer;
 import com.sghpet.sgh.pet.model.Reservation;
 import com.sghpet.sgh.pet.model.Services;
 import com.sghpet.sgh.pet.model.ServicesList;
+import com.sghpet.sgh.pet.model.TmReservation;
 import java.text.ParseException;
 import java.util.List;
 import javax.swing.JFrame;
@@ -24,10 +25,18 @@ public class FrReservationRegister extends javax.swing.JFrame {
     private List<Animal> currentAnimal;
 
     public FrReservationRegister(JFrame prevFrame) {
+        initComponents();
+
         this.prevFrame = prevFrame;
         this.reservationController = ReservationController.getReservationController();
-        initComponents();
+        updateTable();
         addMaskToFields();
+    }
+
+    private void updateTable() {
+        var reservations = this.reservationController.listReservations();
+        var model = new TmReservation(reservations);
+        JTableRegister.setModel(model);
     }
 
     @SuppressWarnings("unchecked")
@@ -294,6 +303,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Número da reserva: " + reservation.getId());
         this.currentAnimal = null;
         this.curentCustomer = null;
+        updateTable();
         cleanFields();
         enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed

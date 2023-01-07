@@ -1,6 +1,7 @@
 package com.sghpet.sgh.pet.model.dao;
 
 import com.sghpet.sgh.pet.model.Customer;
+import java.util.List;
 import javax.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,14 @@ public class CustomerDAO implements Persistence {
         this.customerStore.getTransaction().begin();
         this.customerStore.persist(customer);
         this.customerStore.getTransaction().commit();
+    }
+
+    public List<Customer> list() {
+        customerStore.getTransaction().begin();
+        var res = customerStore.createQuery("SELECT c FROM Customer c", Customer.class)
+                .getResultList();
+        customerStore.getTransaction().commit();
+        return res;
     }
 
     /**

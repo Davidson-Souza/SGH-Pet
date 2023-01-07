@@ -2,6 +2,7 @@ package com.sghpet.sgh.pet.controller;
 
 import com.sghpet.sgh.pet.model.Customer;
 import com.sghpet.sgh.pet.model.dao.CustomerDAO;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -25,6 +26,10 @@ public class CustomerController {
 
     public void deleteUser(int id) {
         this.repository.delete(id);
+    }
+
+    public List<Customer> listCustomers() {
+        return this.repository.list();
     }
 
     /**

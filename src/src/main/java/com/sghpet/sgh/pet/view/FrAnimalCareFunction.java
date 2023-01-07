@@ -1,9 +1,19 @@
 package com.sghpet.sgh.pet.view;
 
+import com.sghpet.sgh.pet.controller.AnimalController;
+import com.sghpet.sgh.pet.model.TmAnimal;
+
 public class FrAnimalCareFunction extends javax.swing.JFrame {
 
     public FrAnimalCareFunction() {
+        updateTable();
         initComponents();
+    }
+
+    private void updateTable() {
+        var animals = AnimalController.getAnimalController().listAnials();
+        var tmCustomer = new TmAnimal(animals);
+        JTableAnimal.setModel(tmCustomer);
     }
 
     @SuppressWarnings("unchecked")
@@ -28,23 +38,15 @@ public class FrAnimalCareFunction extends javax.swing.JFrame {
 
         JTableAnimal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Luna", "Cachorro", "Grande", null,  new Integer(1), "13:00"},
-                {"Bolt", "Peixe", "Pequeno", null,  new Integer(3), "12:00"},
-                {"Samanta", "Gato", "Médio",  new Boolean(true),  new Integer(1), "9:00"},
-                {null, null, null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Nome", "Tipo", "Porte", "Condição Méd.", "Local", "Últ. Banho"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Integer.class, java.lang.String.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
+        ));
         jScrollPane1.setViewportView(JTableAnimal);
 
         btnTreatAnimal.setText("Cuidar do Animal");

@@ -1,5 +1,6 @@
 package com.sghpet.sgh.pet.model.dao;
 
+import com.sghpet.sgh.pet.model.Accomodation;
 import com.sghpet.sgh.pet.model.Animal;
 import java.util.List;
 import javax.management.RuntimeErrorException;
@@ -9,9 +10,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AnimalDAO implements Persistence {
+public class AccomodationDAO implements Persistence {
 
-    private EntityManager animalStore;
+    private EntityManager database;
 
     public void create() {
 
@@ -20,9 +21,9 @@ public class AnimalDAO implements Persistence {
     @Override
     public void create(Object obj) {
         try {
-            animalStore.getTransaction().begin();
-            animalStore.persist((Animal) obj);
-            animalStore.getTransaction().commit();
+            database.getTransaction().begin();
+            database.persist((Accomodation) obj);
+            database.getTransaction().commit();
         } catch (RuntimeErrorException e) {
             throw e;
         }
@@ -30,7 +31,7 @@ public class AnimalDAO implements Persistence {
 
     @Override
     public Object get(int id) {
-        return animalStore.find(Animal.class, id);
+        return database.find(Animal.class, id);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class AnimalDAO implements Persistence {
     @Override
     public void delete(Object obj) {
         try {
-            this.animalStore.remove(obj);
+            this.database.remove(obj);
         } catch (RuntimeException e) {
             throw e;
         }
@@ -52,15 +53,15 @@ public class AnimalDAO implements Persistence {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public List<Animal> listAnimalsByUser(int id) {
-        var res = this.animalStore.createQuery("SELECT a FROM Animal a WHERE a.owner.Id = :id", Animal.class)
+    public List<Accomodation> listAnimalsByUser(int id) {
+        var res = this.database.createQuery("SELECT a FROM Animal a WHERE a.owner.Id = :id", Accomodation.class)
                 .setParameter("id", id)
                 .getResultList();
         return res;
     }
 
-    public List<Animal> list() {
-        var res = this.animalStore.createQuery("SELECT a FROM Animal a", Animal.class)
+    public List<Accomodation> list() {
+        var res = this.database.createQuery("SELECT a FROM Animal a", Accomodation.class)
                 .getResultList();
         return res;
     }

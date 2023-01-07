@@ -14,6 +14,10 @@ public class AnimalController {
         this.repository = manager;
     }
 
+    public List<Animal> listAnials() {
+        return this.repository.list();
+    }
+
     public static AnimalController getAnimalController(AnimalDAO manager) {
         if (getAnimalController() == null) {
             AnimalController.contr = new AnimalController(manager);

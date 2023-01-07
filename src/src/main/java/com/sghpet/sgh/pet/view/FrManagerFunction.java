@@ -1,5 +1,6 @@
 package com.sghpet.sgh.pet.view;
 
+import com.sghpet.sgh.pet.controller.ReservationController;
 import java.text.ParseException;
 import javax.swing.text.MaskFormatter;
 import org.jboss.logging.Logger;
@@ -8,7 +9,7 @@ public class FrManagerFunction extends javax.swing.JFrame {
 
     public FrManagerFunction() {
         initComponents();
-        
+
         addMaskToFields();
     }
 
@@ -159,7 +160,8 @@ public class FrManagerFunction extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
-        // TODO add your handling code here:
+        var reservations = ReservationController.getReservationController().listReservations();
+
     }//GEN-LAST:event_btnGenerateActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -189,10 +191,10 @@ public class FrManagerFunction extends javax.swing.JFrame {
         try {
             MaskFormatter maskStartDate = new MaskFormatter("##/##/####");
             maskStartDate.install(fEdtStartDate);
-            
+
             MaskFormatter maskEndDate = new MaskFormatter("##/##/####");
             maskEndDate.install(fEdtEndDate);
-            
+
         } catch (ParseException e) {
             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
         }

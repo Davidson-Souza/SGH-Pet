@@ -1,6 +1,7 @@
 package com.sghpet.sgh.pet.model.dao;
 
 import com.sghpet.sgh.pet.model.Reservation;
+import java.util.List;
 import javax.management.RuntimeErrorException;
 import javax.persistence.EntityManager;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,14 @@ public class ReservationDAO implements Persistence {
     public void update(Object newObject) {
         //TODO
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public List<Reservation> list() {
+        this.database.getTransaction().begin();
+        var res = this.database.createQuery("SELECT r FROM Reservation r", Reservation.class)
+                .getResultList();
+        this.database.getTransaction().commit();
+        return res;
     }
 
 }

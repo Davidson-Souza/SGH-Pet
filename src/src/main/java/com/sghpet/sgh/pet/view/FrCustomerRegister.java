@@ -2,6 +2,7 @@ package com.sghpet.sgh.pet.view;
 
 import com.sghpet.sgh.pet.controller.CustomerController;
 import com.sghpet.sgh.pet.model.Customer;
+import com.sghpet.sgh.pet.model.TmCustomers;
 import java.text.ParseException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -21,7 +22,7 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         this.telaAnterior = menu;
         this.curentCustomer = null;
 
-        initComponents();
+        updateTable();
         addMaskToFields();
         this.enableFields(false);
     }
@@ -87,23 +88,12 @@ public class FrCustomerRegister extends javax.swing.JFrame {
 
         JTableCustomer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Nome", "Celular", "CPF", "Endereço"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
+        ));
         jScrollPane1.setViewportView(JTableCustomer);
 
         btnNew.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
@@ -237,6 +227,7 @@ public class FrCustomerRegister extends javax.swing.JFrame {
             this.controller.updateCustomer(newCustomer);
         }
         this.controller.createUser(name, cpf, address, phone);
+        updateTable();
         cleanFields();
         enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -272,6 +263,12 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         fEdtCpf.setText("");
         edtName.setText("");
         fEdtPhone.setText("");
+    }
+
+    private void updateTable() {
+        var customers = this.controller.listCustomers();
+        var tmCustomer = new TmCustomers(customers);
+        JTableCustomer.setModel(tmCustomer);
     }
     private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
         try {
@@ -311,10 +308,10 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         try {
             MaskFormatter maskPhone = new MaskFormatter("(##)#####-####");
             maskPhone.install(fEdtPhone);
-            
+
             MaskFormatter maskCpf = new MaskFormatter("###.###.###-##");
             maskCpf.install(fEdtCpf);
-            
+
         } catch (ParseException e) {
             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
         }

@@ -5,6 +5,7 @@ import com.sghpet.sgh.pet.model.Customer;
 import com.sghpet.sgh.pet.model.Reservation;
 import com.sghpet.sgh.pet.model.dao.ReservationDAO;
 import com.sun.istack.NotNull;
+import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,10 @@ public class ReservationController {
 
     public static ReservationController getReservationController() {
         return ReservationController.controller;
+    }
+
+    public List<Reservation> listReservations() {
+        return this.repository.list();
     }
 
     public static ReservationController getReservationController(ReservationDAO repository) {
