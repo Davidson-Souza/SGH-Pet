@@ -101,6 +101,7 @@
                                   <Component id="bxAnimalName" min="-2" pref="140" max="-2" attributes="0"/>
                               <EmptySpace pref="18" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="lblEndDate" pref="80" max="32767" attributes="0"/>
                                   <Component id="lblAnimalType" max="32767" attributes="0"/>
                                   <Component id="lblEndDate" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
@@ -120,6 +121,12 @@
                                   <Component id="fEdtEndDate" min="-2" pref="173" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="37" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="bxAnimalName" min="-2" pref="140" max="-2" attributes="0"/>
+                                  <Component id="fEdtEndDate" min="-2" pref="173" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -161,10 +168,8 @@
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="lblAnimalType" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bxAnimalType" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblType2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="fEdtOwnerCpf" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblAnimalType" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bxAnimalName" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
@@ -417,8 +422,8 @@
           <StringArray count="4">
             <StringItem index="0" value="Cachorro"/>
             <StringItem index="1" value="Gato"/>
-            <StringItem index="2" value="Peixe"/>
-            <StringItem index="3" value="P&#xe1;ssaro"/>
+            <StringItem index="2" value="P&#xe1;ssaro"/>
+            <StringItem index="3" value="Peixe"/>
           </StringArray>
           <StringArray count="0"/>
         </Property>
@@ -426,6 +431,8 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bxAnimalTypeActionPerformed"/>
       </Events>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
