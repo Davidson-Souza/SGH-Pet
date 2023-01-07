@@ -39,7 +39,7 @@ public class FrManagerFunction extends javax.swing.JFrame {
         JTablePayment.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 { new Integer(1),  new Integer(1),  new Float(99.9), "PIX",  new Integer(1)},
-                { new Integer(2),  new Integer(2),  new Float(67.5), "Credito", null}
+                { new Integer(2),  new Integer(2),  new Float(67.5), "Credito",  new Integer(3)}
             },
             new String [] {
                 "ID", "Reserva(ID)", "Preço", "Método", "Parcelado"
@@ -77,7 +77,7 @@ public class FrManagerFunction extends javax.swing.JFrame {
             }
         });
 
-        bxAccommodationType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Padrão", "Econômico", "Luxo", "Super luxo" }));
+        bxAccommodationType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nenhum", "Padrão", "Econômico", "Luxo", "Super luxo" }));
         bxAccommodationType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bxAccommodationTypeActionPerformed(evt);

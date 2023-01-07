@@ -122,7 +122,7 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
                     break;
                 }
                 case Groundkeeper: {
-                    var mainMenu = new FrGroundskeeper();
+                    var mainMenu = new FrGroundskeeperFunction();
                     mainMenu.show();
                     break;
                 }

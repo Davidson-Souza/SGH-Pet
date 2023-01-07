@@ -1,8 +1,8 @@
 package com.sghpet.sgh.pet.view;
 
-public class FrGroundskeeper extends javax.swing.JFrame {
+public class FrGroundskeeperFunction extends javax.swing.JFrame {
 
-    public FrGroundskeeper() {
+    public FrGroundskeeperFunction() {
         initComponents();
     }
 
