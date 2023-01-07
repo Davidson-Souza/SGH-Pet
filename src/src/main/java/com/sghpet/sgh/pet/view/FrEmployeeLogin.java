@@ -14,7 +14,6 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
     public FrEmployeeLogin() {
         this.contr = EmployeeController.getEmployeeController();
         this.initComponents();
-        
         addMaskToFields();
     }
 
@@ -94,6 +93,7 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
 
     private void btnEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterActionPerformed
         var cpf = fEdtLogin.getText();
+        System.out.println(cpf);
         var password = edtPassword.getText();
         Employee user;
         try {
@@ -157,5 +157,6 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
             
         } catch (ParseException e) {
             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
-        }}
+            }
+    }
 }

@@ -83,6 +83,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="bxAnimalType" min="-2" pref="140" max="-2" attributes="0"/>
+                                  <Component id="bxAnimalName" min="-2" pref="140" max="-2" attributes="0"/>
                                   <Component id="fEdtEndDate" min="-2" pref="173" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="37" max="32767" attributes="0"/>
@@ -106,6 +107,7 @@
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="lblAnimalType" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bxAnimalType" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bxAnimalName" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblType2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -352,6 +354,12 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bxAnimalTypeActionPerformed"/>
       </Events>
+    <Component class="javax.swing.JComboBox" name="bxAnimalName">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>

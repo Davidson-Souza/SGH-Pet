@@ -3,17 +3,25 @@ package com.sghpet.sgh.pet.view;
 import com.sghpet.sgh.pet.controller.AnimalController;
 import com.sghpet.sgh.pet.controller.CustomerController;
 import com.sghpet.sgh.pet.controller.ReservationController;
+import com.sghpet.sgh.pet.controller.ServicesController;
 import com.sghpet.sgh.pet.model.Animal;
 import com.sghpet.sgh.pet.model.Customer;
 import java.text.ParseException;
 import java.util.List;
 import javax.swing.JFrame;
+import com.sghpet.sgh.pet.model.Reservation;
+import com.sghpet.sgh.pet.model.Services;
+import com.sghpet.sgh.pet.model.ServicesList;
+import java.text.ParseException;
+import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 import org.jboss.logging.Logger;
 
 public class FrReservationRegister extends javax.swing.JFrame {
 
-    private ReservationController reservationController;
+    private final ReservationController reservationController;
     private final JFrame prevFrame;
     private Customer curentCustomer;
     private List<Animal> currentAnimal;
@@ -47,6 +55,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
         btnDelet = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         bxAnimalType = new javax.swing.JComboBox<>();
+        bxAnimalName = new javax.swing.JComboBox<>();
         lblAnimalType = new javax.swing.JLabel();
         lblType2 = new javax.swing.JLabel();
         fEdtOwnerCpf = new javax.swing.JFormattedTextField();
@@ -217,6 +226,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(bxAnimalType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(bxAnimalName, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(fEdtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 37, Short.MAX_VALUE)))))
                 .addContainerGap())
@@ -232,6 +242,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblAnimalType)
                         .addComponent(bxAnimalType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(bxAnimalName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblType2)
                         .addComponent(fEdtOwnerCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -278,6 +289,30 @@ public class FrReservationRegister extends javax.swing.JFrame {
         var endDate = fEdtOwnerCpf.getText();
         var curentAnimalIndex = bxAnimalType.getSelectedIndex();
         this.reservationController.createReservation(typeOfStay, startDate, endDate, 0, currentAnimal.get(curentAnimalIndex), curentCustomer);
+        if (this.currentAnimal == null) {
+            return;
+        }
+
+        var typeOfStay = bxReservationType.getSelectedIndex();
+        var startDate = fEdtStartDate.getText();
+        var endDate = fEdtOwnerCpf.getText();
+        var curentAnimalIndex = bxAnimalName.getSelectedIndex();
+        var reservation = this.reservationController.createReservation(typeOfStay, startDate, endDate, 0, currentAnimal.get(curentAnimalIndex), curentCustomer);
+        if (chckService1.isSelected()) {
+            var service = new Services(ServicesList.Shave, 10, reservation, "");
+            ServicesController.getServicesController().create(service);
+        }
+        if (chckService2.isSelected()) {
+            var service = new Services(ServicesList.Bath, 10, reservation, "");
+            ServicesController.getServicesController().create(service);
+        }
+        if (chckService3.isSelected()) {
+            var service = new Services(ServicesList.Spa, 10, reservation, "");
+            ServicesController.getServicesController().create(service);
+        }
+        JOptionPane.showMessageDialog(this, "Número da reserva: " + reservation.getId());
+        this.currentAnimal = null;
+        this.curentCustomer = null;
         cleanFields();
         enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -290,6 +325,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
     private void enableFields(boolean enabled) {
         fEdtOwnerCpf.setEditable(enabled);
         bxAnimalType.setEditable(enabled);
+        bxAnimalName.setEditable(enabled);
         bxReservationType.setEditable(enabled);
         fEdtStartDate.setEditable(enabled);
         fEdtEndDate.setEditable(enabled);
@@ -300,6 +336,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
         fEdtOwnerCpf.setText("");
         fEdtStartDate.setText("");
         bxAnimalType.removeAllItems();
+        bxAnimalName.removeAllItems();
         bxReservationType.removeAllItems();
         chckService1.setSelected(false);
         chckService2.setSelected(false);
@@ -307,16 +344,90 @@ public class FrReservationRegister extends javax.swing.JFrame {
 
     }
     private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
-        // TODO add your handling code here:
+        var reservationId = JOptionPane.showInputDialog("Número da reserva");
+        try {
+            reservationController.deleteReservation(Integer.parseInt(reservationId));
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(this, "Id inválido");
+        }
     }//GEN-LAST:event_btnDeletActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
+        cleanFields();
+        try {
+            var reservationId = JOptionPane.showInputDialog("Número da reserva");
+            var reservation = this.reservationController.getReservation(Integer.parseInt(reservationId));
+            fEdtEndDate.setText(reservation.getEndDate());
+            fEdtStartDate.setText(reservation.getStartDate());
+            fEdtOwnerCpf.setText(reservation.getCustomer().getCpf());
+
+            var animals = AnimalController.getAnimalController().listAnimalByCustomer(reservation.getCustomer().getId());
+            this.currentAnimal = animals;
+            this.curentCustomer = reservation.getCustomer();
+
+            int index = -1, i = 0;
+            for (var animal : animals) {
+                if (animal.getId() == reservation.getAnimal().getId()) {
+                    index = i;
+                }
+                bxAnimalName.addItem(animal.getName());
+                i++;
+            }
+            getServices(reservation);
+            bxAnimalName.setSelectedIndex(index);
+            //bxReservationType.setSelectedIndex(0);
+        } catch (RuntimeException e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao processar a solicitação");
+            return;
+        }
+        enableFields(true);
+
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void bxAnimalTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bxAnimalTypeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bxAnimalTypeActionPerformed
+    private void getServices(Reservation res) {
+        var services = ServicesController.getServicesController().list(res.getId());
+        for (var service : services) {
+            switch (service.getServiceType()) {
+                case Bath: {
+                    chckService2.setEnabled(true);
+                }
+                case Shave: {
+                    chckService1.setEnabled(true);
+                }
+                case Spa: {
+                    chckService3.setEnabled(true);
+                }
+            }
+        }
+    }
+
+    private void bxAnimalTypeActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+
+    }
+
+    private void edtEndDate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtEndDate1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edtEndDate1ActionPerformed
+
+    private void edtOwnerCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_edtOwnerCpfFocusLost
+        try {
+            var user = CustomerController.getCustomerController().findCustomerByCPF(fEdtOwnerCpf.getText());
+            this.curentCustomer = user;
+            var animals = AnimalController.getAnimalController().listAnimalByCustomer(user.getId());
+            this.currentAnimal = animals;
+            for (var animal : animals) {
+                bxAnimalName.addItem(animal.getName());
+            }
+        } catch (RuntimeException e) {
+            System.out.println(fEdtOwnerCpf.getText());
+        }
+
+    }//GEN-LAST:event_edtOwnerCpfFocusLost
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         this.setVisible(false);
@@ -331,6 +442,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> bxAnimalType;
+    private javax.swing.JComboBox<String> bxAnimalName;
     private javax.swing.JComboBox<String> bxReservationType;
     private javax.swing.JCheckBox chckService1;
     private javax.swing.JCheckBox chckService2;
@@ -359,6 +471,13 @@ public class FrReservationRegister extends javax.swing.JFrame {
             MaskFormatter maskEndDate = new MaskFormatter("##/##/####");
             maskEndDate.install(fEdtEndDate);
             
+
+            MaskFormatter maskStartDate = new MaskFormatter("##/##/####");
+            maskStartDate.install(fEdtStartDate);
+
+            MaskFormatter maskEndDate = new MaskFormatter("##/##/####");
+            maskEndDate.install(fEdtEndDate);
+
         } catch (ParseException e) {
             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
         }
