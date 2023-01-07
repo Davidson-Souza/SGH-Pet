@@ -22,7 +22,6 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         this.curentCustomer = null;
 
         initComponents();
-        
         addMaskToFields();
         this.enableFields(false);
     }
