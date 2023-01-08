@@ -32,6 +32,12 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         addMaskToFields();
     }
 
+    private void updateTable() {
+        var animals = AnimalController.getAnimalController().listAnials();
+        var tmCustomer = new TmAnimal(animals);
+        JTableAnimal.setModel(tmCustomer);
+    }
+
     
     private
     @SuppressWarnings("unchecked")
