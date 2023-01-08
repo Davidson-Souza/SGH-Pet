@@ -13,6 +13,10 @@ import com.sghpet.sgh.pet.model.dao.ServicesDAO;
 import com.sghpet.sgh.pet.view.FrEmployeeLogin;
 import javax.persistence.Persistence;
 
+import com.sghpet.sgh.pet.view.FrMainMenu;
+
+
+
 public class SGHPet {
 
     public static void main(String[] args) {
@@ -34,5 +38,8 @@ public class SGHPet {
 
         var login = new FrEmployeeLogin();
         login.show();
+        FrMainMenu menu = new FrMainMenu();
+        menu.show();
+        
     }
 }
