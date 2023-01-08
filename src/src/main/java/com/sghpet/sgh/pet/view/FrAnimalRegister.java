@@ -3,6 +3,7 @@ package com.sghpet.sgh.pet.view;
 import com.sghpet.sgh.pet.controller.AnimalController;
 import com.sghpet.sgh.pet.controller.CustomerController;
 import com.sghpet.sgh.pet.model.Customer;
+import com.sghpet.sgh.pet.model.TmAnimal;
 import java.text.ParseException;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
@@ -17,8 +18,14 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         this.controller = AnimalController.getAnimalController();
         this.customers = CustomerController.getCustomerController();
         initComponents();
-        
+        updateTable();
         addMaskToFields();
+    }
+
+    private void updateTable() {
+        var animals = AnimalController.getAnimalController().listAnials();
+        var tmCustomer = new TmAnimal(animals);
+        JTableAnimal.setModel(tmCustomer);
     }
 
     

@@ -245,12 +245,13 @@ public class FrReservationRegister extends javax.swing.JFrame {
                     .addComponent(btnBack)
                     .addComponent(lblMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblType2)
-                    .addComponent(fEdtOwnerCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblAnimalType)
-                        .addComponent(bxAnimalName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(bxAnimalName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblType2)
+                        .addComponent(fEdtOwnerCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblReservationType)
@@ -303,16 +304,13 @@ public class FrReservationRegister extends javax.swing.JFrame {
         var curentAnimalIndex = bxAnimalName.getSelectedIndex();
         var reservation = this.reservationController.createReservation(typeOfStay, startDate, endDate, 0, currentAnimal.get(curentAnimalIndex), curentCustomer);
         if (chckService1.isSelected()) {
-            var service = new Services(ServicesList.Shave, 10, reservation, "");
-            ServicesController.getServicesController().create(service);
+            ServicesController.getServicesController().createService(ServicesList.Shave, 20, reservation, "");
         }
         if (chckService2.isSelected()) {
-            var service = new Services(ServicesList.Bath, 10, reservation, "");
-            ServicesController.getServicesController().create(service);
+            ServicesController.getServicesController().createService(ServicesList.Bath, 30, reservation, "");
         }
         if (chckService3.isSelected()) {
-            var service = new Services(ServicesList.Spa, 10, reservation, "");
-            ServicesController.getServicesController().create(service);
+            ServicesController.getServicesController().createService(ServicesList.Spa, 50, reservation, "");
         }
         JOptionPane.showMessageDialog(this, "Número da reserva: " + reservation.getId());
         this.currentAnimal = null;
