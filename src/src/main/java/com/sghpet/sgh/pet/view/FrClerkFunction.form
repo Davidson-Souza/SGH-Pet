@@ -32,29 +32,21 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnReservationRegister" min="-2" pref="167" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="lblListServices" alignment="0" max="32767" attributes="0"/>
                   <Component id="lblListAccommodation" alignment="0" max="32767" attributes="0"/>
                   <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnReservationRegister" pref="184" max="32767" attributes="0"/>
-                          <Component id="btnAnimalRegister" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="btnAnimalRegister" min="-2" pref="167" max="-2" attributes="0"/>
+                          <Component id="btnReservationRegister" min="-2" pref="167" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Component id="btnClientRegister" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="btnMakePayment" min="-2" pref="182" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="49" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="66" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -69,26 +61,22 @@
                   <Component id="lblMenu" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
                   <Component id="btnBack" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="45" max="32767" attributes="0"/>
+              <EmptySpace pref="40" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="btnClientRegister" pref="50" max="32767" attributes="0"/>
                   <Component id="btnAnimalRegister" max="32767" attributes="0"/>
                   <Component id="btnMakePayment" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnReservationRegister" min="-2" pref="44" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
               <Component id="btnReservationRegister" min="-2" pref="50" max="-2" attributes="0"/>
               <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Component id="lblListServices" min="-2" pref="35" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="95" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="109" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="lblListAccommodation" min="-2" pref="35" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane3" pref="83" max="32767" attributes="0"/>
-              <Component id="jScrollPane3" pref="123" max="32767" attributes="0"/>
-              <Component id="jScrollPane3" pref="80" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -115,26 +103,30 @@
         <Component class="javax.swing.JTable" name="JTableService">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="3">
+              <Table columnCount="4" rowCount="4">
                 <Column editable="false" title="Nome" type="java.lang.String">
                   <Data value="Spa"/>
                   <Data value="Banho"/>
                   <Data value="Tosa"/>
+                  <Data value="null"/>
                 </Column>
                 <Column editable="false" title="Pre&#xe7;o" type="java.lang.Float">
                   <Data value="50.0"/>
                   <Data value="30.0"/>
                   <Data value="20.0"/>
+                  <Data value="null"/>
                 </Column>
                 <Column editable="false" title="Descri&#xe7;&#xe3;o" type="java.lang.String">
                   <Data value="Banheira aquecida, massagem, etc."/>
                   <Data value="Banhos di&#xe1;rios"/>
                   <Data value="Reduzir pelagem"/>
+                  <Data value="null"/>
                 </Column>
                 <Column editable="false" title="Infos" type="java.lang.String">
                   <Data value="null"/>
                   <Data value="2x por dia"/>
                   <Data value="1x por estadia"/>
+                  <Data value="null"/>
                 </Column>
               </Table>
             </Property>
@@ -261,7 +253,7 @@
                   <Data value="3"/>
                   <Data value="4"/>
                 </Column>
-                <Column editable="true" title="Vagas" type="java.lang.Integer">
+                <Column editable="false" title="Vagas" type="java.lang.Integer">
                   <Data value="3"/>
                   <Data value="1"/>
                 </Column>

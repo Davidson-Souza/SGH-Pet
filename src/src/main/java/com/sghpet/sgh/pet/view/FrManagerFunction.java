@@ -194,10 +194,6 @@ public class FrManagerFunction extends javax.swing.JFrame {
 
             MaskFormatter maskEndDate = new MaskFormatter("##/##/####");
             maskEndDate.install(fEdtEndDate);
-
-            
-            MaskFormatter maskEndDate = new MaskFormatter("##/##/####");
-            maskEndDate.install(fEdtEndDate);
             
         } catch (ParseException e) {
             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);

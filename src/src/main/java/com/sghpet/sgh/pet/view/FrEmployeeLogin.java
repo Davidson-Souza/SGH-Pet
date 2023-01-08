@@ -155,12 +155,9 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
             MaskFormatter maskLogin = new MaskFormatter("###.###.###-##");
             maskLogin.install(fEdtLogin);
             
-        } catch (ParseException e) {
+        } 
+        catch (ParseException e) {
             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
-            }
-    }
-            
-        } catch (ParseException e) {
-            Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
-        }}
+        }  
+    }     
 }
