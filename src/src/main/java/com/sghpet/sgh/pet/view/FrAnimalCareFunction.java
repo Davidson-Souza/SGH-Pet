@@ -11,7 +11,7 @@ public class FrAnimalCareFunction extends javax.swing.JFrame {
     }
 
     private void updateTable() {
-        var animals = AnimalController.getAnimalController().listAnials();
+        var animals = AnimalController.getAnimalController().listAnimals();
         var tmCustomer = new TmAnimal(animals);
         JTableAnimal.setModel(tmCustomer);
     }
