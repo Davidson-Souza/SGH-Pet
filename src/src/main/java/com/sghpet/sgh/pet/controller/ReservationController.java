@@ -47,4 +47,8 @@ public class ReservationController {
         }
         return ReservationController.controller;
     }
+
+    public void updateReservation(Reservation newRes) {
+        this.repository.update(newRes);
+    }
 }

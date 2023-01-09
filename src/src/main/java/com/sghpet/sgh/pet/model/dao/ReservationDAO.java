@@ -43,8 +43,15 @@ public class ReservationDAO implements Persistence {
 
     @Override
     public void update(Object newObject) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet.");
+        var newReservation = (Reservation) newObject;
+        this.database.createQuery("UPDATE Reservation c SET c.animal=:animal, c.customer=:customer, c.endDate=:endDate, c.price=:price, c.startDate=:startDate, c.type=:type WHERE id=:id")
+                .setParameter("customer", newReservation.getCustomer())
+                .setParameter("animal", newReservation.getAnimal())
+                .setParameter("endDate", newReservation.getEndDate())
+                .setParameter("price", newReservation.getPrice())
+                .setParameter("startDate", newReservation.getStartDate())
+                .setParameter("type", newReservation.getType())
+                .setParameter("id", newReservation.getId());
     }
 
     public List<Reservation> list() {
