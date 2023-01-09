@@ -1,6 +1,7 @@
 package com.sghpet.sgh.pet.model.dao;
 
 import com.sghpet.sgh.pet.model.Customer;
+import java.sql.PreparedStatement;
 import java.util.List;
 import javax.persistence.EntityManager;
 import lombok.AllArgsConstructor;
@@ -88,7 +89,27 @@ public class CustomerDAO implements Persistence {
      */
     @Override
     public void update(Object newObject) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Customer customer = (Customer) newObject;
+        
+        String querry = "UPDATE Customer "
+                + "SET name = ?"
+                + "SET phone_number = ?"
+                + "SET address = ?"
+                + "WHERE id = ?"; 
+        try {
+            customerStore.getTransaction().begin();
+            customerStore.createQuery(querry, Customer.class)
+                    .setParameter(":name", customer.getName())
+                    .setParameter(":phone_number", customer.getPhoneNumber())
+                    .setParameter(":address", customer.getAddress())
+                    .setParameter(":id", customer.getId());
+                    
+            customerStore.getTransaction().commit();
+
+        } catch (RuntimeException e) {
+            customerStore.getTransaction().commit();
+            throw e;
+        }
     }
 
 }

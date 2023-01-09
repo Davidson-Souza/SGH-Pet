@@ -11,7 +11,9 @@ import com.sghpet.sgh.pet.model.dao.EmployeeDAO;
 import com.sghpet.sgh.pet.model.dao.ReservationDAO;
 import com.sghpet.sgh.pet.model.dao.ServicesDAO;
 import com.sghpet.sgh.pet.view.FrAnimalRegister;
+import com.sghpet.sgh.pet.view.FrCustomerRegister;
 import com.sghpet.sgh.pet.view.FrEmployeeLogin;
+import com.sghpet.sgh.pet.view.FrMainMenu;
 import javax.persistence.Persistence;
 
 public class SGHPet {
@@ -35,7 +37,11 @@ public class SGHPet {
 
         //var login = new FrEmployeeLogin();
         //login.show();
-        var tela = new FrAnimalRegister();
+        
+        //var tela = new FrAnimalRegister();
+        var menu = new FrMainMenu();
+        var tela = new FrCustomerRegister(menu);
+        
         tela.show();
     }
 }
