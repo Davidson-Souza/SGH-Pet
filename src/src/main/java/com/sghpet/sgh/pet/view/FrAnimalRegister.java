@@ -18,15 +18,10 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         this.controller = AnimalController.getAnimalController();
         this.customers = CustomerController.getCustomerController();
         initComponents();
-        controller.updateTable(this.JTableAnimal); //updateTable();
+        controller.updateTable(this.JTableAnimal);
         addMaskToFields();
     }
 
-    private void updateTable() {
-        var animals = AnimalController.getAnimalController().listAnimals();
-        var tmCustomer = new TmAnimal(animals);
-        JTableAnimal.setModel(tmCustomer);
-    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -137,6 +132,13 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         JTableAnimal.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(JTableAnimal);
         JTableAnimal.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (JTableAnimal.getColumnModel().getColumnCount() > 0) {
+            JTableAnimal.getColumnModel().getColumn(0).setHeaderValue("Nome");
+            JTableAnimal.getColumnModel().getColumn(1).setHeaderValue("Dono");
+            JTableAnimal.getColumnModel().getColumn(2).setHeaderValue("Tipo");
+            JTableAnimal.getColumnModel().getColumn(3).setHeaderValue("Porte");
+            JTableAnimal.getColumnModel().getColumn(4).setHeaderValue("Condição Médica");
+        }
 
         btnEdit.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         btnEdit.setText("Editar");

@@ -2,7 +2,6 @@ package com.sghpet.sgh.pet.view;
 
 import com.sghpet.sgh.pet.controller.CustomerController;
 import com.sghpet.sgh.pet.model.Customer;
-import com.sghpet.sgh.pet.model.TmCustomers;
 import java.text.ParseException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -22,7 +21,7 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         this.telaAnterior = menu;
         this.curentCustomer = null;
 
-        updateTable();
+        controller.updateTable(this.JTableCustomer);
         addMaskToFields();
         this.enableFields(false);
     }
@@ -47,6 +46,7 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         btnDelet = new javax.swing.JButton();
         fEdtCpf = new javax.swing.JFormattedTextField();
         fEdtPhone = new javax.swing.JFormattedTextField();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,10 +91,31 @@ public class FrCustomerRegister extends javax.swing.JFrame {
 
             },
             new String [] {
-
+                "ID", "Nome", "CPF", "Telefone", "Enderço"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        JTableCustomer.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(JTableCustomer);
+        JTableCustomer.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (JTableCustomer.getColumnModel().getColumnCount() > 0) {
+            JTableCustomer.getColumnModel().getColumn(0).setResizable(false);
+            JTableCustomer.getColumnModel().getColumn(0).setPreferredWidth(20);
+        }
 
         btnNew.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         btnNew.setText("Novo");
@@ -128,52 +149,63 @@ public class FrCustomerRegister extends javax.swing.JFrame {
             }
         });
 
+        btnCancel.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblAddres, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(edtAddres))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(edtName, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
-                            .addComponent(fEdtCpf))
-                        .addGap(18, 18, 18)
-                        .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fEdtPhone)))
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblAddres, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(edtAddres))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblCPF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(edtName, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                                    .addComponent(fEdtCpf))
+                                .addGap(18, 18, 18)
+                                .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fEdtPhone))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCancel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBack)
+                        .addGap(0, 0, 0)
+                        .addComponent(lblMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBack)
-                    .addComponent(lblMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(lblMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBack))
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblName)
                     .addComponent(edtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -187,14 +219,15 @@ public class FrCustomerRegister extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAddres)
                     .addComponent(edtAddres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                    .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -216,39 +249,50 @@ public class FrCustomerRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        
         var name = edtName.getText();
         var cpf = fEdtCpf.getText();
         var phone = fEdtPhone.getText();
         var address = edtAddres.getText();
 
         if (this.curentCustomer != null) {
-            var newCustomer = new Customer(cpf,name, address, phone);
+            var newCustomer = new Customer(cpf, name, address, phone);
             newCustomer.setId(curentCustomer.getId());
             this.controller.updateCustomer(newCustomer);
+            
         }
-        this.controller.createUser(name, cpf, address, phone);
-        updateTable();
+        else{
+            this.controller.createUser(name, cpf, address, phone);    
+        }
+        controller.updateTable(this.JTableCustomer);     
         cleanFields();
         enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        var cpf = JOptionPane.showInputDialog("CPF do usuário");
-        try {
-            var user = this.controller.findCustomerByCPF(cpf);
-            this.showUser(user);
-            this.curentCustomer = user;
-            enableFields(true);
-        } catch (RuntimeException e) {
-            JOptionPane.showMessageDialog(this, "Could not find user");
+        Customer customerEdit = (Customer) getSelectedObjectOnJTable();
+        
+        if (customerEdit == null){
+            JOptionPane.showMessageDialog(this,"Selecione um registro na tabela.");
         }
+        else{
+            this.cleanFields();
+            this.enableFields(true);
+            
+            try {
+                this.showUser(customerEdit);
+                this.curentCustomer = customerEdit;
+            } catch (RuntimeException e) {
+                JOptionPane.showMessageDialog(this, "Could not find user");
+            }   
+        }     
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void showUser(Customer user) {
-        edtAddres.setText(user.getAddress());
-        fEdtCpf.setText(user.getCpf());
         edtName.setText(user.getName());
+        fEdtCpf.setText(user.getCpf());
         fEdtPhone.setText(user.getPhoneNumber());
+        edtAddres.setText(user.getAddress());       
     }
 
     private void enableFields(boolean enabled) {
@@ -264,12 +308,19 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         edtName.setText("");
         fEdtPhone.setText("");
     }
-
-    private void updateTable() {
-        var customers = this.controller.listCustomers();
-        var tmCustomer = new TmCustomers(customers);
-        JTableCustomer.setModel(tmCustomer);
+    
+    private Object getSelectedObjectOnJTable() {
+        int rowCliked = JTableCustomer.getSelectedRow();
+        
+        Object obj = null;
+        if (rowCliked >= 0) {
+            int SelectedObjectID = (int) JTableCustomer.getModel().getValueAt(rowCliked, 0);        
+            obj = this.controller.getCustumer(SelectedObjectID);
+        }
+        return obj;
     }
+
+
     private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
         try {
             var cpf = JOptionPane.showInputDialog("CPF do usuário");
@@ -285,9 +336,15 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         this.telaAnterior.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        cleanFields();
+        enableFields(false);
+    }//GEN-LAST:event_btnCancelActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTableCustomer;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelet;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnNew;

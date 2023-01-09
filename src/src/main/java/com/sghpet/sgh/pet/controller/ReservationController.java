@@ -3,9 +3,11 @@ package com.sghpet.sgh.pet.controller;
 import com.sghpet.sgh.pet.model.Animal;
 import com.sghpet.sgh.pet.model.Customer;
 import com.sghpet.sgh.pet.model.Reservation;
+import com.sghpet.sgh.pet.model.TmReservation;
 import com.sghpet.sgh.pet.model.dao.ReservationDAO;
 import com.sun.istack.NotNull;
 import java.util.List;
+import javax.swing.JTable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -50,5 +52,10 @@ public class ReservationController {
 
     public void updateReservation(Reservation newRes) {
         this.repository.update(newRes);
+    }
+    
+    public void updateTable(JTable grdReservation) {
+        var TmReservation = new TmReservation(this.listReservations());
+        grdReservation.setModel(TmReservation);
     }
 }

@@ -256,16 +256,16 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="6" rowCount="4">
-                <Column editable="true" title="Tipo Reserva" type="java.lang.String"/>
-                <Column editable="true" title="Data Inicial" type="java.lang.String"/>
-                <Column editable="true" title="Data Final" type="java.lang.String"/>
-                <Column editable="true" title="Tosa?" type="java.lang.Boolean"/>
-                <Column editable="true" title="Banho?" type="java.lang.Boolean"/>
-                <Column editable="true" title="Spa?" type="java.lang.Boolean"/>
+                <Column editable="false" title="ID" type="java.lang.Integer"/>
+                <Column editable="false" title="Dono" type="java.lang.String"/>
+                <Column editable="false" title="Tipo Reserva" type="java.lang.String"/>
+                <Column editable="false" title="Animal" type="java.lang.String"/>
+                <Column editable="false" title="Data Inicial" type="java.lang.String"/>
+                <Column editable="false" title="Data Final" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-              <TableColumnModel selectionModel="0">
+              <TableColumnModel selectionModel="1">
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
@@ -298,6 +298,7 @@
                 </Column>
               </TableColumnModel>
             </Property>
+            <Property name="columnSelectionAllowed" type="boolean" value="true"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
