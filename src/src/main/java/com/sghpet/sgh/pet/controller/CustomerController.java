@@ -78,6 +78,7 @@ public class CustomerController {
      */
     public Customer findCustomerByCPF(String cpf) throws RuntimeException {
         return (Customer) this.repository.find(cpf);
+
     }
     
     public void updateTable(JTable grdCustomer) {

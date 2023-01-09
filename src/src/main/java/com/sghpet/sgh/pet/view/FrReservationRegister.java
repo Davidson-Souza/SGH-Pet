@@ -7,7 +7,6 @@ import com.sghpet.sgh.pet.controller.ServicesController;
 import com.sghpet.sgh.pet.model.Animal;
 import com.sghpet.sgh.pet.model.Customer;
 import com.sghpet.sgh.pet.model.Reservation;
-import com.sghpet.sgh.pet.model.Services;
 import com.sghpet.sgh.pet.model.ServicesList;
 import com.sghpet.sgh.pet.model.TmReservation;
 import java.text.ParseException;
@@ -181,6 +180,9 @@ public class FrReservationRegister extends javax.swing.JFrame {
         btnCheckOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCheckOutActionPerformed(evt);
+        fEdtOwnerCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fEdtOwnerCpfFocusLost(evt);
             }
         });
 
@@ -308,9 +310,12 @@ public class FrReservationRegister extends javax.swing.JFrame {
 
         var typeOfStay = bxReservationType.getSelectedIndex();
         var startDate = fEdtStartDate.getText();
-        var endDate = fEdtOwnerCpf.getText();
+        var endDate = fEdtEndDate.getText();
         var curentAnimalIndex = bxAnimalName.getSelectedIndex();
+
         var reservation = this.reservationController.createReservation(typeOfStay, startDate, endDate, 0, currentAnimal.get(curentAnimalIndex), curentCustomer);
+        System.out.println(reservation);
+        var price = reservation.calcBasePrice();
         if (chckService1.isSelected()) {
             ServicesController.getServicesController().createService(ServicesList.Shave, 20, reservation, "");
         }
@@ -318,8 +323,19 @@ public class FrReservationRegister extends javax.swing.JFrame {
             ServicesController.getServicesController().createService(ServicesList.Bath, 30, reservation, "");
         }
         if (chckService3.isSelected()) {
+            price += 20;
+        }
+        if (chckService2.isSelected()) {
+            price += 30;
+            ServicesController.getServicesController().createService(ServicesList.Bath, 30, reservation, "");
+        }
+        if (chckService3.isSelected()) {
+            price += 50;
             ServicesController.getServicesController().createService(ServicesList.Spa, 50, reservation, "");
         }
+        reservation.setPrice(price);
+        this.reservationController.updateReservation(reservation);
+
         JOptionPane.showMessageDialog(this, "Número da reserva: " + reservation.getId());
         this.currentAnimal = null;
         this.curentCustomer = null;
@@ -384,7 +400,6 @@ public class FrReservationRegister extends javax.swing.JFrame {
             }
             getServices(reservation);
             bxAnimalName.setSelectedIndex(index);
-            //bxReservationType.setSelectedIndex(0);
         } catch (RuntimeException e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao processar a solicitação");
@@ -447,6 +462,17 @@ public class FrReservationRegister extends javax.swing.JFrame {
     private void btnCheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckOutActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCheckOutActionPerformed
+
+    private void fEdtOwnerCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fEdtOwnerCpfFocusLost
+        var customerCpf = fEdtOwnerCpf.getText();
+        var customer = CustomerController.getCustomerController().findCustomerByCPF(customerCpf);
+        var list = AnimalController.getAnimalController().listAnimalByCustomer(customer.getId());
+        for (Animal animal : list) {
+            bxAnimalName.addItem(animal.getName());
+        }
+        this.curentCustomer = customer;
+        this.currentAnimal = list;
+    }//GEN-LAST:event_fEdtOwnerCpfFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTableRegister;

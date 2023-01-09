@@ -42,6 +42,8 @@ public class AnimalController {
     }
     
     public void updateTable(JTable grdAnimal){
+
+    public void updateTable(JTable grdAnimal) {
         TmAnimal tmAnimal = new TmAnimal(this.listAnimals());
         grdAnimal.setModel(tmAnimal);
     }

@@ -446,6 +446,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="fEdtOwnerCpf">
+      <Events>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="fEdtOwnerCpfFocusLost"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="fEdtStartDate">
     </Component>

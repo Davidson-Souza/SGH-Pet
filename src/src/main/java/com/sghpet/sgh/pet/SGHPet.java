@@ -43,5 +43,8 @@ public class SGHPet {
         var tela = new FrCustomerRegister(menu);
         
         tela.show();
+        var login = new FrEmployeeLogin();
+        login.show();
+
     }
 }
