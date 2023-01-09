@@ -150,6 +150,7 @@ public class FrPaymentScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTotalPaymentActionPerformed
 
+   
     /**
      * @param args the command line arguments
      */

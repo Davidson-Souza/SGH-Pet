@@ -3,6 +3,7 @@
   <persistence-unit name="exemplo-jpa" transaction-type="RESOURCE_LOCAL">
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/api?useSSL=false&amp;serverTimezone=UTC"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/api?useSSL=false&amp;serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="javax.persistence.jdbc.user" value="erik"/>
       <property name="javax.persistence.jdbc.password" value=""/>

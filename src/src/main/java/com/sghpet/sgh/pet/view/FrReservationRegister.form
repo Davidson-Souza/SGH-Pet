@@ -37,6 +37,9 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lblServices" min="-2" pref="108" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="lblServices" min="-2" pref="108" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="chckService1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                               <Component id="chckService2" min="-2" max="-2" attributes="0"/>
@@ -53,6 +56,9 @@
                               <Component id="btnSave" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="0" pref="236" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lblStartDate" min="-2" pref="108" max="-2" attributes="0"/>
@@ -77,9 +83,39 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="bxAnimalType" min="-2" pref="140" max="-2" attributes="0"/>
                                   <Component id="bxAnimalName" min="-2" pref="140" max="-2" attributes="0"/>
                                   <Component id="fEdtEndDate" min="-2" pref="173" max="-2" attributes="0"/>
                               </Group>
+                          </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="lblEndDate" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="edtEndDate" pref="170" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="lblServices" min="-2" pref="108" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="chckService1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                                      <Component id="chckService2" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                                      <Component id="chckService3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="btnNew" min="-2" pref="100" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="btnEdit" min="-2" pref="100" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="btnDelet" min="-2" pref="100" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="btnSave" min="-2" pref="100" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -103,12 +139,20 @@
                   <Component id="lblMenu" min="-2" pref="42" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="lblAnimalType" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="bxAnimalType" alignment="3" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblType2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="fEdtOwnerCpf" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Group type="103" alignment="3" groupAlignment="3" attributes="0">
                       <Component id="lblAnimalType" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bxAnimalName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblType2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="fEdtOwnerCpf" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
@@ -138,7 +182,15 @@
                       <Component id="btnNew" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
                   <Component id="btnSave" min="-2" pref="40" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnSave" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                      <Component id="btnEdit" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                      <Component id="btnDelet" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                      <Component id="btnNew" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                  </Group>
               </Group>
+              <Component id="btnSend" min="-2" pref="55" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnCheckIn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
@@ -196,6 +248,11 @@
         <Property name="text" type="java.lang.String" value="Data inicial:"/>
       </Properties>
     </Component>
+    <Component class="javax.swing.JTextField" name="edtStartDate">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="edtStartDateActionPerformed"/>
+      </Events>
+    </Component>
     <Component class="javax.swing.JLabel" name="lblEndDate">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -203,6 +260,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Data Final:"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="edtEndDate">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="edtEndDateActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblServices">
       <Properties>
@@ -349,10 +411,19 @@
       </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="bxAnimalName">
+    <Component class="javax.swing.JComboBox" name="bxAnimalType">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
         </Property>
+          <StringArray count="4">
+            <StringItem index="0" value="Cachorro"/>
+            <StringItem index="1" value="Gato"/>
+            <StringItem index="2" value="P&#xe1;ssaro"/>
+            <StringItem index="3" value="Peixe"/>
+          </StringArray>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

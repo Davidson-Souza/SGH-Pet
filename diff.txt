@@ -1,0 +1,1952 @@
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/SGHPet.java b/src/src/main/java/com/sghpet/sgh/pet/SGHPet.java
+index e85df3a..055d261 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/SGHPet.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/SGHPet.java
+@@ -11,7 +11,26 @@ import com.sghpet.sgh.pet.model.dao.EmployeeDAO;
+ import com.sghpet.sgh.pet.model.dao.ReservationDAO;
+ import com.sghpet.sgh.pet.model.dao.ServicesDAO;
+ import com.sghpet.sgh.pet.view.FrEmployeeLogin;
++import com.sghpet.sgh.pet.controller.CustomerController;
++import com.sghpet.sgh.pet.view.FrCustomerRegister;
++import javax.persistence.EntityManager;
++import javax.persistence.EntityManagerFactory;
++import javax.persistence.Persistence;
++import com.sghpet.sgh.pet.view.FrMainMenu;
++
++
++import com.sghpet.sgh.pet.controller.ReservationController;
++import com.sghpet.sgh.pet.model.dao.AnimalDAO;
++import com.sghpet.sgh.pet.model.dao.CustomerDAO;
++import com.sghpet.sgh.pet.view.FrAnimalRegister;
++import com.sghpet.sgh.pet.view.FrCustomerRegister;
++import com.sghpet.sgh.pet.view.FrReservationRegister;
++import javax.persistence.EntityManager;
++import javax.persistence.EntityManagerFactory;
+ import javax.persistence.Persistence;
++import com.sghpet.sgh.pet.view.FrMainMenu;
++
++
+ 
+ public class SGHPet {
+ 
+@@ -34,5 +53,34 @@ public class SGHPet {
+ 
+         var login = new FrEmployeeLogin();
+         login.show();
++        EntityManagerFactory fac = Persistence.createEntityManagerFactory("exemplo-jpa");
++        EntityManager manager = fac.createEntityManager();
++        // Animal register
++        CustomerController animalController = new CustomerController(manager);
++        FrCustomerRegister animalRegister = new FrCustomerRegister(animalController);
++        animalRegister.show();
++        FrMainMenu menu = new FrMainMenu();
++        menu.show();
++        
++        // Customer register
++        CustomerDAO customerRep = new CustomerDAO(manager);
++        CustomerController customerController = new CustomerController(customerRep);
++        FrCustomerRegister customerRegister = new FrCustomerRegister(customerController);
++        customerRegister.show();
++
++        // Animal register
++        AnimalDAO animalRep = new AnimalDAO(manager);
++
++        AnimalController animalController = new AnimalController(animalRep);
++        FrAnimalRegister animalRegister = new FrAnimalRegister(animalController, customerController);
++        animalRegister.show();
++
++        // Reservation registration
++        ReservationController reservationController = new ReservationController(manager);
++        FrReservationRegister reservationRegister = new FrReservationRegister(reservationController);
++        reservationRegister.show();
++        FrMainMenu menu = new FrMainMenu();
++        menu.show();
++        
+     }
+ }
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/controller/AnimalController.java b/src/src/main/java/com/sghpet/sgh/pet/controller/AnimalController.java
+index b63d55a..159e33a 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/controller/AnimalController.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/controller/AnimalController.java
+@@ -2,8 +2,10 @@ package com.sghpet.sgh.pet.controller;
+ 
+ import com.sghpet.sgh.pet.model.Animal;
+ import com.sghpet.sgh.pet.model.Customer;
++import com.sghpet.sgh.pet.model.TmAnimal;
+ import com.sghpet.sgh.pet.model.dao.AnimalDAO;
+ import java.util.List;
++import javax.swing.JTable;
+ 
+ public class AnimalController {
+ 
+@@ -14,7 +16,7 @@ public class AnimalController {
+         this.repository = manager;
+     }
+ 
+-    public List<Animal> listAnials() {
++    public List<Animal> listAnimals() {
+         return this.repository.list();
+     }
+ 
+@@ -38,4 +40,31 @@ public class AnimalController {
+ 
+         this.repository.create(newAnimal);
+     }
++    
++    public void updateTable(JTable grdAnimal){
++        TmAnimal tmAnimal = new TmAnimal(this.listAnimals());
++        grdAnimal.setModel(tmAnimal);
++import javax.management.RuntimeErrorException;
++import javax.persistence.EntityManager;
++
++public class AnimalController {
++
++    protected EntityManager db;
++
++    public AnimalController(EntityManager manager) {
++        this.db = manager;
++    }
++
++    public void createAnimal(String name, Customer owner, String type, String postage) {
++        try {
++            Animal newAnimal = new Animal();
++            newAnimal.fromFields(name, owner, type, postage);
++
++            db.getTransaction().begin();
++            db.persist(newAnimal);
++            db.getTransaction().commit();
++        } catch (RuntimeErrorException e) {
++            throw e;
++        }
++    }
+ }
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/controller/CustomerController.java b/src/src/main/java/com/sghpet/sgh/pet/controller/CustomerController.java
+index dac8f89..f8e0459 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/controller/CustomerController.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/controller/CustomerController.java
+@@ -76,5 +76,35 @@ public class CustomerController {
+      */
+     public Customer findCustomerByCPF(String cpf) throws RuntimeException {
+         return (Customer) this.repository.find(cpf);
++import javax.persistence.EntityManager;
++
++public class CustomerController {
++
++    private EntityManager customerStore;
++
++    public CustomerController(EntityManager customerStore) {
++        this.customerStore = customerStore;
++    }
++
++    public void createUser(String name, String cpf, String address, String phone) {
++        Customer customer = new Customer(name, cpf, address, phone);
++        this.customerStore.getTransaction().begin();
++        this.customerStore.persist(customer);
++        this.customerStore.getTransaction().commit();
++    }
++
++    public Customer getCustumer(int id) {
++        return this.customerStore.find(Customer.class, id);
++    }
++
++    public Customer findCustomerByCPF(String cpf) {
++        customerStore.getTransaction().begin();
++//        var res = this.customerStore.createQuery(
++//                "SELECT id FROM customer WHERE cpf=:cpf")
++//                .setParameter("cpf", cpf)
++//                .setMaxResults(10)
++//                .getResultList();
++//        System.out.println(res);
++        return null;
+     }
+ }
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/controller/ReservationController.java b/src/src/main/java/com/sghpet/sgh/pet/controller/ReservationController.java
+index 5cf7622..5adbfc2 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/controller/ReservationController.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/controller/ReservationController.java
+@@ -46,5 +46,14 @@ public class ReservationController {
+             ReservationController.controller = new ReservationController(repository);
+         }
+         return ReservationController.controller;
++import com.sghpet.sgh.pet.model.Reservation;
++import javax.persistence.EntityManager;
++
++public class ReservationController {
++
++    private EntityManager repository;
++
++    public void createReservation(int typeOfStay, String startDate, String endDate) {
++        var reservation = new Reservation(startDate, endDate, typeOfStay, 0);
+     }
+ }
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/controller/ServicesController.java b/src/src/main/java/com/sghpet/sgh/pet/controller/ServicesController.java
+index 0700572..b63966f 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/controller/ServicesController.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/controller/ServicesController.java
+@@ -1,6 +1,8 @@
+ package com.sghpet.sgh.pet.controller;
+ 
++import com.sghpet.sgh.pet.model.Reservation;
+ import com.sghpet.sgh.pet.model.Services;
++import com.sghpet.sgh.pet.model.ServicesList;
+ import com.sghpet.sgh.pet.model.dao.ServicesDAO;
+ import com.sun.istack.NotNull;
+ import java.util.List;
+@@ -24,7 +26,9 @@ public class ServicesController {
+         return ServicesController.controller;
+     }
+ 
+-    public void create(Services service) {
++    public void createService(ServicesList serviceType, float price, Reservation reservation, String description) {
++        var service = new Services(serviceType, price, reservation, description);
++        
+         this.repository.create(service);
+     }
+ 
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/model/Accomodation.java b/src/src/main/java/com/sghpet/sgh/pet/model/Accomodation.java
+index 9ad0494..6bfe367 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/model/Accomodation.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/model/Accomodation.java
+@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
+ import javax.persistence.Id;
+ import lombok.Data;
+ import lombok.NoArgsConstructor;
++import lombok.NonNull;
+ import lombok.RequiredArgsConstructor;
+ import lombok.ToString;
+ 
+@@ -16,6 +17,8 @@ import lombok.ToString;
+ @RequiredArgsConstructor
+ @ToString
+ @NoArgsConstructor
++@NoArgsConstructor
++@ToString
+ public class Accomodation implements Serializable {
+ 
+     @Id
+@@ -26,5 +29,10 @@ public class Accomodation implements Serializable {
+     @NotNull
+     private int capacity;
+     @NotNull
++    @NonNull
++    private float size;
++    @NonNull
++    private int capacity;
++    @NonNull
+     private int vacant;
+ }
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/model/Animal.java b/src/src/main/java/com/sghpet/sgh/pet/model/Animal.java
+index 10029a1..73740fb 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/model/Animal.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/model/Animal.java
+@@ -44,6 +44,7 @@ public class Animal implements Serializable {
+     private int lastBathTime;
+ 
+     public Animal(String name, Customer owner, String type, String postage, boolean hasMedicalCondition) {
++    public void fromFields(String name, Customer owner, String type, String postage) {
+         int animal_type = -1;
+         int animal_postage = -1;
+         switch (type) {
+@@ -65,6 +66,10 @@ public class Animal implements Serializable {
+                 break;
+             case "Grande":
+                 animal_postage = 2;
++                animal_type = 1;
++                break;
++            case "Grange":
++                animal_type = 2;
+                 break;
+             default:
+                 throw new AssertionError();
+@@ -74,6 +79,7 @@ public class Animal implements Serializable {
+         this.type = animal_type;
+         this.postage = animal_postage;
+         this.hasMedicalCondition = hasMedicalCondition;
++        this.hasMedicalCondition = false;
+         this.placeOfStay = new Accomodation();
+         this.lastBathTime = 0;
+     }
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/model/Employee.java b/src/src/main/java/com/sghpet/sgh/pet/model/Employee.java
+index 4007531..5bd6483 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/model/Employee.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/model/Employee.java
+@@ -20,6 +20,11 @@ public class Employee implements Serializable {
+     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+     protected int id;
+     @NonNull
++public class Employee {
++import lombok.RequiredArgsConstructor;
++import lombok.ToString;
++public class Employee {
++
+     protected String name;
+     @NonNull
+     protected String cpf;
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/model/TmAnimal.java b/src/src/main/java/com/sghpet/sgh/pet/model/TmAnimal.java
+index 0defd15..4856a9b 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/model/TmAnimal.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/model/TmAnimal.java
+@@ -1,50 +1,60 @@
+ package com.sghpet.sgh.pet.model;
+ 
++import java.util.Arrays;
+ import java.util.List;
+ import javax.swing.table.AbstractTableModel;
+ 
+ public class TmAnimal extends AbstractTableModel {
+ 
+-    private final List<Animal> lista;
++    private final List<Animal> list;
++    
++    private final int COL_SIZE = 5;
+ 
+     private final int COL_NOME = 0;
+-    private final int COL_TYPE = 1;
+-    private final int COL_MEDICAL_CONDITION = 2;
+-    private final int COL_LAST_BATH = 3;
+-
+-    public TmAnimal(List<Animal> lstCustomers) {
+-        lista = lstCustomers;
++    private final int COL_OWNER = 1;
++    private final int COL_TYPE = 2;
++    private final int COL_POSTAGE = 3;
++    private final int COL_MEDICAL_CONDITION = 4;
++    
++    private final List<String> lstAnimalType = Arrays.asList("Cachorro","Gato","Pássaro","Peixe");
++    private final List<String> lstAnimalPostage = Arrays.asList("Pequeno","Médio","Grande");
++    
++    public TmAnimal(List<Animal> lstAnimals) {
++        this.list = lstAnimals;
+     }
+ 
+     @Override
+     public int getRowCount() {
+-        return lista.size();
++        return this.list.size();
+     }
+ 
+     @Override
+     public int getColumnCount() {
+-        return 4;
++        return COL_SIZE;
+     }
+ 
+     @Override
+     public Object getValueAt(int rowIndex, int columnIndex) {
+-        if (lista.isEmpty()) {
++        if (list.isEmpty()) {
+             return "";
+         } else {
+-            Animal aux = (Animal) lista.get(rowIndex);
++            Animal aux = (Animal) list.get(rowIndex);
+ 
+             switch (columnIndex) {
+                 case COL_NOME -> {
+                     return aux.getName();
+                 }
++                case COL_OWNER -> {
++                    return aux.getOwner().getName();
++                }
+                 case COL_TYPE -> {
+-                    return aux.getType();
++                    return lstAnimalType.get(aux.getType());
+                 }
+-                case COL_MEDICAL_CONDITION -> {
+-                    return "n";
++                case COL_POSTAGE -> {
++                    return lstAnimalPostage.get(aux.getPostage());
+                 }
+-                case COL_LAST_BATH -> {
+-                    return aux.getLastBathTime();
++                case COL_MEDICAL_CONDITION -> {
++                    return (aux.isHasMedicalCondition()) ? "Sim" : "Não";
+                 }
+                 default -> {
+                 }
+@@ -57,22 +67,24 @@ public class TmAnimal extends AbstractTableModel {
+     public String getColumnName(int column) {
+         switch (column) {
+             case COL_NOME -> {
+-                return "Nome";
+-            }
+-            case COL_MEDICAL_CONDITION -> {
+-                return "Condição médica?";
+-            }
+-            case COL_LAST_BATH -> {
+-                return "Ultimo banho";
+-            }
+-            case COL_TYPE -> {
+-                return "Tipo";
+-            }
+-            default -> {
+-                break;
+-            }
++                    return "Nome";
++                }
++                case COL_OWNER -> {
++                    return "Dono";
++                }
++                case COL_TYPE -> {
++                    return "Tipo";
++                }
++                case COL_POSTAGE -> {
++                    return "Porte";
++                }
++                case COL_MEDICAL_CONDITION -> {
++                    return "Condição médica?";
++                }
++                default -> {
++                    break;
++                }
+         }
+-
+         return "";
+     }
+ }
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/view/FrAnimalCareFunction.java b/src/src/main/java/com/sghpet/sgh/pet/view/FrAnimalCareFunction.java
+index c675d82..b1d522f 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/view/FrAnimalCareFunction.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/view/FrAnimalCareFunction.java
+@@ -11,7 +11,7 @@ public class FrAnimalCareFunction extends javax.swing.JFrame {
+     }
+ 
+     private void updateTable() {
+-        var animals = AnimalController.getAnimalController().listAnials();
++        var animals = AnimalController.getAnimalController().listAnimals();
+         var tmCustomer = new TmAnimal(animals);
+         JTableAnimal.setModel(tmCustomer);
+     }
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/view/FrAnimalRegister.form b/src/src/main/java/com/sghpet/sgh/pet/view/FrAnimalRegister.form
+index 7709914..ebd509e 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/view/FrAnimalRegister.form
++++ b/src/src/main/java/com/sghpet/sgh/pet/view/FrAnimalRegister.form
+@@ -49,9 +49,9 @@
+                                   <Group type="102" attributes="0">
+                                       <Component id="lblType" min="-2" pref="51" max="-2" attributes="0"/>
+                                       <EmptySpace max="-2" attributes="0"/>
+-                                      <Component id="bxType" min="-2" pref="140" max="-2" attributes="0"/>
++                                      <Component id="bxAnimalType" min="-2" pref="140" max="-2" attributes="0"/>
+                                   </Group>
+-                                  <Group type="102" attributes="0">
++                                  <Group type="102" alignment="0" attributes="0">
+                                       <Component id="lblPostage" min="-2" pref="51" max="-2" attributes="0"/>
+                                       <EmptySpace max="-2" attributes="0"/>
+                                       <Component id="bxPostage" min="-2" pref="140" max="-2" attributes="0"/>
+@@ -70,6 +70,8 @@
+                               <EmptySpace max="-2" attributes="0"/>
+                               <Component id="btnDelet" min="-2" pref="100" max="-2" attributes="0"/>
+                               <EmptySpace max="-2" attributes="0"/>
++                              <Component id="btnCancel" min="-2" pref="100" max="-2" attributes="0"/>
++                              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                               <Component id="btnSave" min="-2" pref="100" max="-2" attributes="0"/>
+                           </Group>
+                       </Group>
+@@ -85,14 +87,17 @@
+           <Group type="102" alignment="0" attributes="0">
+               <Group type="103" groupAlignment="0" attributes="0">
+                   <Component id="lblMenu" min="-2" pref="42" max="-2" attributes="0"/>
+-                  <Component id="btnBack" min="-2" max="-2" attributes="0"/>
++                  <Group type="102" alignment="0" attributes="0">
++                      <EmptySpace max="-2" attributes="0"/>
++                      <Component id="btnBack" min="-2" max="-2" attributes="0"/>
++                  </Group>
+               </Group>
+               <EmptySpace type="separate" max="-2" attributes="0"/>
+               <Group type="103" groupAlignment="3" attributes="0">
+                   <Component id="lblName" alignment="3" min="-2" max="-2" attributes="0"/>
+                   <Component id="edtName" alignment="3" min="-2" max="-2" attributes="0"/>
+                   <Component id="lblType" alignment="3" min="-2" max="-2" attributes="0"/>
+-                  <Component id="bxType" alignment="3" min="-2" max="-2" attributes="0"/>
++                  <Component id="bxAnimalType" alignment="3" min="-2" max="-2" attributes="0"/>
+               </Group>
+               <EmptySpace type="separate" max="-2" attributes="0"/>
+               <Group type="103" groupAlignment="3" attributes="0">
+@@ -112,9 +117,10 @@
+                   <Component id="btnEdit" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                   <Component id="btnDelet" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                   <Component id="btnNew" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
++                  <Component id="btnCancel" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+               </Group>
+-              <EmptySpace type="separate" max="-2" attributes="0"/>
+-              <Component id="jScrollPane1" pref="172" max="32767" attributes="0"/>
++              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
++              <Component id="jScrollPane1" pref="185" max="32767" attributes="0"/>
+               <EmptySpace max="-2" attributes="0"/>
+           </Group>
+       </Group>
+@@ -127,7 +133,7 @@
+           <Font name="Roboto" size="18" style="0"/>
+         </Property>
+         <Property name="horizontalAlignment" type="int" value="0"/>
+-        <Property name="text" type="java.lang.String" value="Cadastro de Animal"/>
++        <Property name="text" type="java.lang.String" value="Gerenciador de Animal"/>
+         <Property name="toolTipText" type="java.lang.String" value=""/>
+       </Properties>
+     </Component>
+@@ -140,6 +146,9 @@
+       </Properties>
+     </Component>
+     <Component class="javax.swing.JTextField" name="edtName">
++      <Properties>
++        <Property name="enabled" type="boolean" value="false"/>
++      </Properties>
+       <Events>
+         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="edtNameActionPerformed"/>
+       </Events>
+@@ -152,7 +161,7 @@
+         <Property name="text" type="java.lang.String" value="Tipo:"/>
+       </Properties>
+     </Component>
+-    <Component class="javax.swing.JComboBox" name="bxType">
++    <Component class="javax.swing.JComboBox" name="bxAnimalType">
+       <Properties>
+         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+           <StringArray count="4">
+@@ -162,9 +171,10 @@
+             <StringItem index="3" value="Peixe"/>
+           </StringArray>
+         </Property>
++        <Property name="enabled" type="boolean" value="false"/>
+       </Properties>
+       <Events>
+-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bxTypeActionPerformed"/>
++        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bxAnimalTypeActionPerformed"/>
+       </Events>
+       <AuxValues>
+         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+@@ -187,6 +197,7 @@
+             <StringItem index="2" value="Grande"/>
+           </StringArray>
+         </Property>
++        <Property name="enabled" type="boolean" value="false"/>
+       </Properties>
+       <Events>
+         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bxPostageActionPerformed"/>
+@@ -242,16 +253,16 @@
+         <Component class="javax.swing.JTable" name="JTableAnimal">
+           <Properties>
+             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+-              <Table columnCount="5" rowCount="2">
+-                <Column editable="true" title="Nome" type="java.lang.String"/>
+-                <Column editable="true" title="Dono" type="java.lang.String"/>
+-                <Column editable="true" title="Tipo" type="java.lang.String"/>
+-                <Column editable="true" title="Porte" type="java.lang.String"/>
+-                <Column editable="true" title="Condi&#xe7;&#xe3;o M&#xe9;dica" type="java.lang.Boolean"/>
++              <Table columnCount="5" rowCount="0">
++                <Column editable="false" title="Nome" type="java.lang.String"/>
++                <Column editable="false" title="Dono" type="java.lang.String"/>
++                <Column editable="false" title="Tipo" type="java.lang.String"/>
++                <Column editable="false" title="Porte" type="java.lang.String"/>
++                <Column editable="false" title="Condi&#xe7;&#xe3;o M&#xe9;dica" type="java.lang.Boolean"/>
+               </Table>
+             </Property>
+             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+-              <TableColumnModel selectionModel="0">
++              <TableColumnModel selectionModel="1">
+                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                   <Title/>
+                   <Editor/>
+@@ -279,6 +290,7 @@
+                 </Column>
+               </TableColumnModel>
+             </Property>
++            <Property name="columnSelectionAllowed" type="boolean" value="true"/>
+             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+             </Property>
+@@ -289,7 +301,7 @@
+     <Component class="javax.swing.JButton" name="btnEdit">
+       <Properties>
+         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+-          <Font name="Roboto" size="18" style="1"/>
++          <Font name="Roboto" size="14" style="1"/>
+         </Property>
+         <Property name="text" type="java.lang.String" value="Editar"/>
+       </Properties>
+@@ -300,7 +312,7 @@
+     <Component class="javax.swing.JButton" name="btnDelet">
+       <Properties>
+         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+-          <Font name="Roboto" size="18" style="1"/>
++          <Font name="Roboto" size="14" style="1"/>
+         </Property>
+         <Property name="text" type="java.lang.String" value="Excluir"/>
+       </Properties>
+@@ -311,7 +323,7 @@
+     <Component class="javax.swing.JButton" name="btnNew">
+       <Properties>
+         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+-          <Font name="Roboto" size="18" style="1"/>
++          <Font name="Roboto" size="14" style="1"/>
+         </Property>
+         <Property name="text" type="java.lang.String" value="Novo"/>
+       </Properties>
+@@ -320,6 +332,20 @@
+       </Events>
+     </Component>
+     <Component class="javax.swing.JFormattedTextField" name="fEdtOwner">
++      <Properties>
++        <Property name="enabled" type="boolean" value="false"/>
++      </Properties>
++    </Component>
++    <Component class="javax.swing.JButton" name="btnCancel">
++      <Properties>
++        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
++          <Font name="Roboto" size="14" style="1"/>
++        </Property>
++        <Property name="text" type="java.lang.String" value="Cancelar"/>
++      </Properties>
++      <Events>
++        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
++      </Events>
+     </Component>
+   </SubComponents>
+ </Form>
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/view/FrAnimalRegister.java b/src/src/main/java/com/sghpet/sgh/pet/view/FrAnimalRegister.java
+index 863a9a6..f8b8d84 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/view/FrAnimalRegister.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/view/FrAnimalRegister.java
+@@ -17,12 +17,26 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+     public FrAnimalRegister() {
+         this.controller = AnimalController.getAnimalController();
+         this.customers = CustomerController.getCustomerController();
++import com.sghpet.sgh.pet.model.Customer;
++
++public class FrAnimalRegister extends javax.swing.JFrame {
++
++    private final AnimalController controller;
++
++    public FrAnimalRegister(AnimalController controller) {
++        this.controller = controller;
+         initComponents();
++        controller.updateTable(this.JTableAnimal); //updateTable();
+         updateTable();
+         addMaskToFields();
+     }
+ 
+     private void updateTable() {
++        var animals = AnimalController.getAnimalController().listAnimals();
++        var tmCustomer = new TmAnimal(animals);
++        JTableAnimal.setModel(tmCustomer);
++    }
++ 
+         var animals = AnimalController.getAnimalController().listAnials();
+         var tmCustomer = new TmAnimal(animals);
+         JTableAnimal.setModel(tmCustomer);
+@@ -38,7 +52,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+         lblName = new javax.swing.JLabel();
+         edtName = new javax.swing.JTextField();
+         lblType = new javax.swing.JLabel();
+-        bxType = new javax.swing.JComboBox<>();
++        bxAnimalType = new javax.swing.JComboBox<>();
+         lblPostage = new javax.swing.JLabel();
+         bxPostage = new javax.swing.JComboBox<>();
+         lblOwner = new javax.swing.JLabel();
+@@ -52,17 +66,20 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+         btnDelet = new javax.swing.JButton();
+         btnNew = new javax.swing.JButton();
+         fEdtOwner = new javax.swing.JFormattedTextField();
++        btnCancel = new javax.swing.JButton();
+ 
+         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+ 
+         lblMenu.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+         lblMenu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+-        lblMenu.setText("Cadastro de Animal");
++        lblMenu.setText("Gerenciador de Animal");
+         lblMenu.setToolTipText("");
+ 
+         lblName.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+         lblName.setText("Nome:");
+ 
++        edtName.setEnabled(false);
++        edtName.setForeground(new java.awt.Color(207, 209, 208));
+         edtName.addActionListener(new java.awt.event.ActionListener() {
+             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                 edtNameActionPerformed(evt);
+@@ -72,10 +89,11 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+         lblType.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+         lblType.setText("Tipo:");
+ 
+-        bxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cachorro", "Gato", "Ave", "Peixe" }));
+-        bxType.addActionListener(new java.awt.event.ActionListener() {
++        bxAnimalType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cachorro", "Gato", "Ave", "Peixe" }));
++        bxAnimalType.setEnabled(false);
++        bxAnimalType.addActionListener(new java.awt.event.ActionListener() {
+             public void actionPerformed(java.awt.event.ActionEvent evt) {
+-                bxTypeActionPerformed(evt);
++                bxAnimalTypeActionPerformed(evt);
+             }
+         });
+ 
+@@ -83,6 +101,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+         lblPostage.setText("Porte:");
+ 
+         bxPostage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pequeno", "Médio", "Grande" }));
++        bxPostage.setEnabled(false);
+         bxPostage.addActionListener(new java.awt.event.ActionListener() {
+             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                 bxPostageActionPerformed(evt);
+@@ -92,6 +111,12 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+         lblOwner.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+         lblOwner.setText("Dono:");
+ 
++        edtOwner.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++                edtOwnerActionPerformed(evt);
++            }
++        });
++
+         lblMedicalCondition.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+         lblMedicalCondition.setText("Condição médica?");
+ 
+@@ -112,8 +137,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+ 
+         JTableAnimal.setModel(new javax.swing.table.DefaultTableModel(
+             new Object [][] {
+-                {null, null, null, null, null},
+-                {null, null, null, null, null}
++
+             },
+             new String [] {
+                 "Nome", "Dono", "Tipo", "Porte", "Condição Médica"
+@@ -122,12 +146,55 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+             Class[] types = new Class [] {
+                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+             };
++            boolean[] canEdit = new boolean [] {
++                false, false, false, false, false
++            };
+ 
+             public Class getColumnClass(int columnIndex) {
+                 return types [columnIndex];
+             }
++
++            public boolean isCellEditable(int rowIndex, int columnIndex) {
++                return canEdit [columnIndex];
++            }
+         });
++        JTableAnimal.setColumnSelectionAllowed(true);
+         jScrollPane1.setViewportView(JTableAnimal);
++        JTableAnimal.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
++
++        btnEdit.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
++        btnEdit.setText("Editar");
++        btnEdit.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++                btnEditActionPerformed(evt);
++            }
++        });
++
++        btnDelet.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
++        btnDelet.setText("Excluir");
++        btnDelet.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++                btnDeletActionPerformed(evt);
++            }
++        });
++
++        btnNew.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
++        btnNew.setText("Novo");
++        btnNew.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++                btnNewActionPerformed(evt);
++            }
++        });
++
++        fEdtOwner.setEnabled(false);
++
++        btnCancel.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
++        btnCancel.setText("Cancelar");
++        btnCancel.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++                btnCancelActionPerformed(evt);
++            }
++        });
+ 
+         btnEdit.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+         btnEdit.setText("Editar");
+@@ -175,16 +242,20 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                     .addComponent(edtName, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
+                                     .addComponent(fEdtOwner))
++                                    .addComponent(edtOwner, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
++                                    .addComponent(edtName))
+                                 .addGap(45, 45, 45)
+                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                     .addGroup(layout.createSequentialGroup()
+                                         .addComponent(lblType, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
++                                        .addComponent(bxAnimalType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                         .addComponent(bxType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                     .addGroup(layout.createSequentialGroup()
+                                         .addComponent(lblPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                         .addComponent(bxPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
++                                .addComponent(bxType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                             .addGroup(layout.createSequentialGroup()
+                                 .addComponent(lblMedicalCondition)
+                                 .addGap(18, 18, 18)
+@@ -196,6 +267,16 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                 .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
++                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
++                                .addGap(52, 52, 52)
++                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
++                        .addGap(0, 0, Short.MAX_VALUE)))
++                                .addComponent(bxPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
++                    .addGroup(layout.createSequentialGroup()
++                        .addComponent(lblMedicalCondition)
++                        .addGap(18, 18, 18)
++                        .addComponent(ckbxMedicalCondition))
++                    .addComponent(btnSend, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                         .addGap(0, 0, Short.MAX_VALUE)))
+                 .addContainerGap())
+@@ -205,13 +286,15 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+             .addGroup(layout.createSequentialGroup()
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addComponent(lblMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+-                    .addComponent(btnBack))
++                    .addGroup(layout.createSequentialGroup()
++                        .addContainerGap()
++                        .addComponent(btnBack)))
+                 .addGap(18, 18, 18)
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(lblName)
+                     .addComponent(edtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(lblType)
+-                    .addComponent(bxType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
++                    .addComponent(bxAnimalType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                 .addGap(18, 18, 18)
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(lblOwner)
+@@ -227,10 +310,15 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
++                    .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
++                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
++                .addGap(40, 40, 40)
++                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
++                .addContainerGap())
+                     .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                 .addGap(18, 18, 18)
+-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+-                .addContainerGap())
++                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
++                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+         );
+ 
+         pack();
+@@ -239,6 +327,8 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+     private void edtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtNameActionPerformed
+     }//GEN-LAST:event_edtNameActionPerformed
+ 
++    private void bxAnimalTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bxAnimalTypeActionPerformed
++    }//GEN-LAST:event_bxAnimalTypeActionPerformed
+     private void bxTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bxTypeActionPerformed
+     }//GEN-LAST:event_bxTypeActionPerformed
+ 
+@@ -248,7 +338,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+         var name = edtName.getText();
+         var owner_cpf = fEdtOwner.getText();
+-        var type = bxType.getSelectedItem().toString();
++        var type = bxAnimalType.getSelectedItem().toString();
+         var postage = bxPostage.getSelectedItem().toString();
+         var hasMedicalCondition = ckbxMedicalCondition.isSelected();
+         Customer owner;
+@@ -275,22 +365,75 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+     }//GEN-LAST:event_btnDeletActionPerformed
+ 
+     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+-        // TODO add your handling code here:
++        edtName.setEnabled(true);
++        fEdtOwner.setEnabled(true);
++        bxAnimalType.setEnabled(true);
++        bxPostage.setEnabled(true);
+     }//GEN-LAST:event_btnNewActionPerformed
+ 
+     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+         this.setVisible(false);
+     }//GEN-LAST:event_btnBackActionPerformed
+ 
++    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
++        edtName.setText("");
++        edtName.setEnabled(false);
++        
++        fEdtOwner.setText("");
++        fEdtOwner.setEnabled(false);
++      
++        bxAnimalType.setSelectedIndex(0);
++        bxAnimalType.setEnabled(false);
++        
++        bxPostage.setSelectedIndex(0);
++        bxPostage.setEnabled(false);
++    }//GEN-LAST:event_btnCancelActionPerformed
++    private void edtOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtOwnerActionPerformed
++    }//GEN-LAST:event_edtOwnerActionPerformed
++
++    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
++        String name = edtName.getText();
++//        String owner = edtOwner.getText();
++        String type = bxType.getSelectedItem().toString();
++        String postage = bxPostage.getSelectedItem().toString();
++        String hasMedicalCondition = ckbxMedicalCondition.getActionCommand();
++        Customer owner = new Customer();
++        this.controller.createAnimal(name, owner, type, postage);
++    }//GEN-LAST:event_btnSendActionPerformed
++    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
++        var name = edtName.getText();
++        var owner_cpf = edtOwner.getText();
++        var type = bxType.getSelectedItem().toString();
++        var postage = bxPostage.getSelectedItem().toString();
++        var hasMedicalCondition = ckbxMedicalCondition.isSelected();
++        var owner = this.customers.findCustomerByCPF(owner_cpf);
++
++        this.controller.createAnimal(name, owner, type, postage, hasMedicalCondition);
++    }//GEN-LAST:event_btnSaveActionPerformed
++
++    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
++        // TODO add your handling code here:
++    }//GEN-LAST:event_btnEditActionPerformed
++
++    private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
++        // TODO add your handling code here:
++    }//GEN-LAST:event_btnDeletActionPerformed
++
++    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
++        // TODO add your handling code here:
++    }//GEN-LAST:event_btnNewActionPerformed
++
+     // Variables declaration - do not modify//GEN-BEGIN:variables
+     private javax.swing.JTable JTableAnimal;
+     private javax.swing.JButton btnBack;
++    private javax.swing.JButton btnCancel;
+     private javax.swing.JButton btnDelet;
+     private javax.swing.JButton btnEdit;
+     private javax.swing.JButton btnNew;
+     private javax.swing.JButton btnSave;
++    private javax.swing.JComboBox<String> bxAnimalType;
++    private javax.swing.JButton btnSend;
+     private javax.swing.JComboBox<String> bxPostage;
+-    private javax.swing.JComboBox<String> bxType;
+     private javax.swing.JCheckBox ckbxMedicalCondition;
+     private javax.swing.JTextField edtName;
+     private javax.swing.JFormattedTextField fEdtOwner;
+@@ -307,6 +450,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
+         try {
+             MaskFormatter maskOwner = new MaskFormatter("###.###.###-##");
+             maskOwner.install(fEdtOwner);
++            
+         } catch (ParseException e) {
+             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
+         }
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/view/FrClerkFunction.form b/src/src/main/java/com/sghpet/sgh/pet/view/FrClerkFunction.form
+index 4558a60..6f9b63f 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/view/FrClerkFunction.form
++++ b/src/src/main/java/com/sghpet/sgh/pet/view/FrClerkFunction.form
+@@ -76,6 +76,7 @@
+               <EmptySpace type="separate" max="-2" attributes="0"/>
+               <Component id="lblListAccommodation" min="-2" pref="35" max="-2" attributes="0"/>
+               <EmptySpace max="-2" attributes="0"/>
++              <Component id="jScrollPane3" pref="80" max="32767" attributes="0"/>
+               <Component id="jScrollPane3" pref="83" max="32767" attributes="0"/>
+               <EmptySpace max="-2" attributes="0"/>
+           </Group>
+@@ -110,7 +111,7 @@
+                   <Data value="Tosa"/>
+                   <Data value="null"/>
+                 </Column>
+-                <Column editable="true" title="Pre&#xe7;o" type="java.lang.Float">
++                <Column editable="false" title="Pre&#xe7;o" type="java.lang.Float">
+                   <Data value="50.0"/>
+                   <Data value="30.0"/>
+                   <Data value="20.0"/>
+@@ -122,7 +123,7 @@
+                   <Data value="Reduzir pelagem"/>
+                   <Data value="null"/>
+                 </Column>
+-                <Column editable="true" title="Infos" type="java.lang.String">
++                <Column editable="false" title="Infos" type="java.lang.String">
+                   <Data value="null"/>
+                   <Data value="2x por dia"/>
+                   <Data value="1x por estadia"/>
+@@ -253,7 +254,7 @@
+                   <Data value="3"/>
+                   <Data value="4"/>
+                 </Column>
+-                <Column editable="true" title="Vagas" type="java.lang.Integer">
++                <Column editable="false" title="Vagas" type="java.lang.Integer">
+                   <Data value="3"/>
+                   <Data value="1"/>
+                 </Column>
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/view/FrClerkFunction.java b/src/src/main/java/com/sghpet/sgh/pet/view/FrClerkFunction.java
+index 23a596a..2c9df84 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/view/FrClerkFunction.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/view/FrClerkFunction.java
+@@ -45,7 +45,7 @@ public class FrClerkFunction extends javax.swing.JFrame {
+                 java.lang.String.class, java.lang.Float.class, java.lang.String.class, java.lang.String.class
+             };
+             boolean[] canEdit = new boolean [] {
+-                false, true, false, true
++                false, false, false, false
+             };
+ 
+             public Class getColumnClass(int columnIndex) {
+@@ -122,7 +122,7 @@ public class FrClerkFunction extends javax.swing.JFrame {
+                 java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+             };
+             boolean[] canEdit = new boolean [] {
+-                false, false, true
++                false, false, false
+             };
+ 
+             public Class getColumnClass(int columnIndex) {
+@@ -186,6 +186,7 @@ public class FrClerkFunction extends javax.swing.JFrame {
+                 .addGap(18, 18, 18)
+                 .addComponent(lblListAccommodation, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
++                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                 .addContainerGap())
+         );
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/view/FrCustomerRegister.form b/src/src/main/java/com/sghpet/sgh/pet/view/FrCustomerRegister.form
+index ad17708..1b66ec0 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/view/FrCustomerRegister.form
++++ b/src/src/main/java/com/sghpet/sgh/pet/view/FrCustomerRegister.form
+@@ -24,7 +24,6 @@
+     <DimensionLayout dim="0">
+       <Group type="103" groupAlignment="0" attributes="0">
+           <Group type="102" attributes="0">
+-              <EmptySpace max="-2" attributes="0"/>
+               <Group type="103" groupAlignment="0" attributes="0">
+                   <Group type="102" alignment="0" attributes="0">
+                       <Component id="btnBack" min="-2" max="-2" attributes="0"/>
+@@ -61,6 +60,48 @@
+                       <Component id="lblPhone" min="-2" pref="51" max="-2" attributes="0"/>
+                       <EmptySpace max="-2" attributes="0"/>
+                       <Component id="fEdtPhone" max="32767" attributes="0"/>
++                  <Group type="102" attributes="0">
++                      <EmptySpace max="-2" attributes="0"/>
++                      <Group type="103" groupAlignment="0" attributes="0">
++                          <Group type="102" attributes="0">
++                              <Group type="103" groupAlignment="0" attributes="0">
++                                  <Component id="lblCPF" alignment="0" min="-2" pref="51" max="-2" attributes="0"/>
++                                  <Component id="lblName" alignment="0" min="-2" pref="51" max="-2" attributes="0"/>
++                              </Group>
++                              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
++                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
++                                  <Component id="edtName" max="32767" attributes="0"/>
++                                  <Component id="edtCpf" pref="228" max="32767" attributes="0"/>
++                              </Group>
++                              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
++                              <Component id="lblPhone" min="-2" pref="51" max="-2" attributes="0"/>
++                              <EmptySpace min="-2" max="-2" attributes="0"/>
++                              <Component id="edtPhone" pref="247" max="32767" attributes="0"/>
++                          </Group>
++                          <Group type="102" alignment="0" attributes="0">
++                              <Component id="btnBack" min="-2" max="-2" attributes="0"/>
++                              <EmptySpace max="-2" attributes="0"/>
++                              <Component id="lblMenu" max="32767" attributes="0"/>
++                          </Group>
++                          <Component id="jScrollPane1" max="32767" attributes="0"/>
++                          <Group type="102" alignment="0" attributes="0">
++                              <Component id="lblAddres" min="-2" pref="70" max="-2" attributes="0"/>
++                              <EmptySpace max="-2" attributes="0"/>
++                              <Component id="edtAddres" max="32767" attributes="0"/>
++                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
++                          </Group>
++                      </Group>
++                  </Group>
++                  <Group type="102" attributes="0">
++                      <EmptySpace max="-2" attributes="0"/>
++                      <Component id="btnNew" min="-2" pref="100" max="-2" attributes="0"/>
++                      <EmptySpace max="-2" attributes="0"/>
++                      <Component id="btnEdit" min="-2" pref="100" max="-2" attributes="0"/>
++                      <EmptySpace max="-2" attributes="0"/>
++                      <Component id="btnDelet" min="-2" pref="100" max="-2" attributes="0"/>
++                      <EmptySpace max="-2" attributes="0"/>
++                      <Component id="btnSave" min="-2" pref="100" max="-2" attributes="0"/>
++                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                   </Group>
+               </Group>
+               <EmptySpace max="-2" attributes="0"/>
+@@ -74,23 +115,24 @@
+                   <Component id="btnBack" min="-2" max="-2" attributes="0"/>
+                   <Component id="lblMenu" min="-2" pref="42" max="-2" attributes="0"/>
+               </Group>
+-              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
++              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+               <Group type="103" groupAlignment="3" attributes="0">
+                   <Component id="lblName" alignment="3" min="-2" max="-2" attributes="0"/>
+                   <Component id="edtName" alignment="3" min="-2" max="-2" attributes="0"/>
+                   <Component id="lblPhone" alignment="3" min="-2" max="-2" attributes="0"/>
+                   <Component id="fEdtPhone" alignment="3" min="-2" max="-2" attributes="0"/>
+               </Group>
+-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
++              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+               <Group type="103" groupAlignment="3" attributes="0">
+                   <Component id="lblCPF" alignment="3" min="-2" max="-2" attributes="0"/>
+                   <Component id="fEdtCpf" alignment="3" min="-2" max="-2" attributes="0"/>
+               </Group>
+-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
++              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+               <Group type="103" groupAlignment="3" attributes="0">
+                   <Component id="lblAddres" alignment="3" min="-2" max="-2" attributes="0"/>
+                   <Component id="edtAddres" alignment="3" min="-2" max="-2" attributes="0"/>
+               </Group>
++              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+               <EmptySpace type="unrelated" max="-2" attributes="0"/>
+               <Group type="103" groupAlignment="3" attributes="0">
+                   <Component id="btnSave" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+@@ -98,9 +140,22 @@
+                   <Component id="btnDelet" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                   <Component id="btnNew" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+               </Group>
+-              <EmptySpace type="separate" max="-2" attributes="0"/>
+-              <Component id="jScrollPane1" pref="164" max="32767" attributes="0"/>
++              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
++              <Component id="jScrollPane1" pref="146" max="32767" attributes="0"/>
+               <EmptySpace max="-2" attributes="0"/>
++              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
++              <EmptySpace type="separate" max="-2" attributes="0"/>
++              <Component id="btnSend" min="-2" pref="55" max="-2" attributes="0"/>
++              <EmptySpace type="unrelated" max="-2" attributes="0"/>
++              <Group type="103" groupAlignment="3" attributes="0">
++                  <Component id="btnSave" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
++                  <Component id="btnEdit" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
++                  <Component id="btnDelet" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
++                  <Component id="btnNew" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
++              </Group>
++              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
++              <Component id="jScrollPane1" min="-2" pref="250" max="-2" attributes="0"/>
++              <EmptySpace max="32767" attributes="0"/>
+           </Group>
+       </Group>
+     </DimensionLayout>
+@@ -137,6 +192,11 @@
+         <Property name="text" type="java.lang.String" value="CPF:"/>
+       </Properties>
+     </Component>
++    <Component class="javax.swing.JTextField" name="edtCpf">
++      <Events>
++        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="edtCpfActionPerformed"/>
++      </Events>
++    </Component>
+     <Component class="javax.swing.JLabel" name="lblAddres">
+       <Properties>
+         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+@@ -150,6 +210,11 @@
+         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="edtAddresActionPerformed"/>
+       </Events>
+     </Component>
++    <Component class="javax.swing.JTextField" name="edtPhone">
++      <Events>
++        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="edtPhoneActionPerformed"/>
++      </Events>
++    </Component>
+     <Component class="javax.swing.JLabel" name="lblPhone">
+       <Properties>
+         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/view/FrCustomerRegister.java b/src/src/main/java/com/sghpet/sgh/pet/view/FrCustomerRegister.java
+index 58fc996..840648c 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/view/FrCustomerRegister.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/view/FrCustomerRegister.java
+@@ -16,6 +16,17 @@ public class FrCustomerRegister extends javax.swing.JFrame {
+     JFrame telaAnterior;
+ 
+     public FrCustomerRegister(JFrame menu) {
++import javax.swing.JFrame;
++
++public class FrCustomerRegister extends javax.swing.JFrame {
++
++    //private final CustomerController controller;
++    JFrame telaAnterior;
++
++    public FrCustomerRegister(JFrame menu) {
++        //this.controller = controller;
++        this.telaAnterior = menu;
++        
+         initComponents();
+ 
+         this.controller = CustomerController.getCustomerController();
+@@ -25,6 +36,10 @@ public class FrCustomerRegister extends javax.swing.JFrame {
+         updateTable();
+         addMaskToFields();
+         this.enableFields(false);
++        initComponents();
++        
++        addMaskToFields();
++        this.enableFields(false);
+     }
+ 
+     @SuppressWarnings("unchecked")
+@@ -67,6 +82,12 @@ public class FrCustomerRegister extends javax.swing.JFrame {
+         lblCPF.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+         lblCPF.setText("CPF:");
+ 
++        edtCpf.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++                edtCpfActionPerformed(evt);
++            }
++        });
++
+         lblAddres.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+         lblAddres.setText("Endereço:");
+ 
+@@ -76,6 +97,12 @@ public class FrCustomerRegister extends javax.swing.JFrame {
+             }
+         });
+ 
++        edtPhone.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++                edtPhoneActionPerformed(evt);
++            }
++        });
++
+         lblPhone.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+         lblPhone.setText("Celular:");
+ 
+@@ -128,12 +155,43 @@ public class FrCustomerRegister extends javax.swing.JFrame {
+             }
+         });
+ 
++        btnNew.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
++        btnNew.setText("Novo");
++        btnNew.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++                btnNewActionPerformed(evt);
++            }
++        });
++
++        btnSave.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
++        btnSave.setText("Salvar");
++        btnSave.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++                btnSaveActionPerformed(evt);
++            }
++        });
++
++        btnEdit.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
++        btnEdit.setText("Editar");
++        btnEdit.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++                btnEditActionPerformed(evt);
++            }
++        });
++
++        btnDelet.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
++        btnDelet.setText("Excluir");
++        btnDelet.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++                btnDeletActionPerformed(evt);
++            }
++        });
++
+         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+         getContentPane().setLayout(layout);
+         layout.setHorizontalGroup(
+             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+             .addGroup(layout.createSequentialGroup()
+-                .addContainerGap()
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addGroup(layout.createSequentialGroup()
+                         .addComponent(btnBack)
+@@ -165,6 +223,40 @@ public class FrCustomerRegister extends javax.swing.JFrame {
+                         .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                         .addComponent(fEdtPhone)))
++                        .addContainerGap()
++                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
++                            .addGroup(layout.createSequentialGroup()
++                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
++                                    .addComponent(lblCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
++                                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
++                                .addGap(25, 25, 25)
++                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
++                                    .addComponent(edtName)
++                                    .addComponent(edtCpf, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
++                                .addGap(18, 18, 18)
++                                .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
++                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
++                                .addComponent(edtPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
++                            .addGroup(layout.createSequentialGroup()
++                                .addComponent(btnBack)
++                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
++                                .addComponent(lblMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
++                            .addComponent(jScrollPane1)
++                            .addGroup(layout.createSequentialGroup()
++                                .addComponent(lblAddres, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
++                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
++                                .addComponent(edtAddres)
++                                .addGap(6, 6, 6))))
++                    .addGroup(layout.createSequentialGroup()
++                        .addContainerGap()
++                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
++                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
++                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
++                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
++                        .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
++                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
++                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
++                        .addGap(0, 0, Short.MAX_VALUE)))
+                 .addContainerGap())
+         );
+         layout.setVerticalGroup(
+@@ -173,29 +265,41 @@ public class FrCustomerRegister extends javax.swing.JFrame {
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                     .addComponent(btnBack)
+                     .addComponent(lblMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+-                .addGap(18, 18, 18)
++                .addGap(40, 40, 40)
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(lblName)
+                     .addComponent(edtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(lblPhone)
+                     .addComponent(fEdtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
++                .addGap(30, 30, 30)
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(lblCPF)
+                     .addComponent(fEdtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
++                .addGap(30, 30, 30)
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(lblAddres)
+                     .addComponent(edtAddres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
++                .addGap(30, 30, 30)
+                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                     .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+-                .addGap(18, 18, 18)
+-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
++                .addGap(30, 30, 30)
++                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                 .addContainerGap())
++                .addGap(18, 18, 18)
++                .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
++                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
++                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
++                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
++                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
++                    .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
++                    .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
++                .addGap(18, 18, 18)
++                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
++                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+         );
+ 
+         pack();
+@@ -250,6 +354,28 @@ public class FrCustomerRegister extends javax.swing.JFrame {
+         edtName.setText(user.getName());
+         fEdtPhone.setText(user.getPhoneNumber());
+     }
++    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
++        var name = edtName.getText();
++        var cpf = edtCpf.getText();
++        var address = edtAddres.getText();
++        var phone = edtPhone.getText();
++        this.controller.createUser(name, cpf, address, phone);
++    }//GEN-LAST:event_btnSendActionPerformed
++    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
++        // TODO add your handling code here:
++    }//GEN-LAST:event_btnNewActionPerformed
++
++    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
++    
++    }//GEN-LAST:event_btnSaveActionPerformed
++
++    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
++        // TODO add your handling code here:
++    }//GEN-LAST:event_btnEditActionPerformed
++
++    private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
++        // TODO add your handling code here:
++    }//GEN-LAST:event_btnDeletActionPerformed
+ 
+     private void enableFields(boolean enabled) {
+         edtAddres.setEnabled(enabled);
+@@ -311,7 +437,7 @@ public class FrCustomerRegister extends javax.swing.JFrame {
+ 
+             MaskFormatter maskCpf = new MaskFormatter("###.###.###-##");
+             maskCpf.install(fEdtCpf);
+-
++            
+         } catch (ParseException e) {
+             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
+         }
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/view/FrEmployeeLogin.java b/src/src/main/java/com/sghpet/sgh/pet/view/FrEmployeeLogin.java
+index 94f01e2..8f0f43d 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/view/FrEmployeeLogin.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/view/FrEmployeeLogin.java
+@@ -14,6 +14,7 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
+     public FrEmployeeLogin() {
+         this.contr = EmployeeController.getEmployeeController();
+         this.initComponents();
++        
+         addMaskToFields();
+     }
+ 
+@@ -153,9 +154,10 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
+         try {
+             MaskFormatter maskLogin = new MaskFormatter("###.###.###-##");
+             maskLogin.install(fEdtLogin);
+-
+-        } catch (ParseException e) {
++            
++        } 
++        catch (ParseException e) {
+             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
+-        }
+-    }
++        }  
++    }     
+ }
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/view/FrMainMenu.java b/src/src/main/java/com/sghpet/sgh/pet/view/FrMainMenu.java
+index af6488f..1c6f6e1 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/view/FrMainMenu.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/view/FrMainMenu.java
+@@ -1,5 +1,6 @@
+ package com.sghpet.sgh.pet.view;
+ 
++
+ public class FrMainMenu extends javax.swing.JFrame {
+ 
+     public FrMainMenu() {
+@@ -82,6 +83,12 @@ public class FrMainMenu extends javax.swing.JFrame {
+         customerRegister.show();
+         this.setEnabled(false);
+ 
++        //this.setEnabled(false);
++       //FrCustomerRegister customerRegister = new FrCustomerRegister(this);
++       FrCustomerRegister customerRegister = new FrCustomerRegister();
++       customerRegister.show();
++       //this.setEnabled(false);
++        // TODO add your handling code here:
+     }//GEN-LAST:event_btnClientRegisterActionPerformed
+ 
+     private void btnAnimalRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnimalRegisterActionPerformed
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/view/FrManagerFunction.java b/src/src/main/java/com/sghpet/sgh/pet/view/FrManagerFunction.java
+index e39a63a..ea93a8c 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/view/FrManagerFunction.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/view/FrManagerFunction.java
+@@ -9,6 +9,7 @@ public class FrManagerFunction extends javax.swing.JFrame {
+ 
+     public FrManagerFunction() {
+         initComponents();
++        
+         addMaskToFields();
+     }
+ 
+@@ -193,7 +194,7 @@ public class FrManagerFunction extends javax.swing.JFrame {
+ 
+             MaskFormatter maskEndDate = new MaskFormatter("##/##/####");
+             maskEndDate.install(fEdtEndDate);
+-
++            
+         } catch (ParseException e) {
+             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
+         }
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/view/FrPaymentScreen.java b/src/src/main/java/com/sghpet/sgh/pet/view/FrPaymentScreen.java
+index 0ed4cf8..d341286 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/view/FrPaymentScreen.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/view/FrPaymentScreen.java
+@@ -150,6 +150,7 @@ public class FrPaymentScreen extends javax.swing.JFrame {
+         // TODO add your handling code here:
+     }//GEN-LAST:event_btnTotalPaymentActionPerformed
+ 
++   
+     /**
+      * @param args the command line arguments
+      */
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/view/FrReservationRegister.form b/src/src/main/java/com/sghpet/sgh/pet/view/FrReservationRegister.form
+index b58659f..e4b04fb 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/view/FrReservationRegister.form
++++ b/src/src/main/java/com/sghpet/sgh/pet/view/FrReservationRegister.form
+@@ -37,6 +37,9 @@
+                           <Group type="102" alignment="0" attributes="0">
+                               <Component id="lblServices" min="-2" pref="108" max="-2" attributes="0"/>
+                               <EmptySpace max="-2" attributes="0"/>
++                          <Group type="102" alignment="0" attributes="0">
++                              <Component id="lblServices" min="-2" pref="108" max="-2" attributes="0"/>
++                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                               <Component id="chckService1" min="-2" max="-2" attributes="0"/>
+                               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                               <Component id="chckService2" min="-2" max="-2" attributes="0"/>
+@@ -53,6 +56,9 @@
+                               <Component id="btnSave" min="-2" pref="100" max="-2" attributes="0"/>
+                           </Group>
+                           <Group type="102" alignment="0" attributes="0">
++                              <EmptySpace min="0" pref="236" max="32767" attributes="0"/>
++                          </Group>
++                          <Group type="102" alignment="1" attributes="0">
+                               <Group type="103" groupAlignment="0" attributes="0">
+                                   <Group type="102" alignment="0" attributes="0">
+                                       <Component id="lblStartDate" min="-2" pref="108" max="-2" attributes="0"/>
+@@ -77,10 +83,40 @@
+                               </Group>
+                               <EmptySpace max="-2" attributes="0"/>
+                               <Group type="103" groupAlignment="0" attributes="0">
++                                  <Component id="bxAnimalType" min="-2" pref="140" max="-2" attributes="0"/>
+                                   <Component id="bxAnimalName" min="-2" pref="140" max="-2" attributes="0"/>
+                                   <Component id="fEdtEndDate" min="-2" pref="173" max="-2" attributes="0"/>
+                               </Group>
+                           </Group>
++                              <EmptySpace type="separate" max="-2" attributes="0"/>
++                              <Component id="lblEndDate" min="-2" max="-2" attributes="0"/>
++                              <EmptySpace type="separate" max="-2" attributes="0"/>
++                              <Component id="edtEndDate" pref="170" max="32767" attributes="0"/>
++                          </Group>
++                          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
++                          <Group type="102" attributes="0">
++                              <Group type="103" groupAlignment="0" attributes="0">
++                                  <Group type="102" attributes="0">
++                                      <Component id="lblServices" min="-2" pref="108" max="-2" attributes="0"/>
++                                      <EmptySpace type="separate" max="-2" attributes="0"/>
++                                      <Component id="chckService1" min="-2" max="-2" attributes="0"/>
++                                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
++                                      <Component id="chckService2" min="-2" max="-2" attributes="0"/>
++                                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
++                                      <Component id="chckService3" min="-2" max="-2" attributes="0"/>
++                                  </Group>
++                                  <Group type="102" alignment="0" attributes="0">
++                                      <Component id="btnNew" min="-2" pref="100" max="-2" attributes="0"/>
++                                      <EmptySpace max="-2" attributes="0"/>
++                                      <Component id="btnEdit" min="-2" pref="100" max="-2" attributes="0"/>
++                                      <EmptySpace max="-2" attributes="0"/>
++                                      <Component id="btnDelet" min="-2" pref="100" max="-2" attributes="0"/>
++                                      <EmptySpace max="-2" attributes="0"/>
++                                      <Component id="btnSave" min="-2" pref="100" max="-2" attributes="0"/>
++                                  </Group>
++                              </Group>
++                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
++                          </Group>
+                       </Group>
+                   </Group>
+               </Group>
+@@ -103,6 +139,10 @@
+                   <Component id="lblMenu" min="-2" pref="42" max="-2" attributes="0"/>
+               </Group>
+               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
++              <Group type="103" groupAlignment="0" attributes="0">
++                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
++                      <Component id="lblAnimalType" alignment="3" min="-2" max="-2" attributes="0"/>
++                      <Component id="bxAnimalType" alignment="3" min="-2" max="-2" attributes="0"/>
+               <Group type="103" groupAlignment="3" attributes="0">
+                   <Component id="lblType2" alignment="3" min="-2" max="-2" attributes="0"/>
+                   <Component id="fEdtOwnerCpf" alignment="3" min="-2" max="-2" attributes="0"/>
+@@ -110,6 +150,10 @@
+                       <Component id="lblAnimalType" alignment="3" min="-2" max="-2" attributes="0"/>
+                       <Component id="bxAnimalName" alignment="3" min="-2" max="-2" attributes="0"/>
+                   </Group>
++                  <Group type="103" groupAlignment="3" attributes="0">
++                      <Component id="lblType2" alignment="3" min="-2" max="-2" attributes="0"/>
++                      <Component id="fEdtOwnerCpf" alignment="3" min="-2" max="-2" attributes="0"/>
++                  </Group>
+               </Group>
+               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+               <Group type="103" groupAlignment="3" attributes="0">
+@@ -138,7 +182,15 @@
+                       <Component id="btnNew" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                   </Group>
+                   <Component id="btnSave" min="-2" pref="40" max="-2" attributes="0"/>
++              <Group type="103" groupAlignment="3" attributes="0">
++                  <Component id="btnSave" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
++                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
++                      <Component id="btnEdit" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
++                      <Component id="btnDelet" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
++                      <Component id="btnNew" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
++                  </Group>
+               </Group>
++              <Component id="btnSend" min="-2" pref="55" max="-2" attributes="0"/>
+               <EmptySpace type="unrelated" max="-2" attributes="0"/>
+               <Group type="103" groupAlignment="3" attributes="0">
+                   <Component id="btnCheckIn" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+@@ -196,6 +248,11 @@
+         <Property name="text" type="java.lang.String" value="Data inicial:"/>
+       </Properties>
+     </Component>
++    <Component class="javax.swing.JTextField" name="edtStartDate">
++      <Events>
++        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="edtStartDateActionPerformed"/>
++      </Events>
++    </Component>
+     <Component class="javax.swing.JLabel" name="lblEndDate">
+       <Properties>
+         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+@@ -204,6 +261,11 @@
+         <Property name="text" type="java.lang.String" value="Data Final:"/>
+       </Properties>
+     </Component>
++    <Component class="javax.swing.JTextField" name="edtEndDate">
++      <Events>
++        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="edtEndDateActionPerformed"/>
++      </Events>
++    </Component>
+     <Component class="javax.swing.JLabel" name="lblServices">
+       <Properties>
+         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+@@ -349,10 +411,19 @@
+       </Events>
+     </Component>
+     <Component class="javax.swing.JComboBox" name="bxAnimalName">
++    <Component class="javax.swing.JComboBox" name="bxAnimalType">
+       <Properties>
+         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+           <StringArray count="0"/>
+         </Property>
++          <StringArray count="4">
++            <StringItem index="0" value="Cachorro"/>
++            <StringItem index="1" value="Gato"/>
++            <StringItem index="2" value="P&#xe1;ssaro"/>
++            <StringItem index="3" value="Peixe"/>
++          </StringArray>
++        </Property>
++        <Property name="toolTipText" type="java.lang.String" value=""/>
+       </Properties>
+       <AuxValues>
+         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+diff --git a/src/src/main/java/com/sghpet/sgh/pet/view/FrReservationRegister.java b/src/src/main/java/com/sghpet/sgh/pet/view/FrReservationRegister.java
+index 660dbe7..67587b8 100644
+--- a/src/src/main/java/com/sghpet/sgh/pet/view/FrReservationRegister.java
++++ b/src/src/main/java/com/sghpet/sgh/pet/view/FrReservationRegister.java
+@@ -14,6 +14,9 @@ import java.text.ParseException;
+ import java.util.List;
+ import javax.swing.JFrame;
+ import javax.swing.JOptionPane;
++import java.text.ParseException;
++import java.util.List;
++import javax.swing.JFrame;
+ import javax.swing.text.MaskFormatter;
+ import org.jboss.logging.Logger;
+ 
+@@ -37,6 +40,16 @@ public class FrReservationRegister extends javax.swing.JFrame {
+         var reservations = this.reservationController.listReservations();
+         var model = new TmReservation(reservations);
+         JTableRegister.setModel(model);
++        initComponents();
++        addMaskToFields();
++import com.sghpet.sgh.pet.controller.ReservationController;
++
++public class FrReservationRegister extends javax.swing.JFrame {
++
++    private final ReservationController reservationController;
++
++    public FrReservationRegister(ReservationController reservationController) {
++        this.reservationController = reservationController;
+     }
+ 
+     @SuppressWarnings("unchecked")
+@@ -59,6 +72,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
+         btnNew = new javax.swing.JButton();
+         btnDelet = new javax.swing.JButton();
+         btnEdit = new javax.swing.JButton();
++        bxAnimalType = new javax.swing.JComboBox<>();
+         bxAnimalName = new javax.swing.JComboBox<>();
+         lblAnimalType = new javax.swing.JLabel();
+         lblType2 = new javax.swing.JLabel();
+@@ -91,6 +105,22 @@ public class FrReservationRegister extends javax.swing.JFrame {
+         lblEndDate.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+         lblEndDate.setText("Data Final:");
+ 
++        edtStartDate.setForeground(new java.awt.Color(207, 209, 208));
++        edtStartDate.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++                edtStartDateActionPerformed(evt);
++            }
++        });
++
++        lblEndDate.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
++        lblEndDate.setText("Data Final:");
++
++        edtEndDate.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++                edtEndDateActionPerformed(evt);
++            }
++        });
++
+         lblServices.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+         lblServices.setText("Serviços:");
+ 
+@@ -112,6 +142,11 @@ public class FrReservationRegister extends javax.swing.JFrame {
+             }
+         });
+ 
++        btnSave.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
++        btnSave.setText("Salvar");
++        btnSave.addActionListener(new java.awt.event.ActionListener() {
++            public void actionPerformed(java.awt.event.ActionEvent evt) {
++
+         btnSave.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+         btnSave.setText("Salvar");
+         btnSave.addActionListener(new java.awt.event.ActionListener() {
+@@ -162,6 +197,9 @@ public class FrReservationRegister extends javax.swing.JFrame {
+             }
+         });
+ 
++        bxAnimalName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cachorro", "Gato", "Pássaro", "Peixe" }));
++        bxAnimalName.setToolTipText("");
++
+         lblAnimalType.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+         lblAnimalType.setText("Animal:");
+ 
+@@ -201,6 +239,9 @@ public class FrReservationRegister extends javax.swing.JFrame {
+                             .addGroup(layout.createSequentialGroup()
+                                 .addComponent(lblServices, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
++                            .addGroup(layout.createSequentialGroup()
++                                .addComponent(lblServices, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
++                                .addGap(18, 18, 18)
+                                 .addComponent(chckService1)
+                                 .addGap(40, 40, 40)
+                                 .addComponent(chckService2)
+@@ -215,6 +256,9 @@ public class FrReservationRegister extends javax.swing.JFrame {
+                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                             .addGroup(layout.createSequentialGroup()
++                                .addComponent(chckService3)
++                                .addGap(0, 236, Short.MAX_VALUE))
++                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                     .addGroup(layout.createSequentialGroup()
+                                         .addComponent(lblStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+@@ -234,8 +278,35 @@ public class FrReservationRegister extends javax.swing.JFrame {
+                                     .addComponent(lblAnimalType, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
++                                    .addComponent(bxAnimalType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                     .addComponent(bxAnimalName, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                     .addComponent(fEdtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))))
++                                        .addGap(18, 18, 18)
++                                        .addComponent(edtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
++                                .addGap(18, 18, 18)
++                                .addComponent(lblEndDate)
++                                .addGap(18, 18, 18)
++                                .addComponent(edtEndDate, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
++                            .addComponent(jScrollPane1)
++                            .addGroup(layout.createSequentialGroup()
++                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
++                                    .addGroup(layout.createSequentialGroup()
++                                        .addComponent(lblServices, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
++                                        .addGap(18, 18, 18)
++                                        .addComponent(chckService1)
++                                        .addGap(40, 40, 40)
++                                        .addComponent(chckService2)
++                                        .addGap(40, 40, 40)
++                                        .addComponent(chckService3))
++                                    .addGroup(layout.createSequentialGroup()
++                                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
++                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
++                                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
++                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
++                                        .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
++                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
++                                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
++                                .addGap(0, 0, Short.MAX_VALUE)))))
+                 .addContainerGap())
+             .addGroup(layout.createSequentialGroup()
+                 .addContainerGap()
+@@ -251,6 +322,13 @@ public class FrReservationRegister extends javax.swing.JFrame {
+                     .addComponent(btnBack)
+                     .addComponent(lblMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                 .addGap(40, 40, 40)
++                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
++                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
++                        .addComponent(lblAnimalType)
++                        .addComponent(bxAnimalType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
++                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
++                        .addComponent(lblType2)
++                        .addComponent(fEdtOwnerCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(lblType2)
+                     .addComponent(fEdtOwnerCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+@@ -283,6 +361,13 @@ public class FrReservationRegister extends javax.swing.JFrame {
+                         .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
++                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
++                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
++                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
++                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
++                        .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
++                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
++                .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(btnCheckIn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+@@ -297,6 +382,14 @@ public class FrReservationRegister extends javax.swing.JFrame {
+ 
+     private void bxReservationTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bxReservationTypeActionPerformed
+     }//GEN-LAST:event_bxReservationTypeActionPerformed
++    private void bxTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bxTypeActionPerformed
++    }//GEN-LAST:event_bxTypeActionPerformed
++
++    private void edtStartDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtStartDateActionPerformed
++    }//GEN-LAST:event_edtStartDateActionPerformed
++
++    private void edtEndDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtEndDateActionPerformed
++    }//GEN-LAST:event_edtEndDateActionPerformed
+ 
+     private void chckService3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chckService3ActionPerformed
+     }//GEN-LAST:event_chckService3ActionPerformed
+@@ -309,24 +402,24 @@ public class FrReservationRegister extends javax.swing.JFrame {
+         var typeOfStay = bxReservationType.getSelectedIndex();
+         var startDate = fEdtStartDate.getText();
+         var endDate = fEdtOwnerCpf.getText();
+-        var curentAnimalIndex = bxAnimalName.getSelectedIndex();
++        var curentAnimalIndex = bxAnimalType.getSelectedIndex();
+         var reservation = this.reservationController.createReservation(typeOfStay, startDate, endDate, 0, currentAnimal.get(curentAnimalIndex), curentCustomer);
+         if (chckService1.isSelected()) {
+-            var service = new Services(ServicesList.Shave, 10, reservation, "");
+-            ServicesController.getServicesController().create(service);
++            ServicesController.getServicesController().createService(ServicesList.Shave, 20, reservation, "");
+         }
+         if (chckService2.isSelected()) {
+-            var service = new Services(ServicesList.Bath, 10, reservation, "");
+-            ServicesController.getServicesController().create(service);
++            ServicesController.getServicesController().createService(ServicesList.Bath, 30, reservation, "");
+         }
+         if (chckService3.isSelected()) {
+-            var service = new Services(ServicesList.Spa, 10, reservation, "");
+-            ServicesController.getServicesController().create(service);
++            ServicesController.getServicesController().createService(ServicesList.Spa, 50, reservation, "");
+         }
+         JOptionPane.showMessageDialog(this, "Número da reserva: " + reservation.getId());
+         this.currentAnimal = null;
+         this.curentCustomer = null;
+         updateTable();
++        
++        this.currentAnimal = null;
++        this.curentCustomer = null;
+         cleanFields();
+         enableFields(false);
+     }//GEN-LAST:event_btnSaveActionPerformed
+@@ -338,6 +431,9 @@ public class FrReservationRegister extends javax.swing.JFrame {
+ 
+     private void enableFields(boolean enabled) {
+         fEdtOwnerCpf.setEditable(enabled);
++        bxAnimalType.setEditable(enabled);
++        bxAnimalType.setEditable(enabled);
++        bxAnimalType.setEditable(enabled);
+         bxAnimalName.setEditable(enabled);
+         bxReservationType.setEditable(enabled);
+         fEdtStartDate.setEditable(enabled);
+@@ -348,6 +444,9 @@ public class FrReservationRegister extends javax.swing.JFrame {
+         fEdtEndDate.setText("");
+         fEdtOwnerCpf.setText("");
+         fEdtStartDate.setText("");
++        bxAnimalType.removeAllItems();
++        bxAnimalType.removeAllItems();
++        bxAnimalType.removeAllItems();
+         bxAnimalName.removeAllItems();
+         bxReservationType.removeAllItems();
+         chckService1.setSelected(false);
+@@ -382,11 +481,11 @@ public class FrReservationRegister extends javax.swing.JFrame {
+                 if (animal.getId() == reservation.getAnimal().getId()) {
+                     index = i;
+                 }
+-                bxAnimalName.addItem(animal.getName());
++                bxAnimalType.addItem(animal.getName());
+                 i++;
+             }
+             getServices(reservation);
+-            bxAnimalName.setSelectedIndex(index);
++            bxAnimalType.setSelectedIndex(index);
+             //bxReservationType.setSelectedIndex(0);
+         } catch (RuntimeException e) {
+             System.out.println(e);
+@@ -414,11 +513,6 @@ public class FrReservationRegister extends javax.swing.JFrame {
+         }
+     }
+ 
+-    private void bxAnimalTypeActionPerformed(java.awt.event.ActionEvent evt) {
+-        // TODO add your handling code here:
+-
+-    }
+-
+     private void edtEndDate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtEndDate1ActionPerformed
+         // TODO add your handling code here:
+     }//GEN-LAST:event_edtEndDate1ActionPerformed
+@@ -430,13 +524,16 @@ public class FrReservationRegister extends javax.swing.JFrame {
+             var animals = AnimalController.getAnimalController().listAnimalByCustomer(user.getId());
+             this.currentAnimal = animals;
+             for (var animal : animals) {
+-                bxAnimalName.addItem(animal.getName());
++                bxAnimalType.addItem(animal.getName());
+             }
+         } catch (RuntimeException e) {
+             System.out.println(fEdtOwnerCpf.getText());
+         }
+ 
+     }//GEN-LAST:event_edtOwnerCpfFocusLost
++    private void bxAnimalTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bxAnimalTypeActionPerformed
++        // TODO add your handling code here:
++    }//GEN-LAST:event_bxAnimalTypeActionPerformed
+ 
+     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+         this.setVisible(false);
+@@ -451,6 +548,25 @@ public class FrReservationRegister extends javax.swing.JFrame {
+         // TODO add your handling code here:
+     }//GEN-LAST:event_btnCheckOutActionPerformed
+ 
++    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
++        var typeOfStay = bxType.getSelectedIndex();
++        var startDate = edtStartDate.getText();
++        var endDate = edtEndDate.getText();
++        this.reservationController.createReservation(typeOfStay, startDate, endDate);
++    }//GEN-LAST:event_btnSaveActionPerformed
++
++    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
++        // TODO add your handling code here:
++    }//GEN-LAST:event_btnNewActionPerformed
++
++    private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
++        // TODO add your handling code here:
++    }//GEN-LAST:event_btnDeletActionPerformed
++
++    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
++        // TODO add your handling code here:
++    }//GEN-LAST:event_btnEditActionPerformed
++
+     // Variables declaration - do not modify//GEN-BEGIN:variables
+     private javax.swing.JTable JTableRegister;
+     private javax.swing.JButton btnBack;
+@@ -460,8 +576,11 @@ public class FrReservationRegister extends javax.swing.JFrame {
+     private javax.swing.JButton btnEdit;
+     private javax.swing.JButton btnNew;
+     private javax.swing.JButton btnSave;
++    private javax.swing.JComboBox<String> bxAnimalType;
+     private javax.swing.JComboBox<String> bxAnimalName;
+     private javax.swing.JComboBox<String> bxReservationType;
++    private javax.swing.JButton btnSend;
++    private javax.swing.JComboBox<String> bxType;
+     private javax.swing.JCheckBox chckService1;
+     private javax.swing.JCheckBox chckService2;
+     private javax.swing.JCheckBox chckService3;
+@@ -488,7 +607,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
+ 
+             MaskFormatter maskEndDate = new MaskFormatter("##/##/####");
+             maskEndDate.install(fEdtEndDate);
+-
++            
+         } catch (ParseException e) {
+             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
+         }
+diff --git a/src/src/main/resources/META-INF/persistence.xml b/src/src/main/resources/META-INF/persistence.xml
+index 1104fda..a4ac059 100644
+--- a/src/src/main/resources/META-INF/persistence.xml
++++ b/src/src/main/resources/META-INF/persistence.xml
+@@ -3,6 +3,7 @@
+   <persistence-unit name="exemplo-jpa" transaction-type="RESOURCE_LOCAL">
+     <properties>
+       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/api?useSSL=false&amp;serverTimezone=UTC"/>
++      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/api?useSSL=false&amp;serverTimezone=UTC"/>
+       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+       <property name="javax.persistence.jdbc.user" value="erik"/>
+       <property name="javax.persistence.jdbc.password" value=""/>

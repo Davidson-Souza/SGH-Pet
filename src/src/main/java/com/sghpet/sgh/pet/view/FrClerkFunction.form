@@ -76,6 +76,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="lblListAccommodation" min="-2" pref="35" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane3" pref="80" max="32767" attributes="0"/>
               <Component id="jScrollPane3" pref="83" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -110,7 +111,7 @@
                   <Data value="Tosa"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="Pre&#xe7;o" type="java.lang.Float">
+                <Column editable="false" title="Pre&#xe7;o" type="java.lang.Float">
                   <Data value="50.0"/>
                   <Data value="30.0"/>
                   <Data value="20.0"/>
@@ -122,7 +123,7 @@
                   <Data value="Reduzir pelagem"/>
                   <Data value="null"/>
                 </Column>
-                <Column editable="true" title="Infos" type="java.lang.String">
+                <Column editable="false" title="Infos" type="java.lang.String">
                   <Data value="null"/>
                   <Data value="2x por dia"/>
                   <Data value="1x por estadia"/>
@@ -253,7 +254,7 @@
                   <Data value="3"/>
                   <Data value="4"/>
                 </Column>
-                <Column editable="true" title="Vagas" type="java.lang.Integer">
+                <Column editable="false" title="Vagas" type="java.lang.Integer">
                   <Data value="3"/>
                   <Data value="1"/>
                 </Column>
