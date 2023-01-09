@@ -11,21 +11,21 @@ import lombok.Data;
 @AllArgsConstructor
 public class CustomerDAO implements Persistence {
 
-    private EntityManager customerStore;
+    private EntityManager database;
 
     @Override
     public void create(Object pCustomer) {
         Customer customer = (Customer) pCustomer;
-        this.customerStore.getTransaction().begin();
-        this.customerStore.persist(customer);
-        this.customerStore.getTransaction().commit();
+        this.database.getTransaction().begin();
+        this.database.persist(customer);
+        this.database.getTransaction().commit();
     }
 
     public List<Customer> list() {
-        customerStore.getTransaction().begin();
-        var res = customerStore.createQuery("SELECT c FROM Customer c", Customer.class)
+        database.getTransaction().begin();
+        var res = database.createQuery("SELECT c FROM Customer c", Customer.class)
                 .getResultList();
-        customerStore.getTransaction().commit();
+        database.getTransaction().commit();
         return res;
     }
 
@@ -39,7 +39,7 @@ public class CustomerDAO implements Persistence {
      */
     @Override
     public Customer get(int id) {
-        return this.customerStore.find(Customer.class, id);
+        return this.database.find(Customer.class, id);
     }
 
     /**
@@ -54,15 +54,15 @@ public class CustomerDAO implements Persistence {
     public Object find(Object pCpf) {
         try {
             String cpf = (String) pCpf;
-            customerStore.getTransaction().begin();
-            var res = customerStore.createQuery("SELECT c FROM Customer c WHERE c.cpf LIKE :cpf", Customer.class)
+            database.getTransaction().begin();
+            var res = database.createQuery("SELECT c FROM Customer c WHERE c.cpf LIKE :cpf", Customer.class)
                     .setParameter("cpf", cpf)
                     .getSingleResult();
-            customerStore.getTransaction().commit();
+            database.getTransaction().commit();
             return res;
 
         } catch (RuntimeException e) {
-            customerStore.getTransaction().commit();
+            database.getTransaction().commit();
             throw e;
         }
     }
@@ -75,7 +75,7 @@ public class CustomerDAO implements Persistence {
     @Override
     public void delete(Object obj) {
         try {
-            this.customerStore.remove(obj);
+            this.database.remove(obj);
         } catch (RuntimeException e) {
             throw e;
         }
@@ -89,27 +89,6 @@ public class CustomerDAO implements Persistence {
      */
     @Override
     public void update(Object newObject) {
-        Customer customer = (Customer) newObject;
-        
-        String querry = "UPDATE Customer "
-                + "SET name = ?"
-                + "SET phone_number = ?"
-                + "SET address = ?"
-                + "WHERE id = ?"; 
-        try {
-            customerStore.getTransaction().begin();
-            customerStore.createQuery(querry, Customer.class)
-                    .setParameter(":name", customer.getName())
-                    .setParameter(":phone_number", customer.getPhoneNumber())
-                    .setParameter(":address", customer.getAddress())
-                    .setParameter(":id", customer.getId());
-                    
-            customerStore.getTransaction().commit();
-
-        } catch (RuntimeException e) {
-            customerStore.getTransaction().commit();
-            throw e;
-        }
+        database.merge(newObject);
     }
-
 }

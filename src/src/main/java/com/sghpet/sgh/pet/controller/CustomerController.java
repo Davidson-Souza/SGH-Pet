@@ -83,6 +83,7 @@ public class CustomerController {
     
     public void updateTable(JTable grdCustomer) {
         var tmCustomer = new TmCustomers(this.listCustomers());
+        System.out.println("\n--------------\n"+this.listCustomers());
         grdCustomer.setModel(tmCustomer);
     }
 }

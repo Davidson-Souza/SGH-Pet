@@ -125,7 +125,6 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
                 }
                 case Admin -> {
                 }
-                case Groundkeeper: {
                 case Groundkeeper -> {
                     var mainMenu = new FrGroundskeeperFunction();
                     mainMenu.show();

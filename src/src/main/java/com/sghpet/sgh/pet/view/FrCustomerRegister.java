@@ -256,13 +256,15 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         var address = edtAddres.getText();
 
         if (this.curentCustomer != null) {
-            var newCustomer = new Customer(cpf,name, address, phone);
+            var newCustomer = new Customer(cpf, name, address, phone);
             newCustomer.setId(curentCustomer.getId());
             this.controller.updateCustomer(newCustomer);
+            
         }
-        
-        this.controller.createUser(name, cpf, address, phone);
-        controller.updateTable(this.JTableCustomer);
+        else{
+            this.controller.createUser(name, cpf, address, phone);    
+        }
+        controller.updateTable(this.JTableCustomer);     
         cleanFields();
         enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -312,7 +314,7 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         
         Object obj = null;
         if (rowCliked >= 0) {
-            int SelectedObjectID = (int) JTableCustomer.getModel().getValueAt(rowCliked, 0);
+            int SelectedObjectID = (int) JTableCustomer.getModel().getValueAt(rowCliked, 0);        
             obj = this.controller.getCustumer(SelectedObjectID);
         }
         return obj;
