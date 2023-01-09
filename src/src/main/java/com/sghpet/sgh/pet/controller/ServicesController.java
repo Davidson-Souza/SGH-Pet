@@ -1,6 +1,8 @@
 package com.sghpet.sgh.pet.controller;
 
+import com.sghpet.sgh.pet.model.Reservation;
 import com.sghpet.sgh.pet.model.Services;
+import com.sghpet.sgh.pet.model.ServicesList;
 import com.sghpet.sgh.pet.model.dao.ServicesDAO;
 import com.sun.istack.NotNull;
 import java.util.List;
@@ -24,7 +26,9 @@ public class ServicesController {
         return ServicesController.controller;
     }
 
-    public void create(Services service) {
+    public void createService(ServicesList serviceType, float price, Reservation reservation, String description) {
+        var service = new Services(serviceType, price, reservation, description);
+        
         this.repository.create(service);
     }
 

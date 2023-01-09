@@ -2,6 +2,11 @@ package com.sghpet.sgh.pet.view;
 
 import com.sghpet.sgh.pet.controller.EmployeeController;
 import com.sghpet.sgh.pet.model.Employee;
+import static com.sghpet.sgh.pet.model.EmployeeType.Admin;
+import static com.sghpet.sgh.pet.model.EmployeeType.Clerk;
+import static com.sghpet.sgh.pet.model.EmployeeType.Groundkeeper;
+import static com.sghpet.sgh.pet.model.EmployeeType.Manager;
+import static com.sghpet.sgh.pet.model.EmployeeType.Servicer;
 import java.text.ParseException;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
@@ -14,6 +19,7 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
     public FrEmployeeLogin() {
         this.contr = EmployeeController.getEmployeeController();
         this.initComponents();
+
         addMaskToFields();
     }
 
@@ -96,6 +102,7 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
         var password = edtPassword.getText();
         Employee user;
         try {
+            System.out.println(cpf);
             user = this.contr.signIn(cpf, password);
             if (!user.getPassword().equals(password)) {
                 JOptionPane.showMessageDialog(null,
@@ -107,28 +114,23 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
             this.setVisible(false);
             var job = user.getJob();
             switch (job) {
-                case Clerk: {
+                case Clerk -> {
                     var mainMenu = new FrClerkFunction();
                     mainMenu.show();
-                    break;
                 }
-                case Manager: {
+                case Manager -> {
                     var mainMenu = new FrManagerFunction();
                     mainMenu.show();
-                    break;
                 }
-                case Admin: {
-                    break;
+                case Admin -> {
                 }
-                case Groundkeeper: {
-                    var mainMenu = new FrGroundskeeper();
+                case Groundkeeper -> {
+                    var mainMenu = new FrGroundskeeperFunction();
                     mainMenu.show();
-                    break;
                 }
-                case Servicer: {
+                case Servicer -> {
                     var mainMenu = new FrServicerFunction();
                     mainMenu.show();
-                    break;
                 }
             }
         } catch (RuntimeException e) {

@@ -139,7 +139,7 @@
                 </Column>
                 <Column editable="true" title="Parcelado" type="java.lang.Integer">
                   <Data value="1"/>
-                  <Data value="null"/>
+                  <Data value="3"/>
                 </Column>
               </Table>
             </Property>
@@ -212,11 +212,12 @@
     <Component class="javax.swing.JComboBox" name="bxAccommodationType">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Padr&#xe3;o"/>
-            <StringItem index="1" value="Econ&#xf4;mico"/>
-            <StringItem index="2" value="Luxo"/>
-            <StringItem index="3" value="Super luxo"/>
+          <StringArray count="5">
+            <StringItem index="0" value="Nenhum"/>
+            <StringItem index="1" value="Padr&#xe3;o"/>
+            <StringItem index="2" value="Econ&#xf4;mico"/>
+            <StringItem index="3" value="Luxo"/>
+            <StringItem index="4" value="Super luxo"/>
           </StringArray>
         </Property>
       </Properties>

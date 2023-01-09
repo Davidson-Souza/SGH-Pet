@@ -1,5 +1,6 @@
 package com.sghpet.sgh.pet.view;
 
+
 public class FrMainMenu extends javax.swing.JFrame {
 
     public FrMainMenu() {
@@ -81,7 +82,6 @@ public class FrMainMenu extends javax.swing.JFrame {
         FrCustomerRegister customerRegister = new FrCustomerRegister(this);
         customerRegister.show();
         this.setEnabled(false);
-
     }//GEN-LAST:event_btnClientRegisterActionPerformed
 
     private void btnAnimalRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnimalRegisterActionPerformed
