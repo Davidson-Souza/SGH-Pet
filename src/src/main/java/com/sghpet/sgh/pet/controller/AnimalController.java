@@ -44,27 +44,5 @@ public class AnimalController {
     public void updateTable(JTable grdAnimal){
         TmAnimal tmAnimal = new TmAnimal(this.listAnimals());
         grdAnimal.setModel(tmAnimal);
-import javax.management.RuntimeErrorException;
-import javax.persistence.EntityManager;
-
-public class AnimalController {
-
-    protected EntityManager db;
-
-    public AnimalController(EntityManager manager) {
-        this.db = manager;
-    }
-
-    public void createAnimal(String name, Customer owner, String type, String postage) {
-        try {
-            Animal newAnimal = new Animal();
-            newAnimal.fromFields(name, owner, type, postage);
-
-            db.getTransaction().begin();
-            db.persist(newAnimal);
-            db.getTransaction().commit();
-        } catch (RuntimeErrorException e) {
-            throw e;
-        }
     }
 }

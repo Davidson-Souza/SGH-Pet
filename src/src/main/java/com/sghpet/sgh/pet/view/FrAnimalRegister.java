@@ -17,17 +17,8 @@ public class FrAnimalRegister extends javax.swing.JFrame {
     public FrAnimalRegister() {
         this.controller = AnimalController.getAnimalController();
         this.customers = CustomerController.getCustomerController();
-import com.sghpet.sgh.pet.model.Customer;
-
-public class FrAnimalRegister extends javax.swing.JFrame {
-
-    private final AnimalController controller;
-
-    public FrAnimalRegister(AnimalController controller) {
-        this.controller = controller;
         initComponents();
         controller.updateTable(this.JTableAnimal); //updateTable();
-        updateTable();
         addMaskToFields();
     }
 
@@ -37,13 +28,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         JTableAnimal.setModel(tmCustomer);
     }
  
-        var animals = AnimalController.getAnimalController().listAnials();
-        var tmCustomer = new TmAnimal(animals);
-        JTableAnimal.setModel(tmCustomer);
-    }
-
-    
-    private
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -79,7 +63,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         lblName.setText("Nome:");
 
         edtName.setEnabled(false);
-        edtName.setForeground(new java.awt.Color(207, 209, 208));
         edtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtNameActionPerformed(evt);
@@ -110,12 +93,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
 
         lblOwner.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblOwner.setText("Dono:");
-
-        edtOwner.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                edtOwnerActionPerformed(evt);
-            }
-        });
 
         lblMedicalCondition.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblMedicalCondition.setText("Condição médica?");
@@ -196,30 +173,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
             }
         });
 
-        btnEdit.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        btnEdit.setText("Editar");
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
-            }
-        });
-
-        btnDelet.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        btnDelet.setText("Excluir");
-        btnDelet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeletActionPerformed(evt);
-            }
-        });
-
-        btnNew.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        btnNew.setText("Novo");
-        btnNew.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -242,20 +195,16 @@ public class FrAnimalRegister extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(edtName, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
                                     .addComponent(fEdtOwner))
-                                    .addComponent(edtOwner, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
-                                    .addComponent(edtName))
                                 .addGap(45, 45, 45)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblType, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(bxAnimalType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(bxType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(bxPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addComponent(bxType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblMedicalCondition)
                                 .addGap(18, 18, 18)
@@ -269,14 +218,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(52, 52, 52)
-                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addComponent(bxPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblMedicalCondition)
-                        .addGap(18, 18, 18)
-                        .addComponent(ckbxMedicalCondition))
-                    .addComponent(btnSend, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -315,10 +256,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
                 .addContainerGap())
-                    .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -329,8 +266,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
 
     private void bxAnimalTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bxAnimalTypeActionPerformed
     }//GEN-LAST:event_bxAnimalTypeActionPerformed
-    private void bxTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bxTypeActionPerformed
-    }//GEN-LAST:event_bxTypeActionPerformed
 
     private void bxPostageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bxPostageActionPerformed
     }//GEN-LAST:event_bxPostageActionPerformed
@@ -388,40 +323,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         bxPostage.setSelectedIndex(0);
         bxPostage.setEnabled(false);
     }//GEN-LAST:event_btnCancelActionPerformed
-    private void edtOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtOwnerActionPerformed
-    }//GEN-LAST:event_edtOwnerActionPerformed
-
-    private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        String name = edtName.getText();
-//        String owner = edtOwner.getText();
-        String type = bxType.getSelectedItem().toString();
-        String postage = bxPostage.getSelectedItem().toString();
-        String hasMedicalCondition = ckbxMedicalCondition.getActionCommand();
-        Customer owner = new Customer();
-        this.controller.createAnimal(name, owner, type, postage);
-    }//GEN-LAST:event_btnSendActionPerformed
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        var name = edtName.getText();
-        var owner_cpf = edtOwner.getText();
-        var type = bxType.getSelectedItem().toString();
-        var postage = bxPostage.getSelectedItem().toString();
-        var hasMedicalCondition = ckbxMedicalCondition.isSelected();
-        var owner = this.customers.findCustomerByCPF(owner_cpf);
-
-        this.controller.createAnimal(name, owner, type, postage, hasMedicalCondition);
-    }//GEN-LAST:event_btnSaveActionPerformed
-
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEditActionPerformed
-
-    private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeletActionPerformed
-
-    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNewActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTableAnimal;
@@ -432,7 +333,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> bxAnimalType;
-    private javax.swing.JButton btnSend;
     private javax.swing.JComboBox<String> bxPostage;
     private javax.swing.JCheckBox ckbxMedicalCondition;
     private javax.swing.JTextField edtName;

@@ -16,8 +16,9 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Data
 @RequiredArgsConstructor
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+
 public class Reservation implements Serializable {
 
     @Id
@@ -37,4 +38,5 @@ public class Reservation implements Serializable {
     @NonNull
     @ManyToOne(cascade = CascadeType.ALL)
     private Customer customer;
+
 }

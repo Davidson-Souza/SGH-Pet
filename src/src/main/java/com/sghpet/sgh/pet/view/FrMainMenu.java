@@ -82,13 +82,6 @@ public class FrMainMenu extends javax.swing.JFrame {
         FrCustomerRegister customerRegister = new FrCustomerRegister(this);
         customerRegister.show();
         this.setEnabled(false);
-
-        //this.setEnabled(false);
-       //FrCustomerRegister customerRegister = new FrCustomerRegister(this);
-       FrCustomerRegister customerRegister = new FrCustomerRegister();
-       customerRegister.show();
-       //this.setEnabled(false);
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnClientRegisterActionPerformed
 
     private void btnAnimalRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnimalRegisterActionPerformed
