@@ -28,14 +28,11 @@ public class FrReservationRegister extends javax.swing.JFrame {
 
         this.prevFrame = prevFrame;
         this.reservationController = ReservationController.getReservationController();
-        updateTable();
+        reservationController.updateTable(this.JTableRegister);
         addMaskToFields();
-    }
-
-    private void updateTable() {
-        var reservations = this.reservationController.listReservations();
-        var model = new TmReservation(reservations);
-        JTableRegister.setModel(model);
+        
+        cleanFields();
+        enableFields(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -125,18 +122,27 @@ public class FrReservationRegister extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Tipo Reserva", "Data Inicial", "Data Final", "Tosa?", "Banho?", "Spa?"
+                "ID", "Dono", "Tipo Reserva", "Animal", "Data Inicial", "Data Final"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        JTableRegister.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(JTableRegister);
+        JTableRegister.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         btnNew.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         btnNew.setText("Novo");
@@ -314,7 +320,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Número da reserva: " + reservation.getId());
         this.currentAnimal = null;
         this.curentCustomer = null;
-        updateTable();
+        reservationController.updateTable(this.JTableRegister);
         cleanFields();
         enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed

@@ -19,6 +19,7 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
     public FrEmployeeLogin() {
         this.contr = EmployeeController.getEmployeeController();
         this.initComponents();
+        
 
         addMaskToFields();
     }
@@ -155,9 +156,10 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
         try {
             MaskFormatter maskLogin = new MaskFormatter("###.###.###-##");
             maskLogin.install(fEdtLogin);
-
-        } catch (ParseException e) {
+            
+        } 
+        catch (ParseException e) {
             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
-        }
-    }
+        }  
+    }     
 }
