@@ -250,11 +250,11 @@ public class FrCustomerRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if(validateFields()){
-            JOptionPane.showMessageDialog(this,"Error! Preencha os campos vazios.");
+        if (validateFields()) {
+            JOptionPane.showMessageDialog(this, "Error! Preencha os campos vazios.");
             return;
         }
-        
+
         var name = edtName.getText();
         var cpf = fEdtCpf.getText();
         var phone = fEdtPhone.getText();
@@ -268,35 +268,34 @@ public class FrCustomerRegister extends javax.swing.JFrame {
             this.controller.createUser(name, cpf, address, phone);
         }
         this.curentCustomer = null;
-        updateTable();
+        this.controller.updateTable(this.JTableCustomer);
         cleanFields();
         enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         Customer customerEdit = (Customer) getSelectedObjectOnJTable();
-        
-        if (customerEdit == null){
-            JOptionPane.showMessageDialog(this,"Selecione um registro na tabela.");
-        }
-        else{
+
+        if (customerEdit == null) {
+            JOptionPane.showMessageDialog(this, "Selecione um registro na tabela.");
+        } else {
             this.cleanFields();
             this.enableFields(true);
-            
+
             try {
                 this.showUser(customerEdit);
                 this.curentCustomer = customerEdit;
             } catch (RuntimeException e) {
                 JOptionPane.showMessageDialog(this, "Could not find user");
-            }   
-        }     
+            }
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void showUser(Customer user) {
         edtName.setText(user.getName());
         fEdtCpf.setText(user.getCpf());
         fEdtPhone.setText(user.getPhoneNumber());
-        edtAddres.setText(user.getAddress());       
+        edtAddres.setText(user.getAddress());
     }
 
     private void enableFields(boolean enabled) {
@@ -312,38 +311,44 @@ public class FrCustomerRegister extends javax.swing.JFrame {
         edtName.setText("");
         fEdtPhone.setText("");
     }
-    
+
     private Object getSelectedObjectOnJTable() {
         int rowCliked = JTableCustomer.getSelectedRow();
-        
+
         Object obj = null;
         if (rowCliked >= 0) {
-            int SelectedObjectID = (int) JTableCustomer.getModel().getValueAt(rowCliked, 0);        
+            int SelectedObjectID = (int) JTableCustomer.getModel().getValueAt(rowCliked, 0);
             obj = this.controller.getCustumer(SelectedObjectID);
         }
         return obj;
     }
-    
+
     // If there is any null field, it returns true
-    private boolean validateFields(){
+    private boolean validateFields() {
         boolean verificated = false;
-        
-        if(edtName.getText().equals("")) verificated = true;
-        if(fEdtCpf.getText().equals("")) verificated = true;     
-        if(fEdtPhone.getText().equals("")) verificated = true;        
-        if(edtAddres.getText().equals("")) verificated = true;
-        
+
+        if (edtName.getText().equals("")) {
+            verificated = true;
+        }
+        if (fEdtCpf.getText().equals("")) {
+            verificated = true;
+        }
+        if (fEdtPhone.getText().equals("")) {
+            verificated = true;
+        }
+        if (edtAddres.getText().equals("")) {
+            verificated = true;
+        }
+
         return verificated;
     }
 
-
     private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
         Customer SelectedCustomer = (Customer) getSelectedObjectOnJTable();
-        
-        if (SelectedCustomer == null){
-            JOptionPane.showMessageDialog(this,"Selecione um registro na tabela.");
-        }
-        else{
+
+        if (SelectedCustomer == null) {
+            JOptionPane.showMessageDialog(this, "Selecione um registro na tabela.");
+        } else {
             this.controller.deleteUser(SelectedCustomer);
             this.controller.updateTable(JTableCustomer);
         }

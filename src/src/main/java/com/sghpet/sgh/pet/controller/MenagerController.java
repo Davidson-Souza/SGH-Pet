@@ -14,7 +14,6 @@ public class MenagerController {
     public static float getReport(Date startPeriod, Date endDate) throws IOException {
         var payments = PaymentController.getPaymentController().listPayments();
         List<Payment> inPeriod = new LinkedList();
-        System.out.println(payments);
         try {
             for (var payment : payments) {
                 System.out.println(payment.getPaymentDate());
@@ -33,7 +32,6 @@ public class MenagerController {
             csv += payment.toCSV() + "\n";
             total += payment.getPrice();
         }
-        System.out.println(inPeriod);
 
         FileWriter fWriter;
         try {

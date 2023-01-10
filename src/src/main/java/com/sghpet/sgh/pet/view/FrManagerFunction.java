@@ -172,7 +172,6 @@ public class FrManagerFunction extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Durante o período selectionado, o faturamento foi de " + total + "reais, o relatório completo foi gerado em um arquivo csv");
 
         } catch (ParseException e) {
-            System.out.println(e);
             JOptionPane.showMessageDialog(this, "Data inválida");
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(FrManagerFunction.class.getName()).log(Level.SEVERE, null, ex);
