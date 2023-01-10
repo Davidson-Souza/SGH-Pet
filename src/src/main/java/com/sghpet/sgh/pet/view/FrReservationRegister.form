@@ -33,30 +33,6 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="lblServices" min="-2" pref="108" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="chckService1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                                      <Component id="chckService2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                                      <Component id="chckService3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="btnNew" min="-2" pref="100" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="btnEdit" min="-2" pref="100" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="btnDelet" min="-2" pref="100" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="btnSave" min="-2" pref="100" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
@@ -75,20 +51,41 @@
                                       <Component id="fEdtOwnerCpf" min="-2" pref="210" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="18" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="lblAnimalType" max="32767" attributes="0"/>
                                   <Component id="lblEndDate" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="bxAnimalName" min="-2" pref="140" max="-2" attributes="0"/>
                                   <Component id="fEdtEndDate" min="-2" pref="173" max="-2" attributes="0"/>
+                                  <Component id="bxAnimalName" min="-2" pref="140" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="0" pref="37" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="lblServices" min="-2" pref="108" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="chckService1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="chckService2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="chckService3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="btnNew" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnEdit" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnDelet" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="btnSave" min="-2" pref="127" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace min="0" pref="10" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -101,7 +98,7 @@
                   <Component id="btnBack" min="-2" max="-2" attributes="0"/>
                   <Component id="lblMenu" min="-2" pref="42" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="lblAnimalType" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -112,12 +109,12 @@
                       <Component id="fEdtOwnerCpf" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblReservationType" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bxReservationType" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblStartDate" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblEndDate" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -131,17 +128,16 @@
                   <Component id="chckService2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="chckService3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="btnEdit" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
-                      <Component id="btnDelet" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
-                      <Component id="btnNew" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="btnSave" min="-2" pref="55" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnEdit" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                  <Component id="btnDelet" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                  <Component id="btnNew" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                  <Component id="btnSave" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                  <Component id="btnCancel" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="176" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="180" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -154,7 +150,7 @@
           <Font name="Roboto" size="18" style="0"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Criar Reserva"/>
+        <Property name="text" type="java.lang.String" value="Gerenciador de Reserva"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
@@ -373,6 +369,17 @@
     <Component class="javax.swing.JFormattedTextField" name="fEdtStartDate">
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="fEdtEndDate">
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCancel">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Roboto" size="18" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Cancelar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

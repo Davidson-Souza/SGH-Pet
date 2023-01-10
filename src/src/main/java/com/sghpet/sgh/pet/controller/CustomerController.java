@@ -26,8 +26,8 @@ public class CustomerController {
         return CustomerController.controller;
     }
 
-    public void deleteUser(int id) {
-        this.repository.delete(id);
+    public void deleteUser(Object obj) {
+        this.repository.delete(obj);
     }
 
     public List<Customer> listCustomers() {
@@ -83,7 +83,6 @@ public class CustomerController {
     
     public void updateTable(JTable grdCustomer) {
         var tmCustomer = new TmCustomers(this.listCustomers());
-        System.out.println("\n--------------\n"+this.listCustomers());
         grdCustomer.setModel(tmCustomer);
     }
 }

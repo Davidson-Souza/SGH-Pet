@@ -81,15 +81,19 @@ public class FrMainMenu extends javax.swing.JFrame {
 
         FrCustomerRegister customerRegister = new FrCustomerRegister(this);
         customerRegister.show();
-        this.setEnabled(false);
+        this.setVisible(false);
     }//GEN-LAST:event_btnClientRegisterActionPerformed
 
     private void btnAnimalRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnimalRegisterActionPerformed
-        // TODO add your handling code here:
+        FrAnimalRegister animalRegister = new FrAnimalRegister(this);
+        animalRegister.show();
+        this.setVisible(false);
     }//GEN-LAST:event_btnAnimalRegisterActionPerformed
 
     private void btnReservationRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservationRegisterActionPerformed
-        // TODO add your handling code here:
+        FrReservationRegister reservationRegister = new FrReservationRegister(this);
+        reservationRegister.show();
+        this.setVisible(false);
     }//GEN-LAST:event_btnReservationRegisterActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
