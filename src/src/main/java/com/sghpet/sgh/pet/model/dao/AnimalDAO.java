@@ -11,7 +11,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class AnimalDAO implements Persistence {
 
-    private EntityManager animalStore;
+    private EntityManager database;
 
     public void create() {
 
@@ -19,18 +19,19 @@ public class AnimalDAO implements Persistence {
 
     @Override
     public void create(Object obj) {
+        Animal newAnimal = (Animal) obj;
         try {
-            animalStore.getTransaction().begin();
-            animalStore.persist((Animal) obj);
-            animalStore.getTransaction().commit();
+            database.getTransaction().begin();
+            database.persist(newAnimal);
+            database.getTransaction().commit();
         } catch (RuntimeErrorException e) {
             throw e;
         }
     }
 
     @Override
-    public Object get(int id) {
-        return animalStore.find(Animal.class, id);
+    public Animal get(int id) {
+        return database.find(Animal.class, id);
     }
 
     @Override
@@ -41,26 +42,28 @@ public class AnimalDAO implements Persistence {
     @Override
     public void delete(Object obj) {
         try {
-            this.animalStore.remove(obj);
+            database.getTransaction().begin();
+            database.remove(obj);
+            database.getTransaction().commit();
         } catch (RuntimeException e) {
             throw e;
         }
     }
 
     @Override
-    public void update(Object newObject) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void update(Object newAnimal) {
+        database.merge(newAnimal);
     }
 
     public List<Animal> listAnimalsByUser(int id) {
-        var res = this.animalStore.createQuery("SELECT a FROM Animal a WHERE a.owner.Id = :id", Animal.class)
+        var res = this.database.createQuery("SELECT a FROM Animal a WHERE a.owner.Id = :id", Animal.class)
                 .setParameter("id", id)
                 .getResultList();
         return res;
     }
 
     public List<Animal> list() {
-        var res = this.animalStore.createQuery("SELECT a FROM Animal a", Animal.class)
+        var res = this.database.createQuery("SELECT a FROM Animal a", Animal.class)
                 .getResultList();
         return res;
     }

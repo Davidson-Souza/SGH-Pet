@@ -31,6 +31,11 @@ public class ServicesController {
         
         this.repository.create(service);
     }
+    public void deleteService(ServicesList serviceType, float price, Reservation reservation, String description) {
+        var service = new Services(serviceType, price, reservation, description);
+        
+        this.repository.delete(service);
+    }
 
     public List<Services> list(int id) {
         return this.repository.list(id);

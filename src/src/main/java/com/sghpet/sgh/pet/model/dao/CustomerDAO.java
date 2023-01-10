@@ -75,7 +75,9 @@ public class CustomerDAO implements Persistence {
     @Override
     public void delete(Object obj) {
         try {
+            database.getTransaction().begin();
             this.database.remove(obj);
+            database.getTransaction().commit();
         } catch (RuntimeException e) {
             throw e;
         }

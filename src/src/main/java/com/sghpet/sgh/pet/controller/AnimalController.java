@@ -30,6 +30,17 @@ public class AnimalController {
     public static AnimalController getAnimalController() {
         return AnimalController.contr;
     }
+    
+    /**
+     * Get animal giving it's id.
+     * This function might throw an exception if the database isn't working.
+     *
+     * @param id: integer, A user id
+     * @return Animal
+     */
+    public Animal getAnimal(int id) throws RuntimeException {
+        return this.repository.get(id);
+    }
 
     public List<Animal> listAnimalByCustomer(int id) {
         return repository.listAnimalsByUser(id);
@@ -41,8 +52,16 @@ public class AnimalController {
         this.repository.create(newAnimal);
     }
     
+    public void updateAnimal(Object newAnimal) {
+        this.repository.update(newAnimal);
+    }
+    
     public void updateTable(JTable grdAnimal){
         TmAnimal tmAnimal = new TmAnimal(this.listAnimals());
         grdAnimal.setModel(tmAnimal);
+    }
+
+    public void deleteAnimal(Object objt) {
+        repository.delete(objt);
     }
 }

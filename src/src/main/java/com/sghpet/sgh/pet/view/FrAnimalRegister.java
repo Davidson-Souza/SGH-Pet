@@ -2,9 +2,10 @@ package com.sghpet.sgh.pet.view;
 
 import com.sghpet.sgh.pet.controller.AnimalController;
 import com.sghpet.sgh.pet.controller.CustomerController;
+import com.sghpet.sgh.pet.model.Animal;
 import com.sghpet.sgh.pet.model.Customer;
-import com.sghpet.sgh.pet.model.TmAnimal;
 import java.text.ParseException;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 import org.jboss.logging.Logger;
@@ -13,13 +14,64 @@ public class FrAnimalRegister extends javax.swing.JFrame {
 
     private final AnimalController controller;
     private final CustomerController customers;
+    private final JFrame menuScreen;
+    private Animal curentAnimal;
 
-    public FrAnimalRegister() {
+    public FrAnimalRegister(JFrame menu) {
         this.controller = AnimalController.getAnimalController();
         this.customers = CustomerController.getCustomerController();
+        this.menuScreen = menu;
         initComponents();
+        
+        curentAnimal = null;
         controller.updateTable(this.JTableAnimal);
         addMaskToFields();
+        cleanFields();
+        enableFields(false);
+    }
+    
+    private void showAnimal(Animal animal) {
+        edtName.setText(animal.getName());
+        fEdtOwner.setText(animal.getOwner().getCpf());
+        bxAnimalType.setSelectedIndex(animal.getType());
+        bxPostage.setSelectedIndex(animal.getPostage());       
+    }
+
+    private void enableFields(boolean enabled) {
+        edtName.setEnabled(enabled);
+        fEdtOwner.setEnabled(enabled);
+        bxAnimalType.setEnabled(enabled);
+        bxPostage.setEnabled(enabled);
+        ckbxMedicalCondition.setEnabled(enabled);
+        
+    }
+
+    private void cleanFields() {
+        edtName.setText("");
+        fEdtOwner.setText("");
+        bxAnimalType.setSelectedIndex(0);
+        bxPostage.setSelectedIndex(0);
+        ckbxMedicalCondition.setSelected(false);
+    }
+    
+    private Object getSelectedObjectOnJTable() {
+        int rowCliked = JTableAnimal.getSelectedRow();
+        
+        Object obj = null;
+        if (rowCliked >= 0) {
+            int SelectedObjectID = (int) JTableAnimal.getModel().getValueAt(rowCliked, 0);        
+            obj = controller.getAnimal(SelectedObjectID);
+        }
+        return obj;
+    }
+    
+    private boolean validateFields(){
+        boolean verificated = false;
+        
+        if(edtName.getText().equals("")) verificated = true;
+        if(fEdtOwner.getText().equals("")) verificated = true;
+        
+        return verificated;
     }
 
     @SuppressWarnings("unchecked")
@@ -56,7 +108,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         lblName.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblName.setText("Nome:");
 
-        edtName.setEnabled(false);
         edtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 edtNameActionPerformed(evt);
@@ -67,7 +118,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         lblType.setText("Tipo:");
 
         bxAnimalType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cachorro", "Gato", "Ave", "Peixe" }));
-        bxAnimalType.setEnabled(false);
         bxAnimalType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bxAnimalTypeActionPerformed(evt);
@@ -78,7 +128,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         lblPostage.setText("Porte:");
 
         bxPostage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pequeno", "Médio", "Grande" }));
-        bxPostage.setEnabled(false);
         bxPostage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bxPostageActionPerformed(evt);
@@ -91,7 +140,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         lblMedicalCondition.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         lblMedicalCondition.setText("Condição médica?");
 
-        btnSave.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        btnSave.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         btnSave.setText("Salvar");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,14 +160,14 @@ public class FrAnimalRegister extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "Dono", "Tipo", "Porte", "Condição Médica"
+                "ID", "Nome", "Dono", "Tipo", "Porte", "Condição Médica"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -132,13 +181,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         JTableAnimal.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(JTableAnimal);
         JTableAnimal.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (JTableAnimal.getColumnModel().getColumnCount() > 0) {
-            JTableAnimal.getColumnModel().getColumn(0).setHeaderValue("Nome");
-            JTableAnimal.getColumnModel().getColumn(1).setHeaderValue("Dono");
-            JTableAnimal.getColumnModel().getColumn(2).setHeaderValue("Tipo");
-            JTableAnimal.getColumnModel().getColumn(3).setHeaderValue("Porte");
-            JTableAnimal.getColumnModel().getColumn(4).setHeaderValue("Condição Médica");
-        }
 
         btnEdit.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         btnEdit.setText("Editar");
@@ -164,8 +206,6 @@ public class FrAnimalRegister extends javax.swing.JFrame {
             }
         });
 
-        fEdtOwner.setEnabled(false);
-
         btnCancel.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         btnCancel.setText("Cancelar");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -179,48 +219,50 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(lblOwner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(edtName, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
-                                    .addComponent(fEdtOwner))
-                                .addGap(45, 45, 45)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblType, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(lblOwner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(bxAnimalType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(edtName, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
+                                            .addComponent(fEdtOwner))
+                                        .addGap(45, 45, 45)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lblType, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(bxAnimalType, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lblPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(bxPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblMedicalCondition)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(ckbxMedicalCondition))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(bxPostage, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblMedicalCondition)
-                                .addGap(18, 18, 18)
-                                .addComponent(ckbxMedicalCondition))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(52, 52, 52)
-                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnDelet, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(52, 52, 52)
+                                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -228,9 +270,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnBack)))
+                    .addComponent(btnBack))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblName)
@@ -255,7 +295,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
                     .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -272,32 +312,69 @@ public class FrAnimalRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_bxPostageActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        if(validateFields()){
+            JOptionPane.showMessageDialog(this,"Error! Preencha os campos vazios.");
+            return;
+        }
+        
         var name = edtName.getText();
         var owner_cpf = fEdtOwner.getText();
         var type = bxAnimalType.getSelectedItem().toString();
         var postage = bxPostage.getSelectedItem().toString();
         var hasMedicalCondition = ckbxMedicalCondition.isSelected();
         Customer owner;
+        
         try {
             owner = this.customers.findCustomerByCPF(owner_cpf);
         } catch (RuntimeException e) {
-            System.out.println(e);
-            JOptionPane.showMessageDialog(null,
-                    "Não foi possível encontra o usuário",
-                    "Erro.",
+                JOptionPane.showMessageDialog(null,"Não foi possível encontra o usuário","CPF Inválido.",
                     JOptionPane.WARNING_MESSAGE);
-            return;
+                return;
+            }
+        
+        if(this.curentAnimal != null){
+            var newAnimal = new Animal(name, owner, type, postage, hasMedicalCondition);
+            newAnimal.setId(curentAnimal.getId());
+            this.controller.updateAnimal(newAnimal);
         }
-
-        this.controller.createAnimal(name, owner, type, postage, hasMedicalCondition);
+        else{
+            
+            this.controller.createAnimal(name, owner, type, postage, hasMedicalCondition);
+        }
+        cleanFields();
+        enableFields(false);
+        controller.updateTable(JTableAnimal);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        // TODO add your handling code here:
+        Animal animalEdit = (Animal) getSelectedObjectOnJTable();
+        
+        if (animalEdit == null){
+            JOptionPane.showMessageDialog(this,"Selecione um registro na tabela.");
+        }
+        else{
+            this.cleanFields();
+            this.enableFields(true);
+            
+            try {
+                this.showAnimal(animalEdit);
+                this.curentAnimal = animalEdit;
+            } catch (RuntimeException e) {
+                JOptionPane.showMessageDialog(this, "Could not find Animal");
+            }   
+        }     
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
-        // TODO add your handling code here:
+        Animal SelectedAnimal = (Animal) getSelectedObjectOnJTable();
+        
+        if (SelectedAnimal == null){
+            JOptionPane.showMessageDialog(this,"Selecione um registro na tabela.");
+        }
+        else{
+            this.controller.deleteAnimal(SelectedAnimal);
+            this.controller.updateTable(JTableAnimal);
+        }
     }//GEN-LAST:event_btnDeletActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
@@ -308,21 +385,13 @@ public class FrAnimalRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        this.setVisible(false);
+       this.setVisible(false);
+       this.menuScreen.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        edtName.setText("");
-        edtName.setEnabled(false);
-        
-        fEdtOwner.setText("");
-        fEdtOwner.setEnabled(false);
-      
-        bxAnimalType.setSelectedIndex(0);
-        bxAnimalType.setEnabled(false);
-        
-        bxPostage.setSelectedIndex(0);
-        bxPostage.setEnabled(false);
+        cleanFields();
+        enableFields(false);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

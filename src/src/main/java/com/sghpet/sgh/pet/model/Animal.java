@@ -53,6 +53,12 @@ public class Animal implements Serializable {
             case "Gato":
                 animal_type = 1;
                 break;
+            case "Ave":
+                animal_type = 2;
+                break;
+            case "Peixe":
+                animal_type = 3;
+                break;
             default:
                 throw new AssertionError();
         }

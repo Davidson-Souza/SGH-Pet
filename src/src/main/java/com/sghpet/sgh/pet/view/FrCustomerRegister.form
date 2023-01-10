@@ -25,42 +25,50 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="btnNew" min="-2" pref="100" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnEdit" min="-2" pref="100" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnDelet" min="-2" pref="100" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="40" max="32767" attributes="0"/>
+              <Component id="btnSave" min="-2" pref="100" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btnBack" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="lblMenu" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" pref="627" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="lblAddres" min="-2" pref="70" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="edtAddres" max="32767" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
-                      <Component id="btnNew" min="-2" pref="100" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnEdit" min="-2" pref="100" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnDelet" min="-2" pref="100" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnSave" min="-2" pref="100" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblCPF" alignment="0" min="-2" pref="51" max="-2" attributes="0"/>
-                          <Component id="lblName" alignment="0" min="-2" pref="51" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jScrollPane1" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblName" alignment="0" min="-2" pref="72" max="-2" attributes="0"/>
+                                  <Component id="lblCPF" alignment="0" min="-2" pref="72" max="-2" attributes="0"/>
+                                  <Component id="lblAddres" alignment="0" min="-2" pref="72" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="fEdtCpf" pref="220" max="32767" attributes="0"/>
+                                          <Component id="edtName" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblPhone" min="-2" pref="51" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="fEdtPhone" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Component id="edtAddres" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
-                      <EmptySpace min="25" pref="25" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="edtName" pref="228" max="32767" attributes="0"/>
-                          <Component id="fEdtCpf" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblPhone" min="-2" pref="51" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="fEdtPhone" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -74,19 +82,19 @@
                   <Component id="btnBack" min="-2" max="-2" attributes="0"/>
                   <Component id="lblMenu" min="-2" pref="42" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblName" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="edtName" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblPhone" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="fEdtPhone" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblCPF" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="fEdtCpf" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblAddres" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="edtAddres" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -97,9 +105,10 @@
                   <Component id="btnEdit" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
                   <Component id="btnDelet" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
                   <Component id="btnNew" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
+                  <Component id="btnCancel" alignment="3" min="-2" pref="55" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="164" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" pref="223" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -112,7 +121,7 @@
           <Font name="Roboto" size="18" style="0"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Cadastro do Cliente"/>
+        <Property name="text" type="java.lang.String" value="Gerenciador de Cliente"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
@@ -176,11 +185,44 @@
         <Component class="javax.swing.JTable" name="JTableCustomer">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="0" rowCount="0"/>
+              <Table columnCount="5" rowCount="0">
+                <Column editable="false" title="ID" type="java.lang.Integer"/>
+                <Column editable="false" title="Nome" type="java.lang.String"/>
+                <Column editable="false" title="CPF" type="java.lang.String"/>
+                <Column editable="false" title="N&#xfa;mero" type="java.lang.String"/>
+                <Column editable="false" title="Endre&#xe7;o" type="java.lang.String"/>
+              </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-              <TableColumnModel selectionModel="0"/>
+              <TableColumnModel selectionModel="1">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
             </Property>
+            <Property name="columnSelectionAllowed" type="boolean" value="true"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
@@ -235,6 +277,17 @@
     <Component class="javax.swing.JFormattedTextField" name="fEdtCpf">
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="fEdtPhone">
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCancel">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Roboto" size="18" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Cancelar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

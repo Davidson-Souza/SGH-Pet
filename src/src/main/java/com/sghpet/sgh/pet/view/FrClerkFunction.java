@@ -187,7 +187,6 @@ public class FrClerkFunction extends javax.swing.JFrame {
                 .addComponent(lblListAccommodation, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -199,7 +198,7 @@ public class FrClerkFunction extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnAnimalRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnimalRegisterActionPerformed
-        FrAnimalRegister animalRegister = new FrAnimalRegister();
+        FrAnimalRegister animalRegister = new FrAnimalRegister(this);
         animalRegister.show();
     }//GEN-LAST:event_btnAnimalRegisterActionPerformed
 

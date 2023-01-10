@@ -35,7 +35,9 @@ public class ReservationDAO implements Persistence {
     @Override
     public void delete(Object obj) {
         try {
+            database.getTransaction().begin();
             this.database.remove(obj);
+            database.getTransaction().commit();
         } catch (RuntimeException e) {
             throw e;
         }
@@ -43,15 +45,7 @@ public class ReservationDAO implements Persistence {
 
     @Override
     public void update(Object newObject) {
-        var newReservation = (Reservation) newObject;
-        this.database.createQuery("UPDATE Reservation c SET c.animal=:animal, c.customer=:customer, c.endDate=:endDate, c.price=:price, c.startDate=:startDate, c.type=:type WHERE id=:id")
-                .setParameter("customer", newReservation.getCustomer())
-                .setParameter("animal", newReservation.getAnimal())
-                .setParameter("endDate", newReservation.getEndDate())
-                .setParameter("price", newReservation.getPrice())
-                .setParameter("startDate", newReservation.getStartDate())
-                .setParameter("type", newReservation.getType())
-                .setParameter("id", newReservation.getId());
+        database.merge(newObject);
     }
 
     public List<Reservation> list() {
