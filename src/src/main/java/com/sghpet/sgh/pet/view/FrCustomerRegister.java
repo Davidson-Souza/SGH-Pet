@@ -264,12 +264,11 @@ public class FrCustomerRegister extends javax.swing.JFrame {
             var newCustomer = new Customer(cpf, name, address, phone);
             newCustomer.setId(curentCustomer.getId());
             this.controller.updateCustomer(newCustomer);
-            
+        } else {
+            this.controller.createUser(name, cpf, address, phone);
         }
-        else{
-            this.controller.createUser(name, cpf, address, phone);    
-        }
-        controller.updateTable(this.JTableCustomer);     
+        this.curentCustomer = null;
+        updateTable();
         cleanFields();
         enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed

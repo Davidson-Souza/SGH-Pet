@@ -1,7 +1,11 @@
 package com.sghpet.sgh.pet.view;
 
-import com.sghpet.sgh.pet.controller.ReservationController;
+import com.sghpet.sgh.pet.controller.MenagerController;
+import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 import org.jboss.logging.Logger;
 
@@ -9,7 +13,7 @@ public class FrManagerFunction extends javax.swing.JFrame {
 
     public FrManagerFunction() {
         initComponents();
-        
+
         addMaskToFields();
     }
 
@@ -160,7 +164,20 @@ public class FrManagerFunction extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
-        var reservations = ReservationController.getReservationController().listReservations();
+        var formarter = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            var startPeriod = formarter.parse(fEdtStartDate.getText());
+            var endDate = formarter.parse(fEdtEndDate.getText());
+            var total = MenagerController.getReport(startPeriod, endDate);
+            JOptionPane.showMessageDialog(this, "Durante o período selectionado, o faturamento foi de " + total + "reais, o relatório completo foi gerado em um arquivo csv");
+
+        } catch (ParseException e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(this, "Data inválida");
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(FrManagerFunction.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Erro ao criar o arquivo");
+        }
 
     }//GEN-LAST:event_btnGenerateActionPerformed
 
@@ -196,7 +213,8 @@ public class FrManagerFunction extends javax.swing.JFrame {
             maskEndDate.install(fEdtEndDate);
 
         } catch (ParseException e) {
-            Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
+            Logger.getLogger(FrAnimalRegister.class
+                    .getName()).log(Logger.Level.ERROR, null, e);
         }
     }
 }

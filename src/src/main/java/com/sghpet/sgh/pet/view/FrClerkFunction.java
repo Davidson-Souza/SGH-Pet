@@ -1,8 +1,13 @@
 package com.sghpet.sgh.pet.view;
 
+import javax.swing.JFrame;
+
 public class FrClerkFunction extends javax.swing.JFrame {
 
-    public FrClerkFunction() {
+    private final JFrame prev;
+
+    public FrClerkFunction(JFrame prev) {
+        this.prev = prev;
         initComponents();
     }
 
@@ -194,7 +199,8 @@ public class FrClerkFunction extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
+        prev.show();
+        this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnAnimalRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnimalRegisterActionPerformed
@@ -213,7 +219,9 @@ public class FrClerkFunction extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClientRegisterActionPerformed
 
     private void btnMakePaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMakePaymentActionPerformed
-        // TODO add your handling code here:
+        var form = new FrPaymentScreen();
+        form.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnMakePaymentActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

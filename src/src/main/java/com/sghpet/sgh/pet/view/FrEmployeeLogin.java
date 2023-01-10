@@ -116,7 +116,7 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
             var job = user.getJob();
             switch (job) {
                 case Clerk -> {
-                    var mainMenu = new FrClerkFunction();
+                    var mainMenu = new FrClerkFunction(this);
                     mainMenu.show();
                 }
                 case Manager -> {
