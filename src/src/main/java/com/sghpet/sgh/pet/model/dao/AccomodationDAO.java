@@ -61,7 +61,7 @@ public class AccomodationDAO implements Persistence {
     }
 
     public List<Accomodation> list() {
-        var res = this.database.createQuery("SELECT a FROM Animal a", Accomodation.class)
+        var res = this.database.createQuery("SELECT a FROM Accomodation a", Accomodation.class)
                 .getResultList();
         return res;
     }

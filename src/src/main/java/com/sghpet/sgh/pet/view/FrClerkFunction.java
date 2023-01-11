@@ -1,14 +1,19 @@
 package com.sghpet.sgh.pet.view;
 
+import com.sghpet.sgh.pet.controller.AccomodationController;
 import javax.swing.JFrame;
 
 public class FrClerkFunction extends javax.swing.JFrame {
 
     private final JFrame prev;
+    private final AccomodationController controller;
 
     public FrClerkFunction(JFrame prev) {
-        this.prev = prev;
         initComponents();
+        this.prev = prev;
+        this.controller = AccomodationController.getAccomodationController();
+        
+        controller.updateTable(JTableAccommodation);
     }
 
     @SuppressWarnings("unchecked")
@@ -115,18 +120,17 @@ public class FrClerkFunction extends javax.swing.JFrame {
 
         JTableAccommodation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(1),  new Integer(3),  new Integer(3)},
-                { new Integer(2),  new Integer(4),  new Integer(1)}
+
             },
             new String [] {
-                "Número", "Capacidade", "Vagas"
+                "ID", "Tamanho", "Capacidade", "Vagas"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -146,11 +150,6 @@ public class FrClerkFunction extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(btnBack)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblListServices, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -168,15 +167,18 @@ public class FrClerkFunction extends javax.swing.JFrame {
                         .addComponent(btnMakePayment, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(lblMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBack))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                    .addComponent(btnBack)
+                    .addComponent(lblMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnClientRegister, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                     .addComponent(btnAnimalRegister, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -190,7 +192,7 @@ public class FrClerkFunction extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(lblListAccommodation, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -205,16 +207,19 @@ public class FrClerkFunction extends javax.swing.JFrame {
     private void btnAnimalRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnimalRegisterActionPerformed
         FrAnimalRegister animalRegister = new FrAnimalRegister(this);
         animalRegister.show();
+        this.setVisible(false);
     }//GEN-LAST:event_btnAnimalRegisterActionPerformed
 
     private void btnReservationRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservationRegisterActionPerformed
         FrReservationRegister reservationRegister = new FrReservationRegister(this);
         reservationRegister.show();
+        this.setVisible(false);
     }//GEN-LAST:event_btnReservationRegisterActionPerformed
 
     private void btnClientRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientRegisterActionPerformed
         FrCustomerRegister customerRegister = new FrCustomerRegister(this);
         customerRegister.show();
+        this.setVisible(false);
     }//GEN-LAST:event_btnClientRegisterActionPerformed
 
     private void btnMakePaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMakePaymentActionPerformed
