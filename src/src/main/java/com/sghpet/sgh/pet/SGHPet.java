@@ -13,6 +13,7 @@ import com.sghpet.sgh.pet.model.dao.PaymentDAO;
 import com.sghpet.sgh.pet.model.dao.ReservationDAO;
 import com.sghpet.sgh.pet.model.dao.ServicesDAO;
 import com.sghpet.sgh.pet.view.FrAnimalCareFunction;
+import com.sghpet.sgh.pet.view.FrAnimalRegister;
 import com.sghpet.sgh.pet.view.FrClerkFunction;
 import com.sghpet.sgh.pet.view.FrMainMenu;
 import javax.persistence.Persistence;
@@ -38,11 +39,9 @@ public class SGHPet {
         PaymentController.getPaymentController(paymentRep);
 
         //var tela = new FrAnimalRegister();
-        var menu = new FrMainMenu();
-        var tela = new FrAnimalCareFunction();
-        //var tela = new FrCustomerRegister(menu);
-        //var tela = new FrAnimalRegister(menu);
-        tela.show();
+        var tela = new FrMainMenu();
+        var tela1 = new FrAnimalCareFunction();
+        tela1.show();
 
     }
 }

@@ -165,14 +165,14 @@ public class FrAnimalRegister extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nome", "Dono", "Tipo", "Porte", "Condição Médica"
+                "ID", "Nome", "Dono", "Tipo", "Porte", "Condição Médica", "Últ. Banho"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

@@ -83,4 +83,10 @@ public class AnimalController {
     public void deleteAnimal(Object objt) {
         repository.delete(objt);
     }
+    
+    public void setLastBathTime(Animal newAnimal, String newLastBath){
+        var animal = getAnimal(newAnimal.getId());
+        animal.setLastBathTime(newLastBath);
+        repository.update(animal);
+    }
 }
