@@ -357,7 +357,8 @@ public class FrReservationRegister extends javax.swing.JFrame {
             reservation.setPrice(price);
             this.reservationController.updateReservation(reservation);
         } else {
-            reservationController.createReservation(typeOfStay, startDate, endDate, price, animal, customer);
+            reservation.setPrice(price);
+            reservationController.updateReservation(reservation);
             JOptionPane.showMessageDialog(this, "Reserva Criada! Número da reserva: " + reservation.getId());
         }
 
