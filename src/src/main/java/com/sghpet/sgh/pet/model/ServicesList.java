@@ -4,4 +4,5 @@ public enum ServicesList {
     Shave,
     Bath,
     Spa,
+    Translado,
 }
