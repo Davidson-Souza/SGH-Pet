@@ -2,6 +2,7 @@ package com.sghpet.sgh.pet.controller;
 
 import com.sghpet.sgh.pet.model.Customer;
 import com.sghpet.sgh.pet.model.TmCustomers;
+import com.sghpet.sgh.pet.model.Valid.ValidateCustomer;
 import com.sghpet.sgh.pet.model.dao.CustomerDAO;
 import java.util.List;
 import javax.swing.JTable;
@@ -44,8 +45,9 @@ public class CustomerController {
      * @param phone: A contact phone
      */
     public void createUser(String name, String cpf, String address, String phone) throws RuntimeException {
+        var validateCustomer = new ValidateCustomer();
         try {
-            var customer = new Customer(cpf, name, address, phone);
+            var customer = validateCustomer.validateCustomer(name, cpf, address, phone);
             this.repository.create(customer);
         } catch (RuntimeException e) {
             throw e;
@@ -80,7 +82,7 @@ public class CustomerController {
         return (Customer) this.repository.find(cpf);
 
     }
-    
+
     public void updateTable(JTable grdCustomer) {
         var tmCustomer = new TmCustomers(this.listCustomers());
         grdCustomer.setModel(tmCustomer);

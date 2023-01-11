@@ -254,23 +254,26 @@ public class FrCustomerRegister extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error! Preencha os campos vazios.");
             return;
         }
+        try {
+            var name = edtName.getText();
+            var cpf = fEdtCpf.getText();
+            var phone = fEdtPhone.getText();
+            var address = edtAddres.getText();
 
-        var name = edtName.getText();
-        var cpf = fEdtCpf.getText();
-        var phone = fEdtPhone.getText();
-        var address = edtAddres.getText();
-
-        if (this.curentCustomer != null) {
-            var newCustomer = new Customer(cpf, name, address, phone);
-            newCustomer.setId(curentCustomer.getId());
-            this.controller.updateCustomer(newCustomer);
-        } else {
-            this.controller.createUser(name, cpf, address, phone);
+            if (this.curentCustomer != null) {
+                var newCustomer = new Customer(cpf, name, address, phone);
+                newCustomer.setId(curentCustomer.getId());
+                this.controller.updateCustomer(newCustomer);
+            } else {
+                this.controller.createUser(name, cpf, address, phone);
+            }
+            this.curentCustomer = null;
+            this.controller.updateTable(this.JTableCustomer);
+            cleanFields();
+            enableFields(false);
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(this, e);
         }
-        this.curentCustomer = null;
-        this.controller.updateTable(this.JTableCustomer);
-        cleanFields();
-        enableFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed

@@ -3,6 +3,7 @@ package com.sghpet.sgh.pet.controller;
 import com.sghpet.sgh.pet.model.Animal;
 import com.sghpet.sgh.pet.model.Customer;
 import com.sghpet.sgh.pet.model.TmAnimal;
+import com.sghpet.sgh.pet.model.Valid.ValidateAnimal;
 import com.sghpet.sgh.pet.model.dao.AnimalDAO;
 import java.util.List;
 import javax.swing.JTable;
@@ -30,10 +31,10 @@ public class AnimalController {
     public static AnimalController getAnimalController() {
         return AnimalController.contr;
     }
-    
+
     /**
-     * Get animal giving it's id.
-     * This function might throw an exception if the database isn't working.
+     * Get animal giving it's id. This function might throw an exception if the
+     * database isn't working.
      *
      * @param id: integer, A user id
      * @return Animal
@@ -46,17 +47,35 @@ public class AnimalController {
         return repository.listAnimalsByUser(id);
     }
 
-    public void createAnimal(String name, Customer owner, String type, String postage, boolean hasMedicalCondition) {
-        Animal newAnimal = new Animal(name, owner, type, postage, hasMedicalCondition);
+    public void createAnimal(Animal curentAnimal, String name, String ownerCPF, String type, String postage, boolean hasMedicalCondition) {
+        Customer owner;
+        try {
+            owner = CustomerController.getCustomerController().findCustomerByCPF(ownerCPF);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Não foi possível encontra o usuário");
+        }
 
-        this.repository.create(newAnimal);
+        ValidateAnimal val = new ValidateAnimal();
+        try {
+            if (curentAnimal != null) {
+                var newAnimal = val.validateAnimal(name, owner, type, postage, hasMedicalCondition);
+                newAnimal.setId(curentAnimal.getId());
+                this.updateAnimal(newAnimal);
+            } else {
+                Animal newAnimal = val.validateAnimal(name, owner, type, postage, hasMedicalCondition);
+
+                this.repository.create(newAnimal);
+            }
+        } catch (RuntimeException e) {
+            throw e;
+        }
     }
-    
+
     public void updateAnimal(Object newAnimal) {
         this.repository.update(newAnimal);
     }
-    
-    public void updateTable(JTable grdAnimal){
+
+    public void updateTable(JTable grdAnimal) {
         TmAnimal tmAnimal = new TmAnimal(this.listAnimals());
         grdAnimal.setModel(tmAnimal);
     }

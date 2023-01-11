@@ -3,7 +3,6 @@ package com.sghpet.sgh.pet.view;
 import com.sghpet.sgh.pet.controller.AnimalController;
 import com.sghpet.sgh.pet.controller.CustomerController;
 import com.sghpet.sgh.pet.model.Animal;
-import com.sghpet.sgh.pet.model.Customer;
 import java.text.ParseException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -22,19 +21,19 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         this.customers = CustomerController.getCustomerController();
         this.menuScreen = menu;
         initComponents();
-        
+
         curentAnimal = null;
         controller.updateTable(this.JTableAnimal);
         addMaskToFields();
         cleanFields();
         enableFields(false);
     }
-    
+
     private void showAnimal(Animal animal) {
         edtName.setText(animal.getName());
         fEdtOwner.setText(animal.getOwner().getCpf());
         bxAnimalType.setSelectedIndex(animal.getType());
-        bxPostage.setSelectedIndex(animal.getPostage());       
+        bxPostage.setSelectedIndex(animal.getPostage());
     }
 
     private void enableFields(boolean enabled) {
@@ -43,7 +42,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         bxAnimalType.setEnabled(enabled);
         bxPostage.setEnabled(enabled);
         ckbxMedicalCondition.setEnabled(enabled);
-        
+
     }
 
     private void cleanFields() {
@@ -53,24 +52,28 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         bxPostage.setSelectedIndex(0);
         ckbxMedicalCondition.setSelected(false);
     }
-    
+
     private Object getSelectedObjectOnJTable() {
         int rowCliked = JTableAnimal.getSelectedRow();
-        
+
         Object obj = null;
         if (rowCliked >= 0) {
-            int SelectedObjectID = (int) JTableAnimal.getModel().getValueAt(rowCliked, 0);        
+            int SelectedObjectID = (int) JTableAnimal.getModel().getValueAt(rowCliked, 0);
             obj = controller.getAnimal(SelectedObjectID);
         }
         return obj;
     }
-    
-    private boolean validateFields(){
+
+    private boolean validateFields() {
         boolean verificated = false;
-        
-        if(edtName.getText().equals("")) verificated = true;
-        if(fEdtOwner.getText().equals("")) verificated = true;
-        
+
+        if (edtName.getText().equals("")) {
+            verificated = true;
+        }
+        if (fEdtOwner.getText().equals("")) {
+            verificated = true;
+        }
+
         return verificated;
     }
 
@@ -312,66 +315,50 @@ public class FrAnimalRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_bxPostageActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if(validateFields()){
-            JOptionPane.showMessageDialog(this,"Error! Preencha os campos vazios.");
+        if (validateFields()) {
+            JOptionPane.showMessageDialog(this, "Error! Preencha os campos vazios.");
             return;
         }
-        
+
         var name = edtName.getText();
         var owner_cpf = fEdtOwner.getText();
         var type = bxAnimalType.getSelectedItem().toString();
         var postage = bxPostage.getSelectedItem().toString();
         var hasMedicalCondition = ckbxMedicalCondition.isSelected();
-        Customer owner;
-        
         try {
-            owner = this.customers.findCustomerByCPF(owner_cpf);
+            this.controller.createAnimal(curentAnimal, name, owner_cpf, type, postage, hasMedicalCondition);
+            cleanFields();
+            enableFields(false);
+            controller.updateTable(JTableAnimal);
         } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(null,"Não foi possível encontra o usuário","CPF Inválido.",
-                    JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-        
-        if(this.curentAnimal != null){
-            var newAnimal = new Animal(name, owner, type, postage, hasMedicalCondition);
-            newAnimal.setId(curentAnimal.getId());
-            this.controller.updateAnimal(newAnimal);
+            JOptionPane.showMessageDialog(this, e);
         }
-        else{
-            
-            this.controller.createAnimal(name, owner, type, postage, hasMedicalCondition);
-        }
-        cleanFields();
-        enableFields(false);
-        controller.updateTable(JTableAnimal);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         Animal animalEdit = (Animal) getSelectedObjectOnJTable();
-        
-        if (animalEdit == null){
-            JOptionPane.showMessageDialog(this,"Selecione um registro na tabela.");
-        }
-        else{
+
+        if (animalEdit == null) {
+            JOptionPane.showMessageDialog(this, "Selecione um registro na tabela.");
+        } else {
             this.cleanFields();
             this.enableFields(true);
-            
+
             try {
                 this.showAnimal(animalEdit);
                 this.curentAnimal = animalEdit;
             } catch (RuntimeException e) {
                 JOptionPane.showMessageDialog(this, "Could not find Animal");
-            }   
-        }     
+            }
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletActionPerformed
         Animal SelectedAnimal = (Animal) getSelectedObjectOnJTable();
-        
-        if (SelectedAnimal == null){
-            JOptionPane.showMessageDialog(this,"Selecione um registro na tabela.");
-        }
-        else{
+
+        if (SelectedAnimal == null) {
+            JOptionPane.showMessageDialog(this, "Selecione um registro na tabela.");
+        } else {
             this.controller.deleteAnimal(SelectedAnimal);
             this.controller.updateTable(JTableAnimal);
         }
@@ -385,8 +372,8 @@ public class FrAnimalRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-       this.setVisible(false);
-       this.menuScreen.setVisible(true);
+        this.setVisible(false);
+        this.menuScreen.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -420,7 +407,7 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         try {
             MaskFormatter maskOwner = new MaskFormatter("###.###.###-##");
             maskOwner.install(fEdtOwner);
-            
+
         } catch (ParseException e) {
             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
         }

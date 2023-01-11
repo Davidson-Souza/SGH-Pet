@@ -7,7 +7,6 @@ import com.sghpet.sgh.pet.controller.ServicesController;
 import com.sghpet.sgh.pet.model.Animal;
 import com.sghpet.sgh.pet.model.Customer;
 import com.sghpet.sgh.pet.model.Reservation;
-import com.sghpet.sgh.pet.model.ServicesList;
 import java.text.ParseException;
 import java.util.List;
 import javax.swing.JFrame;
@@ -323,43 +322,22 @@ public class FrReservationRegister extends javax.swing.JFrame {
         var endDate = fEdtEndDate.getText();
         var animal = currentAnimal.get(curentAnimalIndex);
         var customer = currentCustomer;
-        var price = 0;
-
-        var reservation = new Reservation(
-                startDate, endDate, typeOfStay, price, animal, customer);
-
-        price += reservation.calcBasePrice();
-
-        if (chckService1.isSelected()) {
-            ServicesController.getServicesController().createService(
-                    ServicesList.Shave, 20, reservation, "");
-            price += 20;
-        }
-        if (chckService2.isSelected()) {
-            price += 30;
-            ServicesController.getServicesController().createService(
-                    ServicesList.Bath, 30, reservation, "");
-        }
-        if (chckService3.isSelected()) {
-            price += 50;
-            ServicesController.getServicesController().createService(
-                    ServicesList.Spa, 50, reservation, "");
-        }
-        if (chckService4.isSelected()) {
-            price += 100;
-            ServicesController.getServicesController().createService(
-                    ServicesList.Translado, 100, reservation, "");
-        }
-
-        // Está editando uma reserva
-        if (this.currentReservation != null) {
-            reservation.setId(currentReservation.getId());
-            reservation.setPrice(price);
-            this.reservationController.updateReservation(reservation);
-        } else {
-            reservation.setPrice(price);
-            reservationController.updateReservation(reservation);
-            JOptionPane.showMessageDialog(this, "Reserva Criada! Número da reserva: " + reservation.getId());
+        try {
+            this.reservationController.createReservation(
+                    currentReservation,
+                    currentCustomer,
+                    currentAnimal,
+                    typeOfStay,
+                    startDate,
+                    endDate,
+                    animal,
+                    customer,
+                    chckService1.isSelected(),
+                    chckService2.isSelected(),
+                    chckService3.isSelected(),
+                    chckService4.isSelected());
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(this, e);
         }
 
         this.currentAnimal = null;
@@ -367,7 +345,6 @@ public class FrReservationRegister extends javax.swing.JFrame {
         reservationController.updateTable(this.JTableRegister);
         cleanFields();
         enableFields(false);
-        System.out.println("\n------------------------\nPreço da Reserva: " + price);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed

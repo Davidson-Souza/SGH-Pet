@@ -60,20 +60,20 @@ public class Animal implements Serializable {
                 animal_type = 3;
                 break;
             default:
-                throw new AssertionError();
+                throw new RuntimeException("Erro: Tipo de animal não encontrado: " + type);
         }
         switch (postage) {
             case "Pequeno":
                 animal_postage = 0;
                 break;
-            case "Medio":
+            case "Médio":
                 animal_postage = 1;
                 break;
             case "Grande":
                 animal_postage = 2;
                 break;
             default:
-                throw new AssertionError();
+                throw new RuntimeException("Erro: Porte não encontrado: " + postage);
         }
         this.name = name;
         this.owner = owner;
