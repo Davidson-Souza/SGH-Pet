@@ -25,8 +25,8 @@ public class ReservationController {
         return (Reservation) this.repository.get(id);
     }
 
-    public void deleteReservation(int id) {
-        this.repository.delete(id);
+    public void deleteReservation(Reservation reservation) {
+        this.repository.delete(reservation);
     }
 
     public Reservation createReservation(int typeOfStay, String startDate, String endDate, float price, Animal animal, Customer customer) {
@@ -53,7 +53,7 @@ public class ReservationController {
     public void updateReservation(Reservation newRes) {
         this.repository.update(newRes);
     }
-    
+
     public void updateTable(JTable grdReservation) {
         var TmReservation = new TmReservation(this.listReservations());
         grdReservation.setModel(TmReservation);

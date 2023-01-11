@@ -2,6 +2,7 @@ package com.sghpet.sgh.pet.model;
 
 import com.sun.istack.NotNull;
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +25,7 @@ public class Services implements Serializable {
     private ServicesList serviceType;
     @NotNull
     private float price;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @NotNull
     private Reservation reservation;
     @NotNull

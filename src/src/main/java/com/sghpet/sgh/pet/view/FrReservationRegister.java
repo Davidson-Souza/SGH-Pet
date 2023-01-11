@@ -416,7 +416,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
         if (selectedReservation == null) {
             JOptionPane.showMessageDialog(this, "Selecione um registro na tabela.");
         } else {
-            this.reservationController.deleteReservation(selectedReservation.getId());
+            this.reservationController.deleteReservation(selectedReservation);
             this.reservationController.updateTable(JTableRegister);
         }
     }//GEN-LAST:event_btnDeletActionPerformed
