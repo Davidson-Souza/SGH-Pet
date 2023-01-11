@@ -34,6 +34,8 @@ public class FrAnimalRegister extends javax.swing.JFrame {
         fEdtOwner.setText(animal.getOwner().getCpf());
         bxAnimalType.setSelectedIndex(animal.getType());
         bxPostage.setSelectedIndex(animal.getPostage());
+
+        ckbxMedicalCondition.setSelected(animal.isHasMedicalCondition());
     }
 
     private void enableFields(boolean enabled) {
@@ -365,10 +367,8 @@ public class FrAnimalRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeletActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        edtName.setEnabled(true);
-        fEdtOwner.setEnabled(true);
-        bxAnimalType.setEnabled(true);
-        bxPostage.setEnabled(true);
+        cleanFields();
+        enableFields(true);
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed

@@ -348,7 +348,6 @@ public class FrReservationRegister extends javax.swing.JFrame {
         this.cleanFields();
         this.enableFields(false);
         this.enableChckFields(false);
-        System.out.println("\n------------------------\nPreço da Reserva: " + price);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
@@ -433,9 +432,10 @@ public class FrReservationRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void showReservation(Reservation reservation) {
-        fEdtEndDate.setText(reservation.getEndDate());
-        fEdtStartDate.setText(reservation.getStartDate());
         fEdtOwnerCpf.setText(reservation.getCustomer().getCpf());
+        fEdtStartDate.setText(reservation.getStartDate());
+        fEdtEndDate.setText(reservation.getEndDate());
+        bxReservationType.setSelectedIndex(reservation.getType());
 
         var animals = AnimalController.getAnimalController().listAnimalByCustomer(reservation.getCustomer().getId());
         this.currentAnimal = animals;
