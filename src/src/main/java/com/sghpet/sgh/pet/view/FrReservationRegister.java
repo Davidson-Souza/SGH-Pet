@@ -31,6 +31,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
 
         cleanFields();
         enableFields(false);
+        enableChckFields(false);
         addMaskToFields();
     }
 
@@ -343,13 +344,16 @@ public class FrReservationRegister extends javax.swing.JFrame {
         this.currentAnimal = null;
         this.currentCustomer = null;
         reservationController.updateTable(this.JTableRegister);
-        cleanFields();
-        enableFields(false);
+
+        this.cleanFields();
+        this.enableFields(false);
+        this.enableChckFields(false);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         cleanFields();
         enableFields(true);
+        enableChckFields(true);
     }//GEN-LAST:event_btnNewActionPerformed
 
     private void enableFields(boolean enabled) {
@@ -358,6 +362,12 @@ public class FrReservationRegister extends javax.swing.JFrame {
         bxReservationType.setEnabled(enabled);
         fEdtStartDate.setEnabled(enabled);
         fEdtEndDate.setEnabled(enabled);
+    }
+    private void enableChckFields(boolean enabled) {
+        chckService1.setEnabled(enabled);
+        chckService2.setEnabled(enabled);
+        chckService3.setEnabled(enabled);
+        chckService4.setEnabled(enabled);
     }
 
     private void cleanFields() {
@@ -397,6 +407,8 @@ public class FrReservationRegister extends javax.swing.JFrame {
             this.reservationController.deleteReservation(selectedReservation);
             this.reservationController.updateTable(JTableRegister);
         }
+        enableFields(false);
+        enableChckFields(false);
     }//GEN-LAST:event_btnDeletActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -407,6 +419,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
         } else {
             this.cleanFields();
             this.enableFields(true);
+            this.enableChckFields(false);
 
             try {
                 this.showReservation(reservationEdit);
@@ -419,9 +432,10 @@ public class FrReservationRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void showReservation(Reservation reservation) {
-        fEdtEndDate.setText(reservation.getEndDate());
-        fEdtStartDate.setText(reservation.getStartDate());
         fEdtOwnerCpf.setText(reservation.getCustomer().getCpf());
+        fEdtStartDate.setText(reservation.getStartDate());
+        fEdtEndDate.setText(reservation.getEndDate());
+        bxReservationType.setSelectedIndex(reservation.getType());
 
         var animals = AnimalController.getAnimalController().listAnimalByCustomer(reservation.getCustomer().getId());
         this.currentAnimal = animals;
@@ -521,6 +535,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         cleanFields();
         enableFields(false);
+        enableChckFields(false);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void chckService4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chckService4ActionPerformed

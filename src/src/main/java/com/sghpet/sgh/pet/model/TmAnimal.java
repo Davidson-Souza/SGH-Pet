@@ -8,7 +8,7 @@ public class TmAnimal extends AbstractTableModel {
 
     private final List<Animal> list;
     
-    private final int COL_SIZE = 6;
+    private final int COL_SIZE = 7;
 
     private final int COL_ID = 0;
     private final int COL_NOME = 1;
@@ -16,6 +16,7 @@ public class TmAnimal extends AbstractTableModel {
     private final int COL_TYPE = 3;
     private final int COL_POSTAGE = 4;
     private final int COL_MEDICAL_CONDITION = 5;
+    private final int COL_LAST_BATH = 6;
     
     private final List<String> lstAnimalType = Arrays.asList("Cachorro","Gato","Ave","Peixe");
     private final List<String> lstAnimalPostage = Arrays.asList("Pequeno","Médio","Grande");
@@ -60,6 +61,9 @@ public class TmAnimal extends AbstractTableModel {
                 case COL_MEDICAL_CONDITION -> {
                     return (aux.isHasMedicalCondition()) ? "Sim" : "Não";
                 }
+                case COL_LAST_BATH -> {
+                    return aux.getLastBathTime();
+                }
                 default -> {
                 }
             }
@@ -87,6 +91,9 @@ public class TmAnimal extends AbstractTableModel {
             }
             case COL_MEDICAL_CONDITION -> {
                 return "Condição médica?";
+            }
+            case COL_LAST_BATH -> {
+                return "Ult. Banho";
             }
             default -> {
                 break;

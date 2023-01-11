@@ -3,11 +3,14 @@ package com.sghpet.sgh.pet.view;
 import com.sghpet.sgh.pet.controller.PaymentController;
 import com.sghpet.sgh.pet.controller.ReservationController;
 import com.sghpet.sgh.pet.model.PaymentMethods;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class FrPaymentScreen extends javax.swing.JFrame {
 
-    public FrPaymentScreen() {
+    private final JFrame ClerkScreen;
+    public FrPaymentScreen(JFrame menu) {
+        ClerkScreen = menu;
         initComponents();
         cmbMethod.addItem(PaymentMethods.PIX);
         cmbMethod.addItem(PaymentMethods.CASH);
@@ -192,7 +195,8 @@ public class FrPaymentScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        this.ClerkScreen.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSubTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubTotalActionPerformed

@@ -41,7 +41,7 @@ public class Animal implements Serializable {
     @JoinColumn(name = "place_of_stay_id")
     private Accomodation placeOfStay;
     @NonNull
-    private int lastBathTime;
+    private String lastBathTime;
 
     public Animal(String name, Customer owner, String type, String postage, boolean hasMedicalCondition) {
         int animal_type = -1;
@@ -81,6 +81,6 @@ public class Animal implements Serializable {
         this.postage = animal_postage;
         this.hasMedicalCondition = hasMedicalCondition;
         this.placeOfStay = new Accomodation();
-        this.lastBathTime = 0;
+        this.lastBathTime = "00:00";
     }
 }
