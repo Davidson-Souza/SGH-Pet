@@ -37,8 +37,8 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="edtPassword" pref="199" max="32767" attributes="0"/>
-                          <Component id="fEdtLogin" max="32767" attributes="0"/>
+                          <Component id="fEdtLogin" pref="199" max="32767" attributes="0"/>
+                          <Component id="edtPassword" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -64,8 +64,8 @@
               </Group>
               <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="edtPassword" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="edtPassword" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="btnEnter" min="-2" pref="36" max="-2" attributes="0"/>
@@ -75,8 +75,6 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="edtPassword">
-    </Component>
     <Component class="javax.swing.JLabel" name="lblCpf">
       <Properties>
         <Property name="text" type="java.lang.String" value="CPF:"/>
@@ -105,6 +103,8 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="fEdtLogin">
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="edtPassword">
     </Component>
   </SubComponents>
 </Form>
