@@ -1,7 +1,6 @@
 package com.sghpet.sgh.pet.model.dao;
 
 import com.sghpet.sgh.pet.model.Customer;
-import java.sql.PreparedStatement;
 import java.util.List;
 import javax.persistence.EntityManager;
 import lombok.AllArgsConstructor;

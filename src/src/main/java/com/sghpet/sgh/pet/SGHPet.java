@@ -1,6 +1,7 @@
 package com.sghpet.sgh.pet;
 
 import com.sghpet.sgh.pet.controller.AccomodationController;
+import com.sghpet.sgh.pet.controller.AdminController;
 import com.sghpet.sgh.pet.controller.AnimalController;
 import com.sghpet.sgh.pet.controller.CustomerController;
 import com.sghpet.sgh.pet.controller.EmployeeController;
@@ -14,6 +15,7 @@ import com.sghpet.sgh.pet.model.dao.EmployeeDAO;
 import com.sghpet.sgh.pet.model.dao.PaymentDAO;
 import com.sghpet.sgh.pet.model.dao.ReservationDAO;
 import com.sghpet.sgh.pet.model.dao.ServicesDAO;
+import com.sghpet.sgh.pet.view.FrAdminFunction;
 import com.sghpet.sgh.pet.view.FrEmployeeLogin;
 import javax.persistence.Persistence;
 
@@ -38,9 +40,13 @@ public class SGHPet {
         ServicesController.getServicesController(serviceRep);
         PaymentController.getPaymentController(paymentRep);
         AccomodationController.getAccomodationController(accomodationRep);
-
-        var tela = new FrEmployeeLogin();
-        tela.show();
-
+        if (AdminController.isInitialized()) {
+            var tela = new FrEmployeeLogin();
+            tela.show();
+        } else {
+            var login = new FrEmployeeLogin();
+            var tela = new FrAdminFunction(true, login);
+            tela.show();
+        }
     }
 }

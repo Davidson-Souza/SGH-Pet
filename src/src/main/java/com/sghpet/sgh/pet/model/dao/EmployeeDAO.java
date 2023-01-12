@@ -1,6 +1,7 @@
 package com.sghpet.sgh.pet.model.dao;
 
 import com.sghpet.sgh.pet.model.Employee;
+import java.util.List;
 import javax.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 
@@ -18,7 +19,7 @@ public class EmployeeDAO implements Persistence {
 
     @Override
     public Object get(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.store.find(Employee.class, id);
     }
 
     @Override
@@ -46,7 +47,15 @@ public class EmployeeDAO implements Persistence {
 
     @Override
     public void update(Object newObject) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.store.merge(newObject);
+    }
+
+    public List<Employee> list() {
+        store.getTransaction().begin();
+        var res = store.createQuery("SELECT e FROM Employee e", Employee.class)
+                .getResultList();
+        store.getTransaction().commit();
+        return res;
     }
 
 }
