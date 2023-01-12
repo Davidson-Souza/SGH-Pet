@@ -3,10 +3,12 @@ package com.sghpet.sgh.pet.controller;
 import com.sghpet.sgh.pet.model.Payment;
 import com.sghpet.sgh.pet.model.PaymentMethods;
 import com.sghpet.sgh.pet.model.Reservation;
+import com.sghpet.sgh.pet.model.TmPayment;
 import com.sghpet.sgh.pet.model.dao.PaymentDAO;
 import com.sun.istack.NotNull;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JTable;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
@@ -39,4 +41,9 @@ public class PaymentController {
         this.dao.create(pay);
         return pay;
     }
+    public void updateTable(JTable grdPayment) {
+        var TmPayment = new TmPayment(this.listPayments());
+        grdPayment.setModel(TmPayment);
+    }
+    
 }

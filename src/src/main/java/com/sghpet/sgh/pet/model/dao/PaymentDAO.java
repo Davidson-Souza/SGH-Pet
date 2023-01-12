@@ -10,18 +10,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PaymentDAO implements Persistence {
 
-    private EntityManager store;
+    private EntityManager repository;
 
     @Override
     public void create(Object obj) {
-        store.getTransaction().begin();
-        store.persist(obj);
-        store.getTransaction().commit();
+        repository.getTransaction().begin();
+        repository.persist(obj);
+        repository.getTransaction().commit();
     }
 
     @Override
     public Object get(int id) {
-        return this.store.find(Payment.class, id);
+        return this.repository.find(Payment.class, id);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class PaymentDAO implements Persistence {
     @Override
     public void delete(Object obj) {
         try {
-            this.store.remove(obj);
+            this.repository.remove(obj);
         } catch (RuntimeException e) {
             throw e;
         }
@@ -41,14 +41,14 @@ public class PaymentDAO implements Persistence {
 
     @Override
     public void update(Object newObject) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        repository.merge(newObject);
     }
 
     public List<Payment> list() {
-        this.store.getTransaction().begin();
-        var res = this.store.createQuery("SELECT p FROM Payment p", Payment.class)
+        this.repository.getTransaction().begin();
+        var res = this.repository.createQuery("SELECT p FROM Payment p", Payment.class)
                 .getResultList();
-        this.store.getTransaction().commit();
+        this.repository.getTransaction().commit();
         return res;
     }
 }

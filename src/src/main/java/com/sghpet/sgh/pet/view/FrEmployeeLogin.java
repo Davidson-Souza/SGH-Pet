@@ -120,7 +120,7 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
                     mainMenu.show();
                 }
                 case Manager -> {
-                    var mainMenu = new FrManagerFunction();
+                    var mainMenu = new FrManagerFunction(this);
                     mainMenu.show();
                 }
                 case Admin -> {
@@ -130,7 +130,7 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
                     mainMenu.show();
                 }
                 case Servicer -> {
-                    var mainMenu = new FrServicerFunction();
+                    var mainMenu = new FrServicerFunction(this);
                     mainMenu.show();
                 }
             }

@@ -188,7 +188,8 @@ public class FrGroundskeeperFunction extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditStockActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        this.loginScreen.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnReestockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReestockActionPerformed
