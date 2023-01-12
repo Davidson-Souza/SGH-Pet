@@ -9,12 +9,16 @@ import javax.swing.JOptionPane;
 public class FrPaymentScreen extends javax.swing.JFrame {
 
     private final JFrame ClerkScreen;
+
     public FrPaymentScreen(JFrame menu) {
         ClerkScreen = menu;
         initComponents();
         cmbMethod.addItem(PaymentMethods.PIX);
         cmbMethod.addItem(PaymentMethods.CASH);
         cmbMethod.addItem(PaymentMethods.BOLETO);
+        cmbMethod.addItem(PaymentMethods.CARTAO_CREDITO);
+        cmbMethod.addItem(PaymentMethods.CARTAO_DEBITO);
+
     }
 
     @SuppressWarnings("unchecked")
