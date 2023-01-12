@@ -358,7 +358,7 @@ public class FrCustomerRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeletActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        this.setVisible(false);
+        this.dispose();
         this.menuScreen.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 

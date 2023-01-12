@@ -27,7 +27,7 @@ public class FrAdminFunction extends javax.swing.JFrame {
         cmbFunction.addItem("Atendente");
         cmbFunction.addItem("Zelador");
         cmbFunction.addItem("Gerente");
-        cmbFunction.addItem("Servisal");
+        cmbFunction.addItem("Faxineira");
         AdminController.updateTable(JTableEmployees);
         setEnable(false);
     }

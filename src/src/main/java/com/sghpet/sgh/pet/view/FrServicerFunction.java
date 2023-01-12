@@ -7,12 +7,13 @@ public class FrServicerFunction extends javax.swing.JFrame {
 
     private final JFrame loginScreen;
     private final AccomodationController controller;
+
     public FrServicerFunction(JFrame menu) {
         initComponents();
-        
+
         loginScreen = menu;
         this.controller = AccomodationController.getAccomodationController();
-        
+
         controller.updateTable(JTableAccommodation);
     }
 
@@ -138,7 +139,7 @@ public class FrServicerFunction extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSetEnableActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        this.setVisible(false);
+        this.dispose();
         this.loginScreen.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 

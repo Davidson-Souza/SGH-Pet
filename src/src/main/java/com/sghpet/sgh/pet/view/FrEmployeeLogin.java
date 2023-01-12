@@ -113,6 +113,9 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
             }
             this.setVisible(false);
             var job = user.getJob();
+            this.setVisible(false);
+            edtPassword.setText("");
+            fEdtLogin.setText("");
             switch (job) {
                 case Clerk -> {
                     var mainMenu = new FrClerkFunction(this);

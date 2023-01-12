@@ -2,8 +2,8 @@ package com.sghpet.sgh.pet.view;
 
 import com.sghpet.sgh.pet.controller.AnimalController;
 import com.sghpet.sgh.pet.model.Animal;
-import com.sghpet.sgh.pet.model.TmAnimal;
 import java.text.ParseException;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 import org.jboss.logging.Logger;
@@ -12,10 +12,11 @@ public class FrAnimalCareFunction extends javax.swing.JFrame {
 
     private final AnimalController animalController;
     private Animal currentAnimal;
-    
-    public FrAnimalCareFunction() {
-        initComponents();        
-        
+    private final JFrame prev;
+
+    public FrAnimalCareFunction(JFrame prev) {
+        initComponents();
+        this.prev = prev;
         this.currentAnimal = null;
         this.animalController = AnimalController.getAnimalController();
         animalController.updateTable(JTableAnimal);
@@ -23,37 +24,39 @@ public class FrAnimalCareFunction extends javax.swing.JFrame {
         this.enableButtons(false);
         this.addMaskToFields();
     }
-    
+
     private Object getSelectedObjectOnJTable() {
         int rowCliked = JTableAnimal.getSelectedRow();
-        
+
         Object obj = null;
         if (rowCliked >= 0) {
-            int SelectedObjectID = (int) JTableAnimal.getModel().getValueAt(rowCliked, 0);        
+            int SelectedObjectID = (int) JTableAnimal.getModel().getValueAt(rowCliked, 0);
             obj = animalController.getAnimal(SelectedObjectID);
         }
         return obj;
     }
-    
-    private void enableFields(boolean enabled){
+
+    private void enableFields(boolean enabled) {
         fEdtLastBath.setEnabled(enabled);
     }
-    private void enableButtons(boolean enabled){
+
+    private void enableButtons(boolean enabled) {
         btnUpdateBath.setEnabled(enabled);
     }
-    
+
     private void cleanFields() {
         fEdtLastBath.setText("");
     }
-    
+
     private void addMaskToFields() {
         try {
             MaskFormatter maskOwner = new MaskFormatter("##:##");
-            maskOwner.install(fEdtLastBath);   
+            maskOwner.install(fEdtLastBath);
         } catch (ParseException e) {
             Logger.getLogger(FrAnimalRegister.class.getName()).log(Logger.Level.ERROR, null, e);
         }
     }
+
     private void showAnimal(Animal animal) {
         fEdtLastBath.setText(animal.getLastBathTime());
     }
@@ -191,10 +194,10 @@ public class FrAnimalCareFunction extends javax.swing.JFrame {
     private void btnUpdateBathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateBathActionPerformed
         try {
             var lastBath = fEdtLastBath.getText();
-            animalController.setLastBathTime(currentAnimal,lastBath);                   
-            } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(this, "Could not update Animal");
-            }
+            animalController.setLastBathTime(currentAnimal, lastBath);
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(this, "Could not update Animal");
+        }
         cleanFields();
         enableFields(false);
         enableButtons(false);
@@ -202,27 +205,27 @@ public class FrAnimalCareFunction extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUpdateBathActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
+        prev.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         Animal animalEdit = (Animal) getSelectedObjectOnJTable();
-        
-        if (animalEdit == null){
-            JOptionPane.showMessageDialog(this,"Selecione um registro na tabela.");
-        }
-        else{
+
+        if (animalEdit == null) {
+            JOptionPane.showMessageDialog(this, "Selecione um registro na tabela.");
+        } else {
             this.cleanFields();
             this.enableFields(true);
             this.enableButtons(true);
-            
+
             try {
                 this.showAnimal(animalEdit);
                 this.currentAnimal = animalEdit;
             } catch (RuntimeException e) {
                 JOptionPane.showMessageDialog(this, "Could not find Animal");
-            }   
-        }                     
+            }
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

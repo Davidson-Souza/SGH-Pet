@@ -363,6 +363,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
         fEdtStartDate.setEnabled(enabled);
         fEdtEndDate.setEnabled(enabled);
     }
+
     private void enableChckFields(boolean enabled) {
         chckService1.setEnabled(enabled);
         chckService2.setEnabled(enabled);
@@ -509,7 +510,7 @@ public class FrReservationRegister extends javax.swing.JFrame {
     }//GEN-LAST:event_edtOwnerCpfFocusLost
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        this.setVisible(false);
+        this.dispose();
         this.menuScreen.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 

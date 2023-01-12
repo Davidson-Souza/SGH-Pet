@@ -199,7 +199,7 @@ public class FrPaymentScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        this.setVisible(false);
+        this.dispose();
         this.ClerkScreen.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 

@@ -9,7 +9,7 @@ import org.jboss.logging.Logger;
 public class FrGroundskeeperFunction extends javax.swing.JFrame {
 
     private final JFrame loginScreen;
-    
+
     public FrGroundskeeperFunction(JFrame menu) {
         this.loginScreen = menu;
         initComponents();
@@ -142,40 +142,41 @@ public class FrGroundskeeperFunction extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void enableFields(boolean enabled){
+    private void enableFields(boolean enabled) {
         fEdtQuantity.setEnabled(enabled);
     }
+
     private void cleanFields() {
         fEdtQuantity.setText("");
     }
-    
+
     private void addMaskToFields() {
         try {
             MaskFormatter maskQuantity = new MaskFormatter("####");
-            maskQuantity.install(fEdtQuantity);   
+            maskQuantity.install(fEdtQuantity);
         } catch (ParseException e) {
             Logger.getLogger(FrGroundskeeperFunction.class.getName()).log(Logger.Level.ERROR, null, e);
         }
     }
-     private int getSelectedObjectOnJTable() {
+
+    private int getSelectedObjectOnJTable() {
         int rowCliked = JTableItem.getSelectedRow();
-        
+
         if (rowCliked >= 0) {
             int SelectedItem = (int) JTableItem.getModel().getValueAt(rowCliked, 0);
-            System.out.println("ID: "+SelectedItem);
+            System.out.println("ID: " + SelectedItem);
             return SelectedItem;
-        }else{
+        } else {
             return -1;
         }
-     }
-    
+    }
+
     private void btnEditStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditStockActionPerformed
         int row = getSelectedObjectOnJTable();
-        
-        if (row == -1){
-            JOptionPane.showMessageDialog(this,"Selecione um registro na tabela.");
-        }
-        else{
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione um registro na tabela.");
+        } else {
             this.cleanFields();
             this.enableFields(true);
             try {
@@ -183,12 +184,12 @@ public class FrGroundskeeperFunction extends javax.swing.JFrame {
                 JTableItem.getModel().setValueAt(value, row, 2);
             } catch (RuntimeException e) {
                 JOptionPane.showMessageDialog(this, "Could not find Item");
-            }   
-        }         
+            }
+        }
     }//GEN-LAST:event_btnEditStockActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        this.setVisible(false);
+        this.dispose();
         this.loginScreen.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 

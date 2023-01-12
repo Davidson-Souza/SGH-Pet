@@ -52,7 +52,7 @@ public class TmEmployees extends AbstractTableModel {
                         return "Gerente";
                     }
                     case Servicer -> {
-                        return "Servisal";
+                        return "Faxineira";
                     }
                     default ->
                         throw new AssertionError();

@@ -15,6 +15,7 @@ public class FrManagerFunction extends javax.swing.JFrame {
 
     private final PaymentController controler;
     private final JFrame loginScreen;
+
     public FrManagerFunction(JFrame menu) {
         this.loginScreen = menu;
         this.controler = PaymentController.getPaymentController();
@@ -193,7 +194,7 @@ public class FrManagerFunction extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerateActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        this.setVisible(false);
+        this.dispose();
         this.loginScreen.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 
