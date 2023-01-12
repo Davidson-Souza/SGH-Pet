@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 
-public class MenagerController {
+public class ManagerController {
 
     public static float getReport(Date startPeriod, Date endDate) throws IOException {
         var payments = PaymentController.getPaymentController().listPayments();

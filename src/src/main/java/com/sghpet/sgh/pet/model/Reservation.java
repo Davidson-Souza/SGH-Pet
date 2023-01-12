@@ -62,4 +62,31 @@ public class Reservation implements Serializable {
         var diff = (_endDate.getTime() - _startDate.getTime()) / (1000 * 60 * 60 * 24);
         return diff * 10;
     }
+    public String toCSV() {
+        var csv = ""  + this.getId() 
+                + "," + this.getStartDate()
+                + "," + this.getEndDate()
+                + "," + this.getType()
+                + "," + this.getPrice()
+                + "," + this.getAnimal().getName()
+                + "," + this.getCustomer().getName();
+        return csv;
+    }
+    public static String getCSVModel() {
+        return "id,startDate,endDate,type,price,animal,customer";
+    }
+    
+    public String toJSON() {
+        var json = " {\n"
+                + "  id:"  + this.getId() +",\n" 
+                + "  startDate:" + this.getStartDate() +",\n" 
+                + "  endDate:" + this.getEndDate() +",\n" 
+                + "  type:" + this.getType() +",\n" 
+                + "  price:" + this.getPrice() +",\n" 
+                + "  animalName:" + this.getAnimal().getName() +",\n" 
+                + "  customerName:" + this.getCustomer().getName() +"\n"
+                + " }";
+        return json;
+        
+    }
 }

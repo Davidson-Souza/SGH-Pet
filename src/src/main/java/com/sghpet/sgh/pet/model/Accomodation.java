@@ -22,13 +22,10 @@ public class Accomodation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int Id;
-    @NotNull
-    private float accomodationSize;
-    @NotNull
-    private int capacity;
-    @NotNull
     @NonNull
-    private float size;
+    private float accomodationSize;
+    @NonNull
+    private int capacity;
     @NonNull
     private int vacant;
 }

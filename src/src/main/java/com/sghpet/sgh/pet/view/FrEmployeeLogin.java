@@ -120,17 +120,17 @@ public class FrEmployeeLogin extends javax.swing.JFrame {
                     mainMenu.show();
                 }
                 case Manager -> {
-                    var mainMenu = new FrManagerFunction();
+                    var mainMenu = new FrManagerFunction(this);
                     mainMenu.show();
                 }
                 case Admin -> {
                 }
                 case Groundkeeper -> {
-                    var mainMenu = new FrGroundskeeperFunction();
+                    var mainMenu = new FrGroundskeeperFunction(this);
                     mainMenu.show();
                 }
                 case Servicer -> {
-                    var mainMenu = new FrServicerFunction();
+                    var mainMenu = new FrServicerFunction(this);
                     mainMenu.show();
                 }
             }

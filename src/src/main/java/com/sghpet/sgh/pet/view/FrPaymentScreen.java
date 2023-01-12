@@ -221,7 +221,6 @@ public class FrPaymentScreen extends javax.swing.JFrame {
         try {
             id = Integer.parseInt(edtReservationId.getText());
         } catch (RuntimeException e) {
-            System.out.println(e);
             JOptionPane.showMessageDialog(this, "Id inválido");
             return;
         }
